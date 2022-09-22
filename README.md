@@ -3,8 +3,8 @@
 ## Group T0xG0y
 | Name             | Number    | E-Mail             |
 | ---------------- | --------- | ------------------ |
-| John Doe         | 201801010 | ...                |
-| Jane Doe         | 201801011 | ...                |
+| André Flores        | 201907001 | up201907001@fe.up.pt  |
+| Diogo Faria         | 201907014 | up201907014@fe.up.pt|               |
 
 ----
 
