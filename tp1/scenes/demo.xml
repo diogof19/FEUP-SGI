@@ -47,6 +47,15 @@
         <primitive id="demoRectangle">
             <rectangle x1="-0.5" y1="-1" x2="0.5" y2="1" />
         </primitive>
+        <primitive id="tower">
+            <cylinder base="10" top="9" height="50" slices="10" stacks="10">
+        </primitive>
+        <primitive id="eye">
+            <sphere radius="6" slices="10" stacks="10">
+        </primitive>
+        <primitive id="parapets">
+            <torus inner="2" outer="11" slices="10" stacks="10">
+        </primitive>
     </primitives>
 
     <components>
@@ -62,6 +71,26 @@
             <children>
                 <primitiveref id="demoRectangle" />
             </children>
+        </component>
+        <component id="mainTower">
+            <transformation>
+                <rotate axis="x" angle="-90"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="tower" />
+                <componentref id="eyeComponent" />
+            </children>
+        </component>
+        <component id="eyeComponent">
+            <transformation>
+                <translate x="0" y="0" z="60"/>
+            </transformation>
+        </component>
+        <component>
         </component>
     </components>
 </sxs>

@@ -562,6 +562,9 @@ export class MySceneGraph {
 
                 this.primitives[primitiveId] = rect;
             }
+            else if (primitiveType == 'cylinder') {
+                console.log("TODO");
+            }
             else {
                 console.warn("To do: Parse other primitives.");
             }
