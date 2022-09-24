@@ -1,4 +1,5 @@
 import { CGFXMLreader } from '../lib/CGF.js';
+import { MyCylinder } from './MyCylinder.js';
 import { MyRectangle } from './MyRectangle.js';
 
 var DEGREE_TO_RAD = Math.PI / 180;
@@ -563,7 +564,31 @@ export class MySceneGraph {
                 this.primitives[primitiveId] = rect;
             }
             else if (primitiveType == 'cylinder') {
-                console.log("TODO");
+                var base = this.reader.getFloat(grandChildren[0], 'base');
+                if(! (base != null && !isNaN(base)))
+                    return "unable to parse base of the primitive base radius for ID = " + primitiveId;
+
+                var top = this.reader.getFloat(grandChildren[0], 'top');
+                if(! (top != null && !isNaN(top)))
+                    return "unable to parse top of the primitive top radius for ID = " + primitiveId;
+                
+                var height = this.reader.getFloat(grandChildren[0], 'height');
+                if(! (height != null && !isNaN(height)))
+                    return "unable to parse height of the primitive height for ID = " + primitiveId;
+
+                var slices = this.reader.getInteger(grandChildren[0], 'slices');
+                if(! (slices != null && !isNaN(slices)))
+                    return "unable to parse slices of the primitive slices for ID = " + primitiveId;
+
+                var stacks = this.reader.getInteger(grandChildren[0], 'stacks');
+                if(! (stacks != null && !isNaN(stacks)))
+                    return "unable to parse stacks of the primitive stacks for ID = " + primitiveId;
+                
+                var cylinder = new MyCylinder(this.scene, primitiveId, base, top, height, slices, stacks);
+
+                this.primitives[primitiveId] = cylinder;
+
+                console.log("CYLINDER: " + base);
             }
             else {
                 console.warn("To do: Parse other primitives.");
@@ -745,7 +770,10 @@ export class MySceneGraph {
     displayScene() {
         //To do: Create display loop for transversing the scene graph
 
+        //this.primitives.forEach(display());
+
         //To test the parsing/creation of the primitives, call the display function directly
         this.primitives['demoRectangle'].display();
+        this.primitives['Cylinder'].display();
     }
 }
