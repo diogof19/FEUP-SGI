@@ -65,16 +65,18 @@ export class MySphere extends CGFobject {
                         // Use triagles instead of quadrilaterals at the poles of the sphere
                         if (phi === phiInc) {
                             this.indices.push(
+                                // North
                                 0, index, index - verticesByStack + 2,
+                                // South
                                 1, index + 1 - verticesByStack + 2, index + 1
                             );
                         }
                         else {
                             this.indices.push(
-                                // 1st Octant
+                                // North
                                 index - verticesByStack, index, index - verticesByStack + 2,
                                 index - verticesByStack + 2, index - verticesByStack * 2 + 2, index - verticesByStack,
-                                // 5th Octant
+                                // South
                                 index + 1 - verticesByStack + 2, index + 1, index + 1 - verticesByStack,
                                 index + 1 - verticesByStack, index + 1 - verticesByStack * 2 + 2, index + 1 - verticesByStack + 2,
                             );
@@ -83,18 +85,19 @@ export class MySphere extends CGFobject {
                     else {
                         // Use triagles instead of quadrilaterals at the poles of the sphere
                         if (phi === phiInc) {
-                            console.log(longitude, index);
                             this.indices.push(
+                                // North
                                 0, index, index + 2,
+                                // South
                                 index + 1 + 2, index + 1, 1,  
                             );
                         }
                         else {
                             this.indices.push(
-                                // 1st Octant
+                                // North
                                 index - verticesByStack, index, index + 2,
                                 index + 2, index - verticesByStack + 2, index - verticesByStack,
-                                // 5th Octant
+                                // South
                                 index + 1, index + 1 - verticesByStack, index + 1 - verticesByStack + 2,
                                 index + 1 - verticesByStack + 2, index + 1 + 2, index + 1,
                             );
@@ -106,7 +109,6 @@ export class MySphere extends CGFobject {
             }
             phi += phiInc;
         }
-    
     
         this.primitiveType = this.scene.gl.TRIANGLES;
         this.initGLBuffers();
