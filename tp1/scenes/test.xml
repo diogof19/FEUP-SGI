@@ -51,7 +51,7 @@
             <cylinder base="0" top="2" height="5" slices="10" stacks="10" />
         </primitive>
         <primitive id="sphere">
-            <sphere radius="3" slices="64" stacks="16"/>
+            <sphere radius="3" slices="3" stacks="5"/>
         </primitive>
     </primitives>
 
