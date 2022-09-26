@@ -53,6 +53,9 @@
         <primitive id="sphere">
             <sphere radius="3" slices="64" stacks="16"/>
         </primitive>
+        <primitive id="torus">
+            <torus inner="3" outer="5" slices="64" loops="16"/>
+        </primitive>
     </primitives>
 
     <components>

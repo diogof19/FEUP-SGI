@@ -2,6 +2,7 @@ import { CGFXMLreader } from '../lib/CGF.js';
 import { MyCylinder } from './MyCylinder.js';
 import { MyRectangle } from './MyRectangle.js';
 import { MySphere } from './MySphere.js';
+import { MyTorus } from './MyTorus.js';
 
 var DEGREE_TO_RAD = Math.PI / 180;
 
@@ -594,7 +595,7 @@ export class MySceneGraph {
             else if (primitiveType == 'sphere') {
                 var radius = this.reader.getFloat(grandChildren[0], 'radius');
                 if(! (radius != null && !isNaN(radius)))
-                    return "unable to parse base of the primitive base radius for ID = " + primitiveId;
+                    return "unable to parse radius of the primitive for ID = " + primitiveId;
                 var slices = this.reader.getInteger(grandChildren[0], 'slices');
                 if(! (slices != null && !isNaN(slices)))
                     return "unable to parse slices of the primitive slices for ID = " + primitiveId;
@@ -605,8 +606,24 @@ export class MySceneGraph {
                 var sphere = new MySphere(this.scene, primitiveId, radius, slices, stacks);
 
                 this.primitives[primitiveId] = sphere;
+            }
+            else if (primitiveType == 'torus') {
+                var outer = this.reader.getFloat(grandChildren[0], 'outer');
+                if(! (outer != null && !isNaN(outer)))
+                    return "unable to parse outer radius of the primitive for ID = " + primitiveId;
+                var inner = this.reader.getFloat(grandChildren[0], 'inner');
+                if(! (inner != null && !isNaN(inner)))
+                    return "unable to parse inner radius of the primitive for ID = " + primitiveId;
+                var slices = this.reader.getInteger(grandChildren[0], 'slices');
+                if(! (slices != null && !isNaN(slices)))
+                    return "unable to parse slices of the primitive slices for ID = " + primitiveId;
+                var loops = this.reader.getInteger(grandChildren[0], 'loops');
+                if(! (loops != null && !isNaN(loops)))
+                    return "unable to parse loops of the primitive for ID = " + primitiveId;
+                
+                var torus = new MyTorus(this.scene, primitiveId, inner, outer, slices, loops);
 
-                console.log("SPHERE: " + base);
+                this.primitives[primitiveId] = torus;
             }
             else {
                 console.warn("To do: Parse other primitives.");
@@ -793,7 +810,9 @@ export class MySceneGraph {
         //To test the parsing/creation of the primitives, call the display function directly
         //this.primitives['demoRectangle'].display();
         //this.primitives['Cylinder'].display();
-        this.primitives['sphere'].enableNormalViz();
-        this.primitives['sphere'].display();
+        //this.primitives['sphere'].enableNormalViz();
+        //this.primitives['sphere'].display();
+        this.primitives['torus'].enableNormalViz();
+        this.primitives['torus'].display();
     }
 }
