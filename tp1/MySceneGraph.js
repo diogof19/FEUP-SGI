@@ -3,6 +3,7 @@ import { MyCylinder } from './MyCylinder.js';
 import { MyRectangle } from './MyRectangle.js';
 import { MySphere } from './MySphere.js';
 import { MyTorus } from './MyTorus.js';
+import { MyTriangle } from './MyTriangle.js';
 
 var DEGREE_TO_RAD = Math.PI / 180;
 
@@ -589,8 +590,6 @@ export class MySceneGraph {
                 var cylinder = new MyCylinder(this.scene, primitiveId, base, top, height, slices, stacks);
 
                 this.primitives[primitiveId] = cylinder;
-
-                console.log("CYLINDER: " + base);
             }
             else if (primitiveType == 'sphere') {
                 var radius = this.reader.getFloat(grandChildren[0], 'radius');
@@ -624,6 +623,39 @@ export class MySceneGraph {
                 var torus = new MyTorus(this.scene, primitiveId, inner, outer, slices, loops);
 
                 this.primitives[primitiveId] = torus;
+            }
+            else if (primitiveType == 'triangle') {
+                var x1 = this.reader.getFloat(grandChildren[0], 'x1');
+                if(! (x1 != null && !isNaN(x1)))
+                    return "unable to parse x1 of the primitive for ID = " + primitiveId;
+                var y1 = this.reader.getFloat(grandChildren[0], 'y1');
+                if(! (y1 != null && !isNaN(y1)))
+                    return "unable to parse y1 of the primitive for ID = " + primitiveId;
+                var z1 = this.reader.getFloat(grandChildren[0], 'z1');
+                if(! (z1 != null && !isNaN(z1)))
+                    return "unable to parse z1 of the primitive for ID = " + primitiveId;
+                var x2 = this.reader.getFloat(grandChildren[0], 'x2');
+                if(! (x2 != null && !isNaN(x2)))
+                    return "unable to parse x2 of the primitive for ID = " + primitiveId;
+                var y2 = this.reader.getFloat(grandChildren[0], 'y2');
+                if(! (y2 != null && !isNaN(y2)))
+                    return "unable to parse y2 of the primitive for ID = " + primitiveId;
+                var z2 = this.reader.getFloat(grandChildren[0], 'z2');
+                if(! (z2 != null && !isNaN(z2)))
+                    return "unable to parse z2 of the primitive for ID = " + primitiveId;
+                var x3 = this.reader.getFloat(grandChildren[0], 'x3');
+                if(! (x3 != null && !isNaN(x3)))
+                    return "unable to parse x3 of the primitive for ID = " + primitiveId;
+                var y3 = this.reader.getFloat(grandChildren[0], 'y3');
+                if(! (y3 != null && !isNaN(y3)))
+                    return "unable to parse y3 of the primitive for ID = " + primitiveId;
+                var z3 = this.reader.getFloat(grandChildren[0], 'z3');
+                if(! (z3 != null && !isNaN(z3)))
+                    return "unable to parse z3 of the primitive for ID = " + primitiveId;
+
+                var triangle = new MyTriangle(this.scene, primitiveId, x1, y1, z1, x2, y2, z2, x3, y3, z3);
+                console.log(triangle);
+                this.primitives[primitiveId] = triangle;
             }
             else {
                 console.warn("To do: Parse other primitives.");
@@ -810,9 +842,12 @@ export class MySceneGraph {
         //To test the parsing/creation of the primitives, call the display function directly
         //this.primitives['demoRectangle'].display();
         //this.primitives['Cylinder'].display();
+        //this.primitives['Cylinder'].enableNormalViz();
         //this.primitives['sphere'].enableNormalViz();
         //this.primitives['sphere'].display();
-        this.primitives['torus'].enableNormalViz();
-        this.primitives['torus'].display();
+        //this.primitives['torus'].enableNormalViz();
+        //this.primitives['torus'].display();
+        this.primitives['Triangle'].display();
+        this.primitives['Triangle'].enableNormalViz();
     }
 }
