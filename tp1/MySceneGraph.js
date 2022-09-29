@@ -1,4 +1,4 @@
-import { CGFXMLreader } from '../lib/CGF.js';
+import { CGFappearance, CGFXMLreader, CGFtexture } from '../lib/CGF.js';
 import { MyCylinder } from './MyCylinder.js';
 import { MyRectangle } from './MyRectangle.js';
 import { MySphere } from './MySphere.js';
@@ -33,6 +33,8 @@ export class MySceneGraph {
         scene.graph = this;
 
         this.nodes = [];
+
+        this.appearances = [];
 
         this.idRoot = null;                    // The id of the root element.
 
@@ -397,10 +399,40 @@ export class MySceneGraph {
      * Parses the <textures> block. 
      * @param {textures block element} texturesNode
      */
-    parseTextures(texturesNode) {
+     parseTextures(texturesNode) {
+        var children = texturesNode.children;
+
+        this.textures = [];
+        var numTextures = 0;
+
+        for(var i = 0; i < children.length; i++){
+            if(children[i].nodeName != "texture") {
+                this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+                continue;
+            }
+
+            var textureID = this.reader.getString(children[i], 'id');
+            if(textureID == null)
+                return "no ID defined for texture";
+            
+            if(this.textures[textureID] != null)
+                return "ID must be unique for each texture (conflict: ID = " + textureID + ")";
+            
+            var textureFile = this.reader.getString(children[i], 'file');
+            if(textureFile == null)
+                return "no file defined for texture";
+
+            var newTexture = new CGFtexture(this.scene, textureFile);
+
+            this.textures[textureID] = newTexture;
+            numTextures++;
+        }
+
+        if(numTextures == 0)
+            return "no textures defined"
 
         //For each texture in textures block, check ID and file URL
-        this.onXMLMinorError("To do: Parse textures.");
+        this.onXMLMinorError("To do: Review parse textures.");
         return null;
     }
 
@@ -415,6 +447,7 @@ export class MySceneGraph {
 
         var grandChildren = [];
         var nodeNames = [];
+        var numMaterials = 0;
 
         // Any number of materials.
         for (var i = 0; i < children.length; i++) {
@@ -433,10 +466,78 @@ export class MySceneGraph {
             if (this.materials[materialID] != null)
                 return "ID must be unique for each light (conflict: ID = " + materialID + ")";
 
+            var appearance = new CGFappearance(this.scene);
+
+            var shininess = this.reader.getFloat(children[i], 'shininess');
+            if(shininess == null)
+                return "no shininess defined for material (ID = " + materialID + ")";
+            
+            appearance.setShininess(shininess);
+
+            grandChildren = children[i].children;
+
+            if(grandChildren[0].nodeName != "emission") {
+                return "first tag in material has to be emission (ID = " + materialID + ")";
+            }
+            var r = this.reader.getFloat(grandChildren[0], 'r');
+            var g = this.reader.getFloat(grandChildren[0], 'g');
+            var b = this.reader.getFloat(grandChildren[0], 'b');
+            var a = this.reader.getFloat(grandChildren[0], 'a');
+
+            if(r == null || g == null || b == null || a == null)
+                return "r, g, b & a need to be defined in the grandChildren for material with ID = " + materialID;
+
+            appearance.setEmission(r, g, b, a);
+
+            if(grandChildren[1].nodeName != "ambient") {
+                return "second tag in material has to be ambient (ID = " + materialID + ")";
+            }
+            r = this.reader.getFloat(grandChildren[1], 'r');
+            g = this.reader.getFloat(grandChildren[1], 'g');
+            b = this.reader.getFloat(grandChildren[1], 'b');
+            a = this.reader.getFloat(grandChildren[1], 'a');
+
+            if(r == null || g == null || b == null || a == null)
+                return "r, g, b & a need to be defined in the grandChildren for material with ID = " + materialID;
+
+            appearance.setAmbient(r, g, b, a);
+
+            if(grandChildren[2].nodeName != "diffuse") {
+                return "third tag in material has to be diffuse (ID = " + materialID + ")";
+            }
+            r = this.reader.getFloat(grandChildren[2], 'r');
+            g = this.reader.getFloat(grandChildren[2], 'g');
+            b = this.reader.getFloat(grandChildren[2], 'b');
+            a = this.reader.getFloat(grandChildren[2], 'a');
+
+            if(r == null || g == null || b == null || a == null)
+                return "r, g, b & a need to be defined in the grandChildren for material with ID = " + materialID;
+
+            appearance.setDiffuse(r, g,  b, a);
+            
+            if(grandChildren[3].nodeName != "specular") {
+                return "fourth tag in material has to be specular (ID = " + materialID + ")";
+            }
+            r = this.reader.getFloat(grandChildren[3], 'r');
+            g = this.reader.getFloat(grandChildren[3], 'g');
+            b = this.reader.getFloat(grandChildren[3], 'b');
+            a = this.reader.getFloat(grandChildren[3], 'a');
+
+            if(r == null || g == null || b == null || a == null)
+                return "r, g, b & a need to be defined in the grandChildren for material with ID = " + materialID;
+
+            appearance.setSpecular(r, g, b, a);
+            this.materials[materialID] = appearance;
+
+            numMaterials++;
+
             //Continue here
-            this.onXMLMinorError("To do: Parse materials.");
+            this.onXMLMinorError("To do: Review parse materials.");
         }
 
+        if(numMaterials == 0)
+            return "no materials defined";
+        console.log(this.materials);
         this.log("Parsed materials");
         return null;
     }
@@ -669,7 +770,6 @@ export class MySceneGraph {
                     return "unable to parse z3 of the primitive for ID = " + primitiveId;
 
                 var triangle = new MyTriangle(this.scene, primitiveId, x1, y1, z1, x2, y2, z2, x3, y3, z3);
-                console.log(triangle);
                 this.primitives[primitiveId] = triangle;
             }
             else {
@@ -783,8 +883,57 @@ export class MySceneGraph {
             component.transfMatrix = transfMatrix;
 
             // Materials
+            if (materialsIndex == -1){
+                this.onXMLError("component missing material (ID = " + componentID + ")");
+                continue;
+            }
+
+            component.materials = [];
+            grandgrandChildren = grandChildren[materialsIndex].children;
+
+            for (var k = 0; k < grandgrandChildren.length; k++){
+                if(grandgrandChildren[k].nodeName != "material"){
+                    this.onXMLError("unkown tag <" + grandgrandChildren[i].nodeName + ">");
+                    continue;
+                }
+
+                //  TO ASK
+                //  What happens if there is an inherit, while also having other materials defined?
+
+                var materialID = this.reader.getString(grandgrandChildren[k], 'id');
+                if(materialID == null){
+                    this.onXMLError("material needs to have ID on component with ID = " + componentID);
+                    continue;
+                }
+                
+                if(this.materials[materialID] == null){
+                    this.onXMLError("material needs to have been defined before on component with ID = " + componentID);
+                    continue;
+                }
+                console.log(materialID);
+                component.materials.push(materialID);
+            }
+
+            console.log(component.materials);
 
             // Texture
+
+            if (textureIndex == -1){
+                this.onXMLError("component missing texture (ID = " + componentID + ")");
+                continue;
+            }
+
+            var textureID = this.reader.getString(grandChildren[textureIndex], 'id');
+            if(textureID == null){
+                this.onXMLError("no ID from texture in component (ID = " + componentID + ")");
+                continue;
+            }
+            else if(this.textures[textureID] == null){
+                this.onXMLError("no texture defined with ID = " + textureID);
+            }
+            else{
+                component.texture = textureID;
+            }
 
             // Children
 
@@ -823,6 +972,8 @@ export class MySceneGraph {
 
             component.primitives = componentPrimitives;
             component.components = componentComponents;
+
+            console.log(component);
 
             components[componentID] = component;
         }
@@ -944,15 +1095,31 @@ export class MySceneGraph {
         console.log("   " + message);
     }
 
-    displayComponent(cid) {
+    /**
+     * 
+     * @param {*} cid 
+     * @param {CGFappearance} parentMaterial 
+     */
+    displayComponent(cid, parentMaterial) {
         let component = this.components[cid];
+
+        var nodeMaterial = new CGFappearance(this.scene);
+        if(component.materials[0] == "inherit"){
+            nodeMaterial = parentMaterial;
+        }
+        else{
+            nodeMaterial = this.materials[component.materials[0]];
+        }
+            
+        nodeMaterial.apply();
+
         this.scene.pushMatrix();
         this.scene.multMatrix(component.transfMatrix);
         for (let i = 0; i < component.primitives.length; i++) {
             this.primitives[component.primitives[i]].display();
         }
         for (let i = 0; i < component.components.length; i++) {
-            this.displayComponent(component.components[i]);
+            this.displayComponent(component.components[i], nodeMaterial);
         }
         this.scene.popMatrix();
     }
@@ -961,8 +1128,17 @@ export class MySceneGraph {
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
+
+        //Create default appearance (need to get the root node appearance)
+        this.appearances.push(new CGFappearance(this.scene));
+        
+        var appearance = new CGFappearance(this.scene);
+        //appearance.setTexture(this.textures['demoTexture']);
+
+        appearance.apply();
+
         for (let value in this.components) {
-            this.displayComponent(value);
+            this.displayComponent(value, appearance);
         }
     }
 }

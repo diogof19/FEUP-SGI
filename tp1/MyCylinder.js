@@ -20,6 +20,8 @@ export class MyCylinder extends CGFobject {
 
         var radiusIncrement = (this.top - this.base) / this.stacks;
         var radius = this.base;
+        var nZ = (this.base - this.top) / this.height;
+
 		for(var stack = 0; stack <= this.stacks; stack++){
 
             var vZ = stack * this.height / this.stacks;
@@ -33,7 +35,7 @@ export class MyCylinder extends CGFobject {
                 var vY = sin * radius;
                 
                 this.vertices.push(vX, vY, vZ);
-                this.normals.push(cos, sin, 0);
+                this.normals.push(cos, sin, nZ);
 
                 if(stack != this.stacks && slice != this.slices){
                     var v1 = (this.slices + 1) * stack + slice;
@@ -44,6 +46,8 @@ export class MyCylinder extends CGFobject {
                     this.indices.push(v1, v2, v4);
                     this.indices.push(v4, v3, v1);
                 }
+
+                this.texCoords.push(slice / this.slices, stack / this.stacks);
             }
 
             radius += radiusIncrement;
