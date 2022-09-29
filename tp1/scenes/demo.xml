@@ -1,5 +1,5 @@
 <sxs>
-    <scene root="demoRoot" axis_length="5"/>
+    <scene root="towerBase" axis_length="40"/>
 
     <views default="defaultCamera">
         <perspective id="defaultCamera" near="0.1" far="500" angle="45">
@@ -41,40 +41,36 @@
             <rotate axis="x" angle="-45" />
             <rotate axis="z" angle="-45" />
         </transformation>
+        <transformation id="rotateZtoY">
+            <rotate axis="x" angle="-90"/>
+        </transformation>
     </transformations>
 
     <primitives>
-        <primitive id="demoRectangle">
-            <rectangle x1="-0.5" y1="-1" x2="0.5" y2="1" />
-        </primitive>
         <primitive id="tower">
-            <cylinder base="10" top="9" height="50" slices="10" stacks="10">
+            <cylinder base="6" top="6" height="7" slices="64" stacks="16"/>
         </primitive>
         <primitive id="eye">
-            <sphere radius="6" slices="10" stacks="10">
+            <sphere radius="6" slices="64" stacks="16"/>
         </primitive>
         <primitive id="parapets">
-            <torus inner="2" outer="11" slices="10" stacks="10">
+            <torus inner="0.5" outer="6.5" slices="64" loops="64"/>
+        </primitive>
+        <primitive id="triangleForward">
+            <triangle x1="0" y1="0" z1="0" x2="2" y2="0" z2="0" x3="0" y3="3" z3="0"/>
+        </primitive>
+        <primitive id="triangleBackward">
+            <triangle x3="0" y3="0" z3="0" x2="2" y2="0" z2="0" x1="0" y1="3" z1="0"/>
+        </primitive>
+        <primitive id="invertedConeThing">
+            <cylinder base="6" top="12" height="2" slices="64" stacks="16"/>
         </primitive>
     </primitives>
 
     <components>
-        <component id="demoRoot">
+        <component id="towerBase">
             <transformation>
-                <translate x="0" y="0" z="1" />
-                <scale x="2" y="1" z="1" />
-            </transformation>
-            <materials>
-                <material id="demoMaterial" />
-            </materials>
-            <texture id="demoTexture"/>
-            <children>
-                <primitiveref id="demoRectangle" />
-            </children>
-        </component>
-        <component id="mainTower">
-            <transformation>
-                <rotate axis="x" angle="-90"/>
+                <transformationref id="rotateZtoY"/>
             </transformation>
             <materials>
                 <material id="demoMaterial" />
@@ -82,15 +78,136 @@
             <texture id="demoTexture"/>
             <children>
                 <primitiveref id="tower" />
-                <componentref id="eyeComponent" />
+            </children>
+        </component>
+        <component id="baseParapets">
+            <transformation>
+                <translate x="0" y="7" z="0"/>
+                <transformationref id="rotateZtoY"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="parapets" />
+            </children>
+        </component>
+        <component id="baseFloor">
+            <transformation>
+                <scale x="1" y="0" z="1"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="eye" />
+            </children>
+        </component>
+        <component id="baseCeiling">
+            <transformation>
+                <translate x="0" y="7" z="0"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="baseFloor" />
+            </children>
+        </component>
+        <component id="topTower">
+            <transformation>
+                <scale x="0.4" y="5" z="0.4"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="towerBase"/>
+            </children>
+        </component>
+        <component id="topParapets">
+            <transformation>
+                <translate x="0" y="35" z="0"/>
+                <transformationref id="rotateZtoY"/>
+                <scale x="0.7" y="0.7" z="0.7"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="parapets"/>
             </children>
         </component>
         <component id="eyeComponent">
             <transformation>
-                <translate x="0" y="0" z="60"/>
+                <translate x="0" y="39" z="0"/>
+                <scale x="0.5" y="0.5" z="0.5"/>
             </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="eye"/>
+            </children>
         </component>
-        <component>
+        <component id="triangle1">
+            <transformation>
+                <translate x="-4.5" y="35" z="0"/>
+                <scale x="1" y="2" z="1"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="triangleForward"/>
+                <primitiveref id="triangleBackward"/>
+            </children>
+        </component>
+        <component id="triangle2">
+            <transformation>
+                <rotate axis="y" angle="180"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="triangle1"/>
+            </children>
+        </component>
+        <component id="invertedConeThing">
+            <transformation>
+                <translate x="0" y="33" z="0"/>
+                <scale x="0.4" y="1" z="0.4"/>
+                <transformationref id="rotateZtoY"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="invertedConeThing"/>
+            </children>
+        </component>
+        <component id="topCeiling">
+            <transformation>
+                <translate x="0" y="35" z="0"/>
+                <scale x="0.7" y="0" z="0.7"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="baseFloor" />
+            </children>
         </component>
     </components>
 </sxs>
