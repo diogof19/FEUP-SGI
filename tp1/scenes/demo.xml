@@ -10,7 +10,7 @@
 
     <ambient>
         <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
-        <background r="0.0" g="0.0" b="0.0" a="1.0" />
+        <background r="1.0" g="1.0" b="1.0" a="1.0" />
     </ambient>
 
     <lights>
@@ -64,6 +64,9 @@
         </primitive>
         <primitive id="invertedConeThing">
             <cylinder base="6" top="12" height="2" slices="64" stacks="16"/>
+        </primitive>
+        <primitive id="foundation">
+            <torus inner="0.5" outer="3.5" slices="64" loops="64"/>
         </primitive>
     </primitives>
 
@@ -119,7 +122,7 @@
         </component>
         <component id="topTower">
             <transformation>
-                <scale x="0.4" y="5" z="0.4"/>
+                <scale x="0.5" y="5" z="0.5"/>
             </transformation>
             <materials>
                 <material id="demoMaterial" />
@@ -207,6 +210,69 @@
             <texture id="demoTexture"/>
             <children>
                 <componentref id="baseFloor" />
+            </children>
+        </component>
+        <component id="holdUpCylinderFront">
+            <transformation>
+                <transformationref id="rotateZtoY"/>
+                <translate x="0" y="-2.8" z="6"/>
+                <scale x="0.2" y="0.2" z="1"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="tower" />
+            </children>
+        </component>
+        <component id="holdUpCylinderRight">
+            <transformation>
+                <rotate axis="y" angle="90"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="holdUpCylinderFront" />
+            </children>
+        </component>
+        <component id="holdUpCylinderBack">
+            <transformation>
+                <rotate axis="y" angle="180"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="holdUpCylinderFront" />
+            </children>
+        </component>
+        <component id="holdUpCylinderLeft">
+            <transformation>
+                <rotate axis="y" angle="-90"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="holdUpCylinderFront" />
+            </children>
+        </component>
+        <component id="foundationTorus">
+            <transformation>
+                <translate x="0" y="13" z="0"/>
+                <transformationref id="rotateZtoY"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="foundation"/>
             </children>
         </component>
     </components>
