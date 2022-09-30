@@ -65,6 +65,9 @@
         <primitive id="invertedConeThing">
             <cylinder base="6" top="12" height="2" slices="64" stacks="16"/>
         </primitive>
+        <primitive id="groundRectangle">
+            <rectangle x1="-15" y1="-15" x2="15" y2="15" /> 
+        </primitive>
     </primitives>
 
     <components>
@@ -207,6 +210,18 @@
             <texture id="demoTexture"/>
             <children>
                 <componentref id="baseFloor" />
+            </children>
+        </component>
+        <component id="ground">
+            <transformation>
+                <rotate axis="x" angle="-90"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture" />
+            <children>
+                <primitiveref id="groundRectangle" />
             </children>
         </component>
     </components>

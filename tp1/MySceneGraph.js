@@ -1104,6 +1104,8 @@ export class MySceneGraph {
         let component = this.components[cid];
 
         var nodeMaterial = new CGFappearance(this.scene);
+
+        //Inherit doesn't work
         if(component.materials[0] == "inherit"){
             nodeMaterial = parentMaterial;
         }

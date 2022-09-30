@@ -72,7 +72,7 @@
             <transformation>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="inherit" />
             </materials>
             <texture id="demoTexture" length_s="1" length_t="1" />
             <children>
