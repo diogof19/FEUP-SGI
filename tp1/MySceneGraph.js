@@ -1139,8 +1139,6 @@ export class MySceneGraph {
 
         appearance.apply();
 
-        for (let value in this.components) {
-            this.displayComponent(value, appearance);
-        }
+        this.displayComponent(this.idRoot, appearance);
     }
 }
