@@ -10,7 +10,7 @@
 
     <ambient>
         <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
-        <background r="0.0" g="0.0" b="0.0" a="1.0" />
+        <background r="1.0" g="1.0" b="1.0" a="1.0" />
     </ambient>
 
     <lights>
@@ -27,11 +27,23 @@
     </textures>
 
     <materials>
-        <material id="demoMaterial" shininess="10">
-            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="1.0" g="0.0" b="0.0" a="1.0" />
-            <diffuse r="0.6" g="0.0" b="0.0" a="1.0" />
-            <specular r="0.6" g="0.0" b="0.0" a="1.0" />
+        <material id="eyeMaterial" shininess="10">
+            <emission r="0.86" g="0.2" b="0.0" a="1.0" />
+            <ambient r="0.86" g="0.2" b="0.0" a="1.0" />
+            <diffuse r="0.86" g="0.2" b="0.0" a="1.0" />
+            <specular r="0.86" g="0.2" b="0.0" a="1.0" />
+        </material>
+        <material id="towerMaterial" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="0.0" />
+            <ambient r="0.37" g="0.4" b="0.4" a="1.0" />
+            <diffuse r="0.37" g="0.4" b="0.4" a="1.0" />
+            <specular r="0.37" g="0.4" b="0.4" a="1.0" />
+        </material>
+        <material id="towerAddonMaterial" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="0.0" />
+            <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
+            <diffuse r="0.2" g="0.2" b="0.2" a="1.0" />
+            <specular r="0.2" g="0.2" b="0.2" a="1.0" />
         </material>
     </materials>
 
@@ -66,7 +78,10 @@
             <cylinder base="6" top="12" height="2" slices="64" stacks="16"/>
         </primitive>
         <primitive id="groundRectangle">
-            <rectangle x1="-15" y1="-15" x2="15" y2="15" /> 
+            <rectangle x1="-15" y1="-15" x2="15" y2="15" />
+        </primitive>
+        <primitive id="foundation">
+            <torus inner="0.5" outer="3.5" slices="64" loops="64"/>
         </primitive>
     </primitives>
 
@@ -76,7 +91,7 @@
                 <transformationref id="rotateZtoY"/>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="towerMaterial" />
             </materials>
             <texture id="demoTexture"/>
             <children>
@@ -89,7 +104,7 @@
                 <transformationref id="rotateZtoY"/>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="towerAddonMaterial" />
             </materials>
             <texture id="demoTexture"/>
             <children>
@@ -101,7 +116,7 @@
                 <scale x="1" y="0" z="1"/>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="towerMaterial" />
             </materials>
             <texture id="demoTexture"/>
             <children>
@@ -113,7 +128,7 @@
                 <translate x="0" y="7" z="0"/>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="towerMaterial" />
             </materials>
             <texture id="demoTexture"/>
             <children>
@@ -122,10 +137,10 @@
         </component>
         <component id="topTower">
             <transformation>
-                <scale x="0.4" y="5" z="0.4"/>
+                <scale x="0.5" y="5" z="0.5"/>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="towerAddonMaterial" />
             </materials>
             <texture id="demoTexture"/>
             <children>
@@ -139,7 +154,7 @@
                 <scale x="0.7" y="0.7" z="0.7"/>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="towerAddonMaterial" />
             </materials>
             <texture id="demoTexture"/>
             <children>
@@ -152,7 +167,7 @@
                 <scale x="0.5" y="0.5" z="0.5"/>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="eyeMaterial" />
             </materials>
             <texture id="demoTexture"/>
             <children>
@@ -165,7 +180,7 @@
                 <scale x="1" y="2" z="1"/>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="towerAddonMaterial" />
             </materials>
             <texture id="demoTexture"/>
             <children>
@@ -178,7 +193,7 @@
                 <rotate axis="y" angle="180"/>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="towerAddonMaterial" />
             </materials>
             <texture id="demoTexture"/>
             <children>
@@ -192,7 +207,7 @@
                 <transformationref id="rotateZtoY"/>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="towerMaterial" />
             </materials>
             <texture id="demoTexture"/>
             <children>
@@ -205,11 +220,86 @@
                 <scale x="0.7" y="0" z="0.7"/>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="towerMaterial" />
             </materials>
             <texture id="demoTexture"/>
             <children>
                 <componentref id="baseFloor" />
+            </children>
+        </component>
+        <component id="holdUpCylinderFront">
+            <transformation>
+                <transformationref id="rotateZtoY"/>
+                <translate x="0" y="-2.8" z="6"/>
+                <scale x="0.2" y="0.2" z="1"/>
+            </transformation>
+            <materials>
+                <material id="towerAddonMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="tower" />
+            </children>
+        </component>
+        <component id="holdUpCylinderRight">
+            <transformation>
+                <rotate axis="y" angle="90"/>
+            </transformation>
+            <materials>
+                <material id="towerAddonMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="holdUpCylinderFront" />
+            </children>
+        </component>
+        <component id="holdUpCylinderBack">
+            <transformation>
+                <rotate axis="y" angle="180"/>
+            </transformation>
+            <materials>
+                <material id="towerAddonMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="holdUpCylinderFront" />
+            </children>
+        </component>
+        <component id="holdUpCylinderLeft">
+            <transformation>
+                <rotate axis="y" angle="-90"/>
+            </transformation>
+            <materials>
+                <material id="towerAddonMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="holdUpCylinderFront" />
+            </children>
+        </component>
+        <component id="foundationTorus">
+            <transformation>
+                <translate x="0" y="13" z="0"/>
+                <transformationref id="rotateZtoY"/>
+            </transformation>
+            <materials>
+                <material id="towerAddonMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <primitiveref id="foundation"/>
+            </children>
+        </component>
+        <component id="topTowerConeParapet">
+            <transformation>
+                <translate x="0" y="20" z="0"/>
+            </transformation>
+            <materials>
+                <material id="towerAddonMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="foundationTorus"/>
             </children>
         </component>
         <component id="ground">
@@ -217,7 +307,7 @@
                 <rotate axis="x" angle="-90"/>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="eyeMaterial" />
             </materials>
             <texture id="demoTexture" />
             <children>
