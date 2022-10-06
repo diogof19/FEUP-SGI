@@ -34,6 +34,10 @@
 
     <textures>
         <texture id="demoTexture" file="scenes/images/vidral.jpg" />
+        <texture id="towerTexture" file="scenes/images/tower_side_stone.jpg" />
+        <texture id="parapeetTexture" file="scenes/images/leaves.jpg" />
+        <texture id="towerFloorTexture" file="scenes/images/trunk-image.jpg" />
+        <texture id="triangleTopTower" file="scenes/images/bank.jpg" />
     </textures>
 
     <materials>
@@ -108,7 +112,7 @@
             <materials>
                 <material id="towerMaterial"/>
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="towerTexture" length_s="1" length_t="1"/>
             <children>
                 <componentref id="towerBase"/>
                 <componentref id="towerTop"/>
@@ -124,7 +128,7 @@
             <materials>
                 <material id="towerMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="towerTexture" length_s="1" length_t="1"/>
             <children>
                 <componentref id="baseCylinder"/>
                 <componentref id="baseParapets"/>
@@ -136,7 +140,7 @@
             <materials>
                 <material id="towerMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="towerTexture" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="tower"/>
                 <componentref id="baseFloor"/>
@@ -150,7 +154,7 @@
             <materials>
                 <material id="towerAddonMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="parapeetTexture" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="parapets" />
             </children>
@@ -162,7 +166,7 @@
             <materials>
                 <material id="towerMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="demoTexture" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="eye" />
             </children>
@@ -175,7 +179,7 @@
             <materials>
                 <material id="towerMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="eye" />
             </children>
@@ -187,7 +191,7 @@
             <materials>
                 <material id="towerMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="inherit"/>
             <children>
                 <componentref id="topCylinder"/>
                 <componentref id="topParapets"/>
@@ -203,7 +207,7 @@
             <materials>
                 <material id="towerAddonMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="inherit"/>
             <children>
                 <componentref id="baseCylinder"/>
             </children>
@@ -216,7 +220,7 @@
             <materials>
                 <material id="towerAddonMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="parapeetTexture" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="parapets"/>
             </children>
@@ -227,7 +231,7 @@
             <materials>
                 <material id="eyeMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="demoTexture" length_s="1" length_t="1"/>
             <children>
                 <componentref id="eyeComponent"/>
                 <componentref id="triangle1"/>
@@ -241,7 +245,7 @@
             <materials>
                 <material id="eyeMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="towerTexture" length_s="1" length_t="1"/>
             <children>
                 <componentref id="holdUpCylinderFront"/>
                 <componentref id="holdUpCylinderRight"/>
@@ -258,7 +262,7 @@
             <materials>
                 <material id="eyeMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="demoTexture" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="eye"/>
             </children>
@@ -271,7 +275,7 @@
             <materials>
                 <material id="towerAddonMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="triangleTopTower" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="triangleForward"/>
                 <primitiveref id="triangleBackward"/>
@@ -284,7 +288,7 @@
             <materials>
                 <material id="towerAddonMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="triangleTopTower" length_s="1" length_t="1"/>
             <children>
                 <componentref id="triangle1"/>
             </children>
@@ -297,7 +301,7 @@
             <materials>
                 <material id="towerMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="inherit" />
             <children>
                 <primitiveref id="invertedConeThing"/>
             </children>
@@ -310,7 +314,7 @@
             <materials>
                 <material id="towerMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="towerFloorTexture" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="eye" />
             </children>
@@ -324,7 +328,7 @@
             <materials>
                 <material id="towerAddonMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="tower" />
             </children>
@@ -336,7 +340,7 @@
             <materials>
                 <material id="towerAddonMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="inherit"/>
             <children>
                 <componentref id="holdUpCylinderFront" />
             </children>
@@ -348,7 +352,7 @@
             <materials>
                 <material id="towerAddonMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="inherit"/>
             <children>
                 <componentref id="holdUpCylinderFront" />
             </children>
@@ -360,7 +364,7 @@
             <materials>
                 <material id="towerAddonMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="inherit"/>
             <children>
                 <componentref id="holdUpCylinderFront" />
             </children>
@@ -372,7 +376,7 @@
             <materials>
                 <material id="towerAddonMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="parapeetTexture" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="foundation"/>
             </children>
@@ -384,7 +388,7 @@
             <materials>
                 <material id="towerAddonMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="demoTexture" length_s="1" length_t="1"/>
             <children>
                 <componentref id="foundationTorus"/>
             </children>
@@ -397,7 +401,7 @@
             <materials>
                 <material id="towerAddonMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="parapeetTexture" length_s="1" length_t="1"/>
             <children>
                 <componentref id="foundationTorus"/>
             </children>
@@ -410,7 +414,7 @@
             <materials>
                 <material id="towerMaterial" />
             </materials>
-            <texture id="demoTexture" />
+            <texture id="demoTexture" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="groundRectangle" />
             </children>
@@ -423,7 +427,7 @@
             <materials>
                 <material id="pupilMaterial" />
             </materials>
-            <texture id="demoTexture" />
+            <texture id="demoTexture" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="eye" />
             </children>

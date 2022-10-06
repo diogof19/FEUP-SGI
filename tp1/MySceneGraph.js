@@ -443,10 +443,7 @@ export class MySceneGraph {
     parseMaterials(materialsNode) {
         var children = materialsNode.children;
 
-        this.materials = [];
-
         var grandChildren = [];
-        var nodeNames = [];
         var numMaterials = 0;
 
         // Any number of materials.
@@ -463,7 +460,7 @@ export class MySceneGraph {
                 return "no ID defined for material";
 
             // Checks for repeated IDs.
-            if (this.materials[materialID] != null)
+            if (this.appearances[materialID] != null)
                 return "ID must be unique for each light (conflict: ID = " + materialID + ")";
 
             var appearance = new CGFappearance(this.scene);
@@ -527,17 +524,14 @@ export class MySceneGraph {
                 return "r, g, b & a need to be defined in the grandChildren for material with ID = " + materialID;
 
             appearance.setSpecular(r, g, b, a);
-            this.materials[materialID] = appearance;
-
+            this.appearances[materialID] = appearance;
+            
             numMaterials++;
-
-            //Continue here
-            this.onXMLMinorError("To do: Review parse materials.");
         }
 
         if(numMaterials == 0)
             return "no materials defined";
-        console.log(this.materials);
+        
         this.log("Parsed materials");
         return null;
     }
@@ -897,24 +891,19 @@ export class MySceneGraph {
                     continue;
                 }
 
-                //  TO ASK
-                //  What happens if there is an inherit, while also having other materials defined?
-
                 var materialID = this.reader.getString(grandgrandChildren[k], 'id');
                 if(materialID == null){
                     this.onXMLError("material needs to have ID on component with ID = " + componentID);
                     continue;
                 }
                 
-                if(this.materials[materialID] == null){
+                if(this.appearances[materialID] == null && materialID != "inherit"){
                     this.onXMLError("material needs to have been defined before on component with ID = " + componentID);
                     continue;
                 }
-                console.log(materialID);
+                
                 component.materials.push(materialID);
             }
-
-            console.log(component.materials);
 
             // Texture
 
@@ -928,11 +917,25 @@ export class MySceneGraph {
                 this.onXMLError("no ID from texture in component (ID = " + componentID + ")");
                 continue;
             }
-            else if(this.textures[textureID] == null){
+            else if(this.textures[textureID] == null && textureID != "none" && textureID != "inherit"){
                 this.onXMLError("no texture defined with ID = " + textureID);
             }
             else{
                 component.texture = textureID;
+
+                if(textureID != "none" && textureID != "inherit"){
+                    var length_s = this.reader.getFloat(grandChildren[textureIndex], 'length_s');
+                    if(length_s == null){
+                        this.onXMLError("no length_s from texture with ID = " + textureID + " in componente with ID = " + componentID);
+                    }
+                    component.length_s = length_s;
+
+                    var length_t = this.reader.getFloat(grandChildren[textureIndex], 'length_s');
+                    if(length_t == null){
+                        this.onXMLError("no length_t from texture with ID = " + textureID + " in componente with ID = " + componentID);
+                    }
+                    component.length_t = length_t;
+                }
             }
 
             // Children
@@ -972,8 +975,6 @@ export class MySceneGraph {
 
             component.primitives = componentPrimitives;
             component.components = componentComponents;
-
-            console.log(component);
 
             components[componentID] = component;
         }
@@ -1100,19 +1101,28 @@ export class MySceneGraph {
      * @param {*} cid 
      * @param {CGFappearance} parentMaterial 
      */
-    displayComponent(cid, parentMaterial) {
+    displayComponent(cid, parentMaterial, parentTexture) {
         let component = this.components[cid];
 
         var nodeMaterial = new CGFappearance(this.scene);
+        var nodeTexture;
 
-        //Inherit doesn't work
         if(component.materials[0] == "inherit"){
             nodeMaterial = parentMaterial;
         }
         else{
-            nodeMaterial = this.materials[component.materials[0]];
+            nodeMaterial = this.appearances[component.materials[0]];
         }
-            
+        
+        if(component.texture == "none"){
+            nodeTexture = null;
+        } else if(component.texture == "inherit"){
+            nodeTexture = parentTexture;
+        } else {
+            nodeTexture = this.textures[component.texture];
+        }
+
+        nodeMaterial.setTexture(nodeTexture);
         nodeMaterial.apply();
 
         this.scene.pushMatrix();
@@ -1121,7 +1131,7 @@ export class MySceneGraph {
             this.primitives[component.primitives[i]].display();
         }
         for (let i = 0; i < component.components.length; i++) {
-            this.displayComponent(component.components[i], nodeMaterial);
+            this.displayComponent(component.components[i], nodeMaterial, nodeTexture);
         }
         this.scene.popMatrix();
     }
@@ -1132,13 +1142,8 @@ export class MySceneGraph {
     displayScene() {
 
         //Create default appearance (need to get the root node appearance)
-        this.appearances.push(new CGFappearance(this.scene));
-        
-        var appearance = new CGFappearance(this.scene);
-        //appearance.setTexture(this.textures['demoTexture']);
+        //this.appearances.push(new CGFappearance(this.scene));
 
-        appearance.apply();
-
-        this.displayComponent(this.idRoot, appearance);
+        this.displayComponent(this.idRoot, new CGFappearance(this.scene), null);
     }
 }
