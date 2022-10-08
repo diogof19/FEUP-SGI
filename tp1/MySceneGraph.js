@@ -1,4 +1,4 @@
-import { CGFappearance, CGFXMLreader, CGFtexture } from '../lib/CGF.js';
+import { CGFappearance, CGFXMLreader, CGFtexture, CGFcamera, CGFcameraOrtho } from '../lib/CGF.js';
 import { MyCylinder } from './MyCylinder.js';
 import { MyRectangle } from './MyRectangle.js';
 import { MySphere } from './MySphere.js';
@@ -236,7 +236,202 @@ export class MySceneGraph {
      * @param {view block element} viewsNode
      */
     parseView(viewsNode) {
-        this.onXMLMinorError("To do: Parse views and create cameras.");
+        this.views = []
+
+        let foundCamera = false
+
+        for (let i = 0; i < viewsNode.children.length; i++) {
+
+            let camera = viewsNode.children[i];
+            
+            if (camera.nodeName !== 'perspective' && camera.nodeName !== 'ortho') {
+                this.onXMLMinorError("unknown tag <" + camera.nodeName + ">");
+                continue;
+            }
+            
+
+            foundCamera = true
+
+            let cameraID = this.reader.getString(camera, 'id');
+
+            let near = this.reader.getFloat(camera, 'near');
+            if (near == null || isNaN(near)) {
+                console.log('Error parsing camera ' + cameraID);
+                continue;
+            }
+
+            let far = this.reader.getFloat(camera, 'far');
+            if (far == null || isNaN(far)) {
+                console.log('Error parsing camera ' + cameraID);
+                continue;
+            }
+
+            if (camera.nodeName == 'perspective') {
+                let angle = this.reader.getFloat(camera, 'angle');
+                if (angle == null || isNaN(angle)) {
+                    console.log('Error parsing camera ' + cameraID);
+                    continue;
+                }
+                
+                let from = vec3.fromValues(0, 0, 0);
+                let to = vec3.fromValues(0, 0, 0);
+
+                let foundFrom = false;
+                let foundTo = false;
+
+                for (let j = 0; j < camera.children.length; j++) {
+                    let coords = camera.children[j];
+
+                    if (coords.nodeName != 'from' && coords.nodeName != 'to') {
+                        this.onXMLMinorError("unknown tag <" + camera.nodeName + ">");
+                        continue;
+                    }
+
+                    if (coords.nodeName == 'from') {
+                        foundFrom = true;
+                        let x = this.reader.getFloat(coords, 'x');
+                        let y = this.reader.getFloat(coords, 'y');
+                        let z = this.reader.getFloat(coords, 'z');
+
+                        if (x == null || y == null || z == null || isNaN(x) || isNaN(y) || isNaN(z)) {
+                            this.onXMLMinorError('Camera ' + cameraID + 'coordinates wrong');
+                            continue;
+                        }
+
+                        from = vec3.fromValues(x, y, z);
+                    }
+
+                    else if (coords.nodeName == 'to') {
+                        foundTo = true;
+                        let x = this.reader.getFloat(coords, 'x');
+                        let y = this.reader.getFloat(coords, 'y');
+                        let z = this.reader.getFloat(coords, 'z');
+
+                        if (x == null || y == null || z == null || isNaN(x) || isNaN(y) || isNaN(z)) {
+                            this.onXMLMinorError('Camera ' + cameraID + 'coordinates wrong');
+                            continue;
+                        }
+
+                        to = vec3.fromValues(x, y, z);
+                    }
+                }
+
+                if (foundFrom && foundTo) {
+                    this.views[cameraID] = new CGFcamera(angle, near, far, from, to);
+                }
+                else {
+                    this.onXMLMinorError('Camera ' + cameraID + 'missing from or to');
+                }
+            }
+
+            else if (camera.nodeName == 'ortho') {
+                let left = this.reader.getFloat(camera, 'left');
+                if (left == null || isNaN(left)) {
+                    console.log('Error parsing camera ' + cameraID);
+                    continue;
+                }
+
+                let right = this.reader.getFloat(camera, 'right');
+                if (right == null || isNaN(right)) {
+                    console.log('Error parsing camera ' + cameraID);
+                    continue;
+                }
+
+                let top = this.reader.getFloat(camera, 'top');
+                if (top == null || isNaN(top)) {
+                    console.log('Error parsing camera ' + cameraID);
+                    continue;
+                }
+
+                let bottom = this.reader.getFloat(camera, 'bottom');
+                if (bottom == null || isNaN(bottom)) {
+                    console.log('Error parsing camera ' + cameraID);
+                    continue;
+                }
+                
+                let from = vec3.fromValues(0, 0, 0);
+                let to = vec3.fromValues(0, 0, 0);
+                let up = vec3.fromValues(0, 1, 0);
+
+                let foundFrom = false;
+                let foundTo = false;
+
+                for (let j = 0; j < camera.children.length; j++) {
+                    let coords = camera.children[j];
+
+                    if (coords.nodeName != 'from' && coords.nodeName != 'to' && coords.nodeName != 'up') {
+                        this.onXMLMinorError("unknown tag <" + camera.nodeName + ">");
+                        continue;
+                    }
+
+                    if (coords.nodeName == 'from') {
+                        foundFrom = true;
+                        let x = this.reader.getFloat(coords, 'x');
+                        let y = this.reader.getFloat(coords, 'y');
+                        let z = this.reader.getFloat(coords, 'z');
+
+                        if (x == null || y == null || z == null || isNaN(x) || isNaN(y) || isNaN(z)) {
+                            this.onXMLError('Camera ' + cameraID + 'coordinates wrong');
+                            continue;
+                        }
+
+                        from = vec3.fromValues(x, y, z);
+                    }
+
+                    else if (coords.nodeName == 'to') {
+                        foundTo = true;
+                        let x = this.reader.getFloat(coords, 'x');
+                        let y = this.reader.getFloat(coords, 'y');
+                        let z = this.reader.getFloat(coords, 'z');
+
+                        if (x == null || y == null || z == null || isNaN(x) || isNaN(y) || isNaN(z)) {
+                            this.onXMLError('Camera ' + cameraID + 'coordinates wrong');
+                            continue;
+                        }
+
+                        to = vec3.fromValues(x, y, z);
+                    }
+
+                    else if (coords.nodeName == 'up') {
+                        let x = this.reader.getFloat(coords, 'x');
+                        let y = this.reader.getFloat(coords, 'y');
+                        let z = this.reader.getFloat(coords, 'z');
+
+                        if (x == null || y == null || z == null || isNaN(x) || isNaN(y) || isNaN(z)) {
+                            this.onXMLError('Camera ' + cameraID + 'coordinates wrong');
+                            continue;
+                        }
+
+                        up = vec3.fromValues(x, y, z);
+                    }
+                }
+
+                if (foundFrom && foundTo) {
+                    this.views[cameraID] = new CGFcameraOrtho(left, right, bottom, top, near, far, from, to, up);
+                }
+                else {
+                    this.onXMLMinorError('Camera ' + cameraID + 'missing from or to');
+                }
+            }
+            
+        }
+
+        if (!foundCamera) {
+            this.onXMLError('No cameras in scene');
+        }
+
+        this.selectedCamera = this.reader.getString(viewsNode, 'default');
+
+        if (this.selectedCamera == null) {
+            this.onXMLError('No default camera');
+        }
+        else {
+            this.scene.camera = this.views[this.selectedCamera];
+        }
+
+        console.log(this.views);
+
+        this.log('Parsed cameras');
 
         return null;
     }

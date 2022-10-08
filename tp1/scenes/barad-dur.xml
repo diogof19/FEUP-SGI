@@ -10,6 +10,11 @@
             <from x="0" y="39" z="10" />
             <to x="0" y="39" z="0" />
         </perspective>
+        <ortho id="orthoCam" near="0.5" far="1000" left="20" right="20" bottom="20" top="20">
+            <from x="0" y="39" z="10" />
+            <to x="0" y="0" z="0" />
+            <up x="10" y="10" z="10" />
+        </ortho>
     </views>
 
     <ambient>
