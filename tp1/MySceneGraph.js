@@ -425,11 +425,6 @@ export class MySceneGraph {
         if (this.selectedCamera == null) {
             this.onXMLError('No default camera');
         }
-        else {
-            this.scene.camera = this.views[this.selectedCamera];
-        }
-
-        console.log(this.views);
 
         this.log('Parsed cameras');
 

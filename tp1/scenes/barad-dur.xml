@@ -1,7 +1,7 @@
 <sxs>
     <scene root="rootComponent" axis_length="0"/>
 
-    <views default="defaultCamera">
+    <views default="eyeCamera">
         <perspective id="defaultCamera" near="0.1" far="500" angle="45">
             <from x="0" y="60" z="150" />
             <to x="0" y="20" z="0" />
