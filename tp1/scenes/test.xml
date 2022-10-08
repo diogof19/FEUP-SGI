@@ -1,5 +1,5 @@
 <sxs>
-    <scene root="demoRoot" axis_length="5"/>
+    <scene root="demoDoot" axis_length="5"/>
 
     <views default="defaultCamera">
         <perspective id="defaultCamera" near="0.1" far="500" angle="45">
@@ -23,7 +23,9 @@
     </lights>
 
     <textures>
-        <texture id="demoTexture" file="scenes/images/vidral.jpg" />
+        <texture id="vidralTexture" file="scenes/images/vidral.jpg" />
+        <texture id="leavesTexture" file="scenes/images/leaves.jpg" />
+        <texture id="trunkTexture" file="scenes/images/trunk-image.jpg" />
     </textures>
 
     <materials>
@@ -74,7 +76,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="demoTexture" length_s="1" length_t="1" />
+            <texture id="none"/>
             <children>
                 <primitiveref id="Triangle" />
             </children>
@@ -90,7 +92,7 @@
                 <material id="redMaterial" />
                 <material id="demoMaterial" />
             </materials>
-            <texture id="demoTexture" length_s="1" length_t="1" />
+            <texture id="leavesTexture" length_s="1" length_t="1" />
             <children>
                 <primitiveref id="Cylinder" />
                 <componentref id="demoBoot" />
