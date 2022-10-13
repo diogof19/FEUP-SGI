@@ -23,7 +23,6 @@ export class MySphere extends CGFobject {
         let index = 0;
         let verticesByStack = this.slices * 2;
     
-        // Make trigonometric calculations only for an octant of the sphere
         for (let latitude = 0; latitude <= this.stacks; latitude++) {
             // Don't repeat points at the poles of the sphere
             if (latitude === 0) {
@@ -41,7 +40,6 @@ export class MySphere extends CGFobject {
                 let sinPhi = Math.sin(phi);
                 let cosPhi = Math.cos(phi);
 
-                // In each stack, build the slices for 1st octant and use reflexions for remaining octants
                 theta = 0;
 
                 for (let longitude = 0; longitude < this.slices; longitude++) {
@@ -90,6 +88,9 @@ export class MySphere extends CGFobject {
                                 0, index, index + 2,
                                 // South
                                 index + 1 + 2, index + 1, 1,  
+                            );
+                            this.texCoords.push(
+
                             );
                         }
                         else {

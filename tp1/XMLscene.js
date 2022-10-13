@@ -105,6 +105,8 @@ export class XMLscene extends CGFscene {
 
         this.initLights();
 
+        this.interface.onGraphLoaded();
+
         this.sceneInited = true;
     }
 
