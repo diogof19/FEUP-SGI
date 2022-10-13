@@ -22,6 +22,7 @@ export class MyInterface extends CGFinterface {
         //  http://workshop.chromeexperiments.com/examples/gui
 
         this.gui = new dat.GUI();
+        this.scene = application.scene;
 
         // add a group of controls (and open/expand by defult)
 
@@ -49,5 +50,15 @@ export class MyInterface extends CGFinterface {
 
     isKeyPressed(keyCode) {
         return this.activeKeys[keyCode] || false;
+    }
+
+    onGraphLoaded() {
+        var itemNames = Object.keys(this.scene.graph.views)
+        this.gui.add(this.scene.graph, 'selectedCamera', itemNames)
+            .name('theSelectionBoxLabel')
+            .onChange((value) => {
+            this.scene.graph.selectedCamera = value;
+            this.scene.updateCamera();
+        });
     }
 }
