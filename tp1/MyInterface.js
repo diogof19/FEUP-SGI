@@ -36,18 +36,11 @@ export class MyInterface extends CGFinterface {
      */
     initKeys() {
         this.scene.gui=this;
-        this.processKeyboard = function(){
-            if(this.isKeyPressed("KeyM")){
-                console.log(this.scene.graph.materialIndex);
-                this.scene.graph.incrementMaterialIndex();
-            } 
-        };
-        this.activeKeys={"KeyM": true};
+        this.activeKeys={};
     }
 
     processKeyDown(event) {
         this.activeKeys[event.code]=true;
-        console.log(event);
     };
 
     processKeyUp(event) {
@@ -66,5 +59,10 @@ export class MyInterface extends CGFinterface {
             this.scene.graph.selectedCamera = value;
             this.scene.updateCamera();
         });
+        this.processKeyboard = function(){
+            if(this.isKeyPressed("KeyM")){
+                this.scene.graph.incrementMaterialIndex();
+            } 
+        };
     }
 }
