@@ -22,6 +22,7 @@ export class MyInterface extends CGFinterface {
         //  http://workshop.chromeexperiments.com/examples/gui
 
         this.gui = new dat.GUI();
+        this.scene = application.scene;
 
         // add a group of controls (and open/expand by defult)
 
@@ -35,12 +36,18 @@ export class MyInterface extends CGFinterface {
      */
     initKeys() {
         this.scene.gui=this;
-        this.processKeyboard=function(){};
-        this.activeKeys={};
+        this.processKeyboard = function(){
+            if(this.isKeyPressed("KeyM")){
+                console.log(this.scene.graph.materialIndex);
+                this.scene.graph.incrementMaterialIndex();
+            } 
+        };
+        this.activeKeys={"KeyM": true};
     }
 
     processKeyDown(event) {
         this.activeKeys[event.code]=true;
+        console.log(event);
     };
 
     processKeyUp(event) {

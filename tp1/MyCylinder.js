@@ -62,8 +62,7 @@ export class MyCylinder extends CGFobject {
 	 * Updates the list of texture coordinates of the rectangle
 	 * @param {Array} coords - Array of texture coordinates
 	 */
-	updateTexCoords(coords) {
-		this.texCoords = [...coords];
+	updateTexCoords(length_s, length_t) {
 		this.updateTexCoordsGLBuffers();
 	}
 }

@@ -38,6 +38,8 @@ export class MySceneGraph {
 
         this.idRoot = null;                    // The id of the root element.
 
+        this.materialIndex = 0;
+
         this.axisCoords = [];
         this.axisCoords['x'] = [1, 0, 0];
         this.axisCoords['y'] = [0, 1, 0];
@@ -1126,6 +1128,10 @@ export class MySceneGraph {
                     }
                     component.length_t = length_t;
                 }
+                else{
+                    component.length_s = 1;
+                    component.length_t = 1;
+                }
             }
 
             // Children
@@ -1286,30 +1292,38 @@ export class MySceneGraph {
         console.log("   " + message);
     }
 
+    incrementMaterialIndex(){
+        this.materialIndex++;
+    }
+
     /**
      * 
      * @param {*} cid 
      * @param {CGFappearance} parentMaterial 
      */
-    displayComponent(cid, parentMaterial, parentTexture) {
+    displayComponent(cid, parentMaterial, parentTexture, length_s, length_t) {
         let component = this.components[cid];
 
         var nodeMaterial = new CGFappearance(this.scene);
-        var nodeTexture;
+        var nodeTexture, nodeLength_s, nodeLength_t;
 
         if(component.materials[0] == "inherit"){
             nodeMaterial = parentMaterial;
         }
         else{
-            nodeMaterial = this.appearances[component.materials[0]];
+            nodeMaterial = this.appearances[component.materials[this.materialIndex % component.materials.length]];
         }
         
         if(component.texture == "none"){
             nodeTexture = null;
         } else if(component.texture == "inherit"){
             nodeTexture = parentTexture;
+            nodeLength_s = length_s;
+            nodeLength_t = length_t;
         } else {
             nodeTexture = this.textures[component.texture];
+            nodeLength_s = component.length_s;
+            nodeLength_t = component.length_t;
         }
 
         nodeMaterial.setTexture(nodeTexture);
@@ -1318,10 +1332,13 @@ export class MySceneGraph {
         this.scene.pushMatrix();
         this.scene.multMatrix(component.transfMatrix);
         for (let i = 0; i < component.primitives.length; i++) {
-            this.primitives[component.primitives[i]].display();
+            var primitive = this.primitives[component.primitives[i]];
+            primitive.updateTexCoords(nodeLength_s, nodeLength_t);
+            primitive.display();
+            primitive.updateTexCoords(1 / nodeLength_s, 1 / nodeLength_t);
         }
         for (let i = 0; i < component.components.length; i++) {
-            this.displayComponent(component.components[i], nodeMaterial, nodeTexture);
+            this.displayComponent(component.components[i], nodeMaterial, nodeTexture, nodeLength_s, nodeLength_t);
         }
         this.scene.popMatrix();
     }
