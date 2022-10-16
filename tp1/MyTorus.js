@@ -19,19 +19,20 @@ export class MyTorus extends CGFobject {
 
         // Outer angle
         let phi = 0;
-        // Inner angle
-        let theta = 0;
 
         let phiInc = (2 * Math.PI) / this.loops;
         let thetaInc = (2 * Math.PI) / this.slices;
 
         let index = 0;
 
-        for (let loop = 0; loop < this.loops; loop++) {
+        for (let loop = 0; loop <= this.loops; loop++) {
             let sinPhi = Math.sin(phi);
             let cosPhi = Math.cos(phi);
 
-            for (let slice = 0; slice < this.slices; slice++) {
+            // Inner angle
+            let theta = 0;
+
+            for (let slice = 0; slice <= this.slices; slice++) {
                     let sinTheta = Math.sin(theta);
                     let cosTheta = Math.cos(theta);
 
@@ -48,30 +49,16 @@ export class MyTorus extends CGFobject {
                         sinPhi * cosTheta, cosPhi * cosTheta, sinTheta
                     );
                     
-                    if (slice != this.slices - 1 && loop != this.loops - 1) {
+                    if (loop != this.loops) {
                         this.indices.push(
-                            index, index + 1, index + this.slices + 1,
-                            index + this.slices + 1, index + this.slices, index
-                        )
-                    }
-                    else if (loop != this.loops - 1) {
-                        this.indices.push(
-                            index, index - this.slices + 1, index + 1,
-                            index + 1, index + this.slices, index
+                            index + this.slices + 1, index + this.slices, index,
+                            index, index + 1, index + this.slices + 1
                         );
                     }
-                    else if (slice != this.slices - 1) {
-                        this.indices.push(
-                            index, index + 1, index + 1 - this.slices * (this.loops - 1),
-                            index + 1 - this.slices * (this.loops - 1), index - this.slices * (this.loops - 1), index
-                        );
-                    }
-                    else  {
-                        this.indices.push(
-                            index, index - this.slices + 1, 0,
-                            0, this.slices - 1, index
-                        );
-                    }
+
+                    this.texCoords.push(
+                        1 - (theta / (2 * Math.PI)), 1 - (phi / (2 * Math.PI))
+                    );
 
                     theta += thetaInc;
 
