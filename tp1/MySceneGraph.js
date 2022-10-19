@@ -537,16 +537,16 @@ export class MySceneGraph {
                         var aux = this.parseCoordinates4D(grandChildren[attributeIndex], "light position for ID" + lightId);
                     else if(attributeTypes[j] == "color")
                         var aux = this.parseColor(grandChildren[attributeIndex], attributeNames[j] + " illumination for ID" + lightId);
-                    else{
-                        var constant = this.reader.getFloat(grandChildren[j], 'constant')
+                    else{ //target in spot
+                        var constant = this.reader.getFloat(grandChildren[attributeIndex], 'constant')
                         if (!(constant != null && !isNaN(constant)))
                             return "unable to parse constant attenuation of the light for ID = " + lightId;
 
-                        var linear = this.reader.getFloat(grandChildren[j], 'linear')
+                        var linear = this.reader.getFloat(grandChildren[attributeIndex], 'linear')
                         if (!(linear != null && !isNaN(linear)))
                             return "unable to parse linear attenuation of the light for ID = " + lightId;
 
-                        var quadratic = this.reader.getFloat(grandChildren[j], 'quadratic')
+                        var quadratic = this.reader.getFloat(grandChildren[attributeIndex], 'quadratic')
                         if (!(quadratic != null && !isNaN(quadratic)))
                             return "unable to parse quadratic attenuation of the light for ID = " + lightId;
 
