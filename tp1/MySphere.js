@@ -24,25 +24,12 @@ export class MySphere extends CGFobject {
         let verticesByStack = this.slices * 2;
     
         for (let latitude = 0; latitude <= this.stacks; latitude++) {
-            // Don't repeat points at the poles of the sphere
-            if (latitude === 0) {
-                this.vertices.push(
-                    0, 0, this.radius,
-                    0, 0, -this.radius
-                );
-                this.normals.push(
-                    0, 0, 1,
-                    0, 0, -1,
-                );
-                index += 2;
-            }
-            else {
                 let sinPhi = Math.sin(phi);
                 let cosPhi = Math.cos(phi);
 
                 theta = 0;
 
-                for (let longitude = 0; longitude < this.slices; longitude++) {
+                for (let longitude = 0; longitude <= this.slices; longitude++) {
                     let sinTheta = Math.sin(theta);
                     let cosTheta = Math.cos(theta);
 
@@ -58,55 +45,24 @@ export class MySphere extends CGFobject {
                         sinPhi * cosTheta, sinPhi * sinTheta, cosPhi,                 
                         sinPhi * cosTheta, sinPhi * sinTheta, -cosPhi,
                     );
-
-                    if (longitude == this.slices - 1) {
-                        // Use triagles instead of quadrilaterals at the poles of the sphere
-                        if (phi === phiInc) {
-                            this.indices.push(
-                                // North
-                                0, index, index - verticesByStack + 2,
-                                // South
-                                1, index + 1 - verticesByStack + 2, index + 1
-                            );
-                        }
-                        else {
-                            this.indices.push(
-                                // North
-                                index - verticesByStack, index, index - verticesByStack + 2,
-                                index - verticesByStack + 2, index - verticesByStack * 2 + 2, index - verticesByStack,
-                                // South
-                                index + 1 - verticesByStack + 2, index + 1, index + 1 - verticesByStack,
-                                index + 1 - verticesByStack, index + 1 - verticesByStack * 2 + 2, index + 1 - verticesByStack + 2,
-                            );
-                        }
+                    if (latitude != this.stacks) {
+                        this.indices.push(
+                            // North
+                            index, index + verticesByStack, index + verticesByStack + 2,
+                            index + verticesByStack + 2, index + 2, index,
+                            // South
+                            index + 1, index + 1 + 2, index + verticesByStack + 1 + 2,
+                            index + verticesByStack + 1 + 2, index + verticesByStack + 1, index + 1
+                        );
                     }
-                    else {
-                        // Use triagles instead of quadrilaterals at the poles of the sphere
-                        if (phi === phiInc) {
-                            this.indices.push(
-                                // North
-                                0, index, index + 2,
-                                // South
-                                index + 1 + 2, index + 1, 1,  
-                            );
-                            this.texCoords.push(
-
-                            );
-                        }
-                        else {
-                            this.indices.push(
-                                // North
-                                index - verticesByStack, index, index + 2,
-                                index + 2, index - verticesByStack + 2, index - verticesByStack,
-                                // South
-                                index + 1, index + 1 - verticesByStack, index + 1 - verticesByStack + 2,
-                                index + 1 - verticesByStack + 2, index + 1 + 2, index + 1,
-                            );
-                        }
-                    }
+                    this.texCoords.push(
+                        // North
+                        theta / (2 * Math.PI), cosPhi / 2 + 0.5,
+                        // South
+                        theta / (2 * Math.PI), 0.5 - cosPhi / 2,
+                    )
                     theta += thetaInc;
                     index += 2;
-                }
             }
             phi += phiInc;
         }
@@ -121,7 +77,6 @@ export class MySphere extends CGFobject {
 	 * @param {Array} coords - Array of texture coordinates
 	 */
 	updateTexCoords(length_s, length_t) {
-		//this.texCoords = [...coords];
 		this.updateTexCoordsGLBuffers();
 	}
 
