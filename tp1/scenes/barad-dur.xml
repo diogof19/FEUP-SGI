@@ -37,8 +37,8 @@
     </lights>
 
     <textures>
-        <texture id="demoTexture" file="scenes/images/vidral.jpg" />
-        <texture id="towerTexture" file="scenes/images/tower_side_stone.jpg" />
+        <texture id="demoTexture" file="scenes/images/ground_seamless_texture_7138.jpg" />
+        <texture id="towerTexture" file="scenes/images/photos_2019_8_20_fst_dark-grunge-wall.jpg" />
         <texture id="parapeetTexture" file="scenes/images/leaves.jpg" />
         <texture id="towerFloorTexture" file="scenes/images/trunk-image.jpg" />
         <texture id="triangleTopTower" file="scenes/images/vidral.jpg" />
@@ -132,7 +132,7 @@
             <materials>
                 <material id="towerMaterial" />
             </materials>
-            <texture id="towerTexture" length_s="1" length_t="1"/>
+            <texture id="inherit"/>
             <children>
                 <componentref id="baseCylinder"/>
                 <componentref id="baseParapets"/>
@@ -144,7 +144,7 @@
             <materials>
                 <material id="towerMaterial" />
             </materials>
-            <texture id="towerTexture" length_s="1" length_t="1"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="tower"/>
                 <componentref id="baseFloor"/>
@@ -419,7 +419,7 @@
             <materials>
                 <material id="towerMaterial" />
             </materials>
-            <texture id="demoTexture" length_s="0.5" length_t="0.5"/>
+            <texture id="demoTexture" length_s="0.1" length_t="0.1"/>
             <children>
                 <primitiveref id="groundRectangle" />
             </children>

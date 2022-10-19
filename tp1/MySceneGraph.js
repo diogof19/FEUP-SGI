@@ -1327,6 +1327,7 @@ export class MySceneGraph {
         }
 
         nodeMaterial.setTexture(nodeTexture);
+        nodeMaterial.setTextureWrap('REPEAT', 'REPEAT')
         nodeMaterial.apply();
 
         this.scene.pushMatrix();
