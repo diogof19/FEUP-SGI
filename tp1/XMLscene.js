@@ -38,6 +38,8 @@ export class XMLscene extends CGFscene {
 
         this.axis = new CGFaxis(this);
         this.setUpdatePeriod(100);
+
+        this.displayLights = false;
     }
 
     /**
@@ -72,17 +74,18 @@ export class XMLscene extends CGFscene {
                     this.lights[i].setSpotDirection(light[8][0], light[8][1], light[8][2]);
                 }
 
-                this.lights[i].setVisible(true);
+                this.lights[i].setVisible(this.displayLights);
                 if (light[0])
                     this.lights[i].enable();
                 else
                     this.lights[i].disable();
 
                 this.lights[i].update();
-
-                i++;
             }
+
+            i++;
         }
+
     }
 
     setDefaultAppearance() {
@@ -115,6 +118,38 @@ export class XMLscene extends CGFscene {
         this.interface.setActiveCamera(this.camera);
     }
 
+    updateLights() {
+        var i = 0;
+        for (var key in this.graph.lights) {
+            if (i >= 8)
+                break;
+
+            if (this.graph.lights.hasOwnProperty(key)) {
+                if (this.lights[i]['enabled'])
+                    this.lights[i].enable();
+                else
+                    this.lights[i].disable();
+
+                this.lights[i].update();
+                i++;
+            }
+        }
+    }
+
+    updateLightsVisibility() {
+        var i = 0;
+        for (var key in this.graph.lights) {
+            if (i >= 8)
+                break;
+
+            if (this.graph.lights.hasOwnProperty(key)) {
+                this.lights[i].setVisible(this.displayLights);
+                this.lights[i].update();
+                i++;
+            }
+        }
+    }
+
     /**
      * Displays the scene.
      */
@@ -135,10 +170,7 @@ export class XMLscene extends CGFscene {
         this.pushMatrix();
         this.axis.display();
 
-        for (var i = 0; i < this.lights.length; i++) {
-            this.lights[i].setVisible(true);
-            this.lights[i].enable();
-        }
+        this.updateLights();
 
         if (this.sceneInited) {
             // Draw axis

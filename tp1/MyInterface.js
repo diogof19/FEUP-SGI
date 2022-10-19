@@ -54,7 +54,7 @@ export class MyInterface extends CGFinterface {
     onGraphLoaded() {
         var itemNames = Object.keys(this.scene.graph.views)
         this.gui.add(this.scene.graph, 'selectedCamera', itemNames)
-            .name('theSelectionBoxLabel')
+            .name('Selected Camera')
             .onChange((value) => {
             this.scene.graph.selectedCamera = value;
             this.scene.updateCamera();
@@ -64,5 +64,13 @@ export class MyInterface extends CGFinterface {
                 this.scene.graph.incrementMaterialIndex();
             } 
         };
+
+        this.gui.add(this.scene, 'displayLights').name('Lights Visible').onChange(this.scene.updateLightsVisibility.bind(this.scene));
+
+        var folder = this.gui.addFolder("Lights");
+        var lightNames = Object.keys(this.scene.graph.lights);
+        for(let i = 0; i < lightNames.length; i++){
+            folder.add(this.scene.lights[i], 'enabled').name(lightNames[i]).onChange(this.scene.updateLights.bind(this.scene));
+        }
     }
 }
