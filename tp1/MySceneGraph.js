@@ -496,8 +496,8 @@ export class MySceneGraph {
                 continue;
             }
             else {
-                attributeNames.push(...["location", "ambient", "diffuse", "specular"]);
-                attributeTypes.push(...["position", "color", "color", "color"]);
+                attributeNames.push(...["location", "ambient", "diffuse", "specular", "attenuation"]);
+                attributeTypes.push(...["position", "color", "color", "color", "attenuation"]);
             }
 
             // Get id of the current light.
@@ -535,8 +535,26 @@ export class MySceneGraph {
                 if (attributeIndex != -1) {
                     if (attributeTypes[j] == "position")
                         var aux = this.parseCoordinates4D(grandChildren[attributeIndex], "light position for ID" + lightId);
-                    else
+                    else if(attributeTypes[j] == "color")
                         var aux = this.parseColor(grandChildren[attributeIndex], attributeNames[j] + " illumination for ID" + lightId);
+                    else{
+                        var constant = this.reader.getFloat(grandChildren[j], 'constant')
+                        if (!(constant != null && !isNaN(constant)))
+                            return "unable to parse constant attenuation of the light for ID = " + lightId;
+
+                        var linear = this.reader.getFloat(grandChildren[j], 'linear')
+                        if (!(linear != null && !isNaN(linear)))
+                            return "unable to parse linear attenuation of the light for ID = " + lightId;
+
+                        var quadratic = this.reader.getFloat(grandChildren[j], 'quadratic')
+                        if (!(quadratic != null && !isNaN(quadratic)))
+                            return "unable to parse quadratic attenuation of the light for ID = " + lightId;
+
+                        if((constant && linear) || (constant && quadratic) || (linear && quadratic))
+                            return "only one attenuation value can be 1 in the light with ID = " + lightId;
+                        
+                            var aux = [constant, linear, quadratic];
+                    }
 
                     if (!Array.isArray(aux))
                         return aux;
