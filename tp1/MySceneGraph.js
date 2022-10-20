@@ -66,6 +66,10 @@ export class MySceneGraph {
         // Here should go the calls for different functions to parse the various blocks
         var error = this.parseXMLFile(rootElement);
 
+        if (error == null) {
+            error = this.checkSceneGraphCycles();
+        }
+
         if (error != null) {
             this.onXMLError(error);
             return;
@@ -75,6 +79,48 @@ export class MySceneGraph {
 
         // As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
         this.scene.onGraphLoaded();
+    }
+
+    isCyclicUtil(cid, visited, recStack) {
+        if (recStack[cid]) return true;
+
+        if (visited[cid]) return false;
+
+        visited[cid] = true;
+
+        recStack[cid] = true;
+
+        let children = this.components[cid].components;
+
+        for (let i = 0; i < children.length; i++) {
+            if (this.isCyclicUtil(children[i], visited, recStack)) {
+                return true;
+            }
+        }
+
+        recStack[cid] = false;
+
+        return false;
+    }
+
+    checkSceneGraphCycles() {
+        let visited = [];
+        let recStack = [];
+
+        let componentNames = Object.keys(this.components);
+
+        for (let i = 0; i < componentNames.length; i++) {
+            visited[componentNames[i]] = false;
+            recStack[componentNames[i]] = false;
+        }
+
+        for (let i = 0; i < componentNames.length; i++) {
+            if (this.isCyclicUtil(componentNames[i], visited, recStack)) {
+                return "Scene graph contains cycle";
+            }
+        }
+
+        return null
     }
 
     /**
