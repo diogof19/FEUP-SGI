@@ -35,7 +35,13 @@ export class MyCylinder extends CGFobject {
                 var vY = sin * radius;
                 
                 this.vertices.push(vX, vY, vZ);
-                this.normals.push(cos, sin, nZ);
+
+                var normal = vec3.create();
+                normal = vec3.fromValues(cos, sin, nZ);
+                var normalized = vec3.create();
+                normalized = vec3.normalize(normalized, normal);
+
+                this.normals.push(normalized.x, normalized.y, normalized.z);
 
                 if(stack != this.stacks && slice != this.slices){
                     var v1 = (this.slices + 1) * stack + slice;

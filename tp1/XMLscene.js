@@ -54,7 +54,7 @@ export class XMLscene extends CGFscene {
     initLights() {
         var i = 0;
         // Lights index.
-        console.log(this.graph.lights);
+        
         // Reads the lights from the scene graph.
         for (var key in this.graph.lights) {
             if (i >= 8)
@@ -75,7 +75,7 @@ export class XMLscene extends CGFscene {
                 if (light[1] == "spot") {
                     this.lights[i].setSpotCutOff(light[7]);
                     this.lights[i].setSpotExponent(light[8]);
-                    this.lights[i].setSpotDirection(light[9][0], light[9][1], light[9][2]);
+                    this.lights[i].setSpotDirection(light[9][0] - light[2][0], light[9][1] - light[2][1], light[9][2] - light[2][3]);
                 }
 
                 this.lights[i].setVisible(this.displayLights);
@@ -89,8 +89,6 @@ export class XMLscene extends CGFscene {
 
             i++;
         }
-
-        console.log(this.lights);
 
     }
 

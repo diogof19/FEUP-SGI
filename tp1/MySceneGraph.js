@@ -552,8 +552,10 @@ export class MySceneGraph {
 
                         if((constant && linear) || (constant && quadratic) || (linear && quadratic))
                             return "only one attenuation value can be 1 in the light with ID = " + lightId;
-                        
-                            var aux = [constant, linear, quadratic];
+                        if(constant != 1 && linear != 1 && quadratic != 1)
+                            return "one attenuation value needs to be 1 in the light with ID = " + lightId;
+
+                        var aux = [constant, linear, quadratic];
                     }
 
                     if (!Array.isArray(aux))
@@ -642,7 +644,6 @@ export class MySceneGraph {
             return "no textures defined"
 
         //For each texture in textures block, check ID and file URL
-        this.onXMLMinorError("To do: Review parse textures.");
         return null;
     }
 
@@ -1041,18 +1042,6 @@ export class MySceneGraph {
             grandgrandChildren = grandChildren[transformationIndex].children;
 
             let transfMatrix = mat4.create();
-
-            /*
-            var transformationNodeNames = [];
-            for (var j = 0; j < grandgrandChildren.length; j++) {
-                transformationNodeNames.push(grandgrandChildren[j].nodeName);
-            }
-            console.log(transformationNodeNames);
-
-            if(transformationNodeNames.indexOf("transformationref") != -1 && transformationNodeNames.length > 1){
-                this.onXMLError("if component has one transformationref, it can't have other transformations (ID = " + componentID + ")");
-            }
-            */
             
             for (let k = 0; k < grandgrandChildren.length; k++) {
                 switch (grandgrandChildren[k].nodeName) {
