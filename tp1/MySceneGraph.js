@@ -1041,6 +1041,18 @@ export class MySceneGraph {
             grandgrandChildren = grandChildren[transformationIndex].children;
 
             let transfMatrix = mat4.create();
+
+            /*
+            var transformationNodeNames = [];
+            for (var j = 0; j < grandgrandChildren.length; j++) {
+                transformationNodeNames.push(grandgrandChildren[j].nodeName);
+            }
+            console.log(transformationNodeNames);
+
+            if(transformationNodeNames.indexOf("transformationref") != -1 && transformationNodeNames.length > 1){
+                this.onXMLError("if component has one transformationref, it can't have other transformations (ID = " + componentID + ")");
+            }
+            */
             
             for (let k = 0; k < grandgrandChildren.length; k++) {
                 switch (grandgrandChildren[k].nodeName) {
@@ -1074,6 +1086,9 @@ export class MySceneGraph {
                         transfMatrix = mat4.rotate(transfMatrix, transfMatrix, angle * DEGREE_TO_RAD, [axis == 'x' ? 1 : 0, axis == 'y' ? 1 : 0, axis == 'z' ? 1 : 0]);
                         break;
                     case 'transformationref':
+                        if(grandgrandChildren.length > 1){
+                            return "if component has one transformationref, it can't have other transformations (ID = " + componentID + ")";
+                        }
                         let transformationref = this.reader.getString(grandgrandChildren[k], "id");
                         if (transformationref == null) {
                             this.onXMLError("transformationref " + k + " on component " + componentID + " must have an ID");

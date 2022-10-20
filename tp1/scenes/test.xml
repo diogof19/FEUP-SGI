@@ -19,6 +19,7 @@
             <ambient r="1" g="1" b="1" a="1.0" />
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
             <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+            <attenuation constant="0" linear="1" quadratic="0" />
         </omni>
     </lights>
 
@@ -72,11 +73,12 @@
     <components>
         <component id="demoDoot">
             <transformation>
+                <transformationref id="demoTransform"/>
             </transformation>
             <materials>
                 <material id="redMaterial" />
             </materials>
-            <texture id="vidralTexture"/>
+            <texture id="vidralTexture" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="torus" />
             </children>
