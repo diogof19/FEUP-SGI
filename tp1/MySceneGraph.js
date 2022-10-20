@@ -1349,6 +1349,8 @@ export class MySceneGraph {
         
         if(component.texture == "none"){
             nodeTexture = null;
+            nodeLength_s = 1;
+            nodeLength_t = 1;
         } else if(component.texture == "inherit"){
             nodeTexture = parentTexture;
             nodeLength_s = length_s;
@@ -1385,6 +1387,6 @@ export class MySceneGraph {
         //Create default appearance (need to get the root node appearance)
         //this.appearances.push(new CGFappearance(this.scene));
 
-        this.displayComponent(this.idRoot, new CGFappearance(this.scene), null);
+        this.displayComponent(this.idRoot, new CGFappearance(this.scene), null, 1, 1);
     }
 }

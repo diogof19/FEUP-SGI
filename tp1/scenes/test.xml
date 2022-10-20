@@ -1,5 +1,5 @@
 <sxs>
-    <scene root="demoDoot" axis_length="5"/>
+    <scene root="root" axis_length="5"/>
 
     <views default="defaultCamera">
         <perspective id="defaultCamera" near="0.1" far="500" angle="45">
@@ -68,19 +68,168 @@
                         x2="1" y2="0" z2="0"
                         x3="0" y3="1" z3="0" />
         </primitive>
+        <primitive id="flatTorus">
+            <torus inner="1" outer="0" slices="100" loops="2" />
+        </primitive>
+        <primitive id="outerTowerDecorTriangle">
+            <triangle   x1="0" y1="0" z1="0"
+                        x2="1" y2="0" z2="0"
+                        x3="0.5" y3="1" z3="0" />
+        </primitive>
+        <primitive id="outerTowerDecorRectangle">
+            <rectangle x1="0" y1="-1" x2="1" y2="0" />
+        </primitive>
+        <primitive id="cubeFace" >
+            <rectangle x1="0" y1="0" x2="1" y2="1" />
+        </primitive>
     </primitives>
 
     <components>
-        <component id="demoDoot">
+        <component id="root">
             <transformation>
-                <transformationref id="demoTransform"/>
+                <scale x="1" y="12" z="1" />
             </transformation>
             <materials>
-                <material id="redMaterial" />
+                <material id="demoMaterial" />
             </materials>
-            <texture id="vidralTexture" length_s="1" length_t="1"/>
+            <texture id="none"/>
             <children>
-                <primitiveref id="torus" />
+                <componentref id="cube" />
+            </children>
+        </component>
+
+        
+        <component id="cube">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="cubeFace" />
+                <componentref id="rightCubeFace" />
+                <componentref id="leftCubeFace" />
+                <componentref id="backCubeFace" />
+                <componentref id="bottomCubeFace" />
+                <componentref id="topCubeFace" />
+            </children>
+        </component>
+        <component id="rightCubeFace">
+            <transformation>
+                <translate x="1" y="0" z="0" />
+                <rotate axis="y" angle="90" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="cubeFace" />
+            </children>
+        </component>
+        <component id="leftCubeFace">
+            <transformation>
+                <translate x="0" y="0" z="-1" />
+                <rotate axis="y" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="cubeFace" />
+            </children>
+        </component>
+        <component id="backCubeFace">
+            <transformation>
+                <translate x="1" y="0" z="-1" />
+                <rotate axis="y" angle="180" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="cubeFace" />
+            </children>
+        </component>
+        <component id="bottomCubeFace">
+            <transformation>
+                <translate x="0" y="0" z="-1" />
+                <rotate axis="x" angle="90" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="cubeFace" />
+            </children>
+        </component>
+        <component id="topCubeFace">
+            <transformation>
+                <translate x="0" y="1" z="0" />
+                <rotate axis="x" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="cubeFace" />
+            </children>
+        </component>
+
+        <component id="outerTowerDecor">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="outerTowerDecorBack" />
+                <componentref id="outerTowerDecorShape" />
+            </children>
+        </component>
+        <component id="outerTowerDecorBack">
+            <transformation>
+                <translate x="1" y="0" z="0" />
+                <rotate axis="y" angle="180" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="outerTowerDecorShape" />
+            </children>
+        </component>
+        <component id="outerTowerDecorShape">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="outerTowerDecorTriangle" />
+                <primitiveref id="outerTowerDecorRectangle" />
+                <componentref id="outerTowerDecoreBottomTriangle" />
+            </children>
+        </component>
+        <component id="outerTowerDecoreBottomTriangle">
+            <transformation>
+                <translate x="1" y="-1" z="0" />
+                <rotate axis="z" angle="180" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="outerTowerDecorTriangle" />
             </children>
         </component>
     </components>
