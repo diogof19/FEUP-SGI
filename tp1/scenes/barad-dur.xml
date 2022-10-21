@@ -136,6 +136,7 @@
             </transformation>
             <materials>
                 <material id="towerMaterial"/>
+                <material id="towerAddonMaterial" />
             </materials>
             <texture id="towerTexture" length_s="1" length_t="1"/>
             <children>
@@ -154,7 +155,7 @@
                 <transformationref id="rotateZtoY"/>
             </transformation>
             <materials>
-                <material id="towerMaterial" />
+                <material id="inherit" />
             </materials>
             <texture id="inherit"/>
             <children>
@@ -162,11 +163,12 @@
                 <componentref id="baseParapets"/>
             </children>
         </component>
+
         <component id="baseCylinder">
             <transformation>
             </transformation>
             <materials>
-                <material id="towerMaterial" />
+                <material id="inherit" />
             </materials>
             <texture id="inherit"/>
             <children>
@@ -175,24 +177,12 @@
                 <componentref id="baseCeiling"/>
             </children>
         </component>
-        <component id="baseParapets">
-            <transformation>
-                <translate x="0" y="0" z="7"/>
-            </transformation>
-            <materials>
-                <material id="towerAddonMaterial" />
-            </materials>
-            <texture id="parapetTexture" length_s="1" length_t="1"/>
-            <children>
-                <primitiveref id="parapets" />
-            </children>
-        </component>
         <component id="baseFloor">
             <transformation>
                 <scale x="1" y="1" z="0"/>
             </transformation>
             <materials>
-                <material id="towerMaterial" />
+                <material id="inherit" />
             </materials>
             <texture id="demoTexture" length_s="1" length_t="1"/>
             <children>
@@ -205,11 +195,25 @@
                 <scale x="1" y="1" z="0"/>
             </transformation>
             <materials>
-                <material id="towerMaterial" />
+                <material id="inherit" />
             </materials>
             <texture id="inherit"/>
             <children>
                 <primitiveref id="eye" />
+            </children>
+        </component>
+
+        <component id="baseParapets">
+            <transformation>
+                <translate x="0" y="0" z="7"/>
+            </transformation>
+            <materials>
+                <material id="towerAddonMaterial" />
+                <material id="towerMaterial" />
+            </materials>
+            <texture id="parapetTexture" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="parapets" />
             </children>
         </component>
 
@@ -220,6 +224,7 @@
             </transformation>
             <materials>
                 <material id="towerMaterial" />
+                <material id="towerAddonMaterial" />
             </materials>
             <texture id="inherit"/>
             <children>
@@ -230,18 +235,20 @@
                 <componentref id="topTowerConeParapet"/>
             </children>
         </component>
+
         <component id="topCylinder">
             <transformation>
                 <scale x="0.5" y="0.5" z="5"/>
             </transformation>
             <materials>
-                <material id="towerAddonMaterial" />
+                <material id="inherit" />
             </materials>
             <texture id="inherit"/>
             <children>
                 <componentref id="baseCylinder"/>
             </children>
         </component>
+
         <component id="topParapets">
             <transformation>
                 <translate x="0" y="0" z="35"/>
@@ -249,38 +256,42 @@
             </transformation>
             <materials>
                 <material id="towerAddonMaterial" />
+                <material id="towerMaterial" />
             </materials>
             <texture id="parapetTexture" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="parapets"/>
             </children>
         </component>
+
         <component id="invertedConeThing">
             <transformation>
                 <translate x="0" y="0" z="33"/>
                 <scale x="0.4" y="0.4" z="1"/>
             </transformation>
             <materials>
-                <material id="towerMaterial" />
+                <material id="inherit" />
             </materials>
             <texture id="inherit" />
             <children>
                 <primitiveref id="invertedConeThing"/>
             </children>
         </component>
+
         <component id="topCeiling">
             <transformation>
                 <translate x="0" y="0" z="35.1"/>
                 <scale x="0.8" y="0.8" z="0"/>
             </transformation>
             <materials>
-                <material id="towerMaterial" />
+                <material id="inherit" />
             </materials>
             <texture id="towerFloorTexture" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="eye" />
             </children>
         </component>
+
         <component id="topTowerConeParapet">
             <transformation>
                 <translate x="0" y="0" z="23"/>
@@ -288,6 +299,7 @@
             </transformation>
             <materials>
                 <material id="towerAddonMaterial" />
+                <material id="towerMaterial" />
             </materials>
             <texture id="parapetTexture" length_s="1" length_t="1"/>
             <children>
@@ -315,16 +327,18 @@
             <transformation>
             </transformation>
             <materials>
-                <material id="eyeMaterial" />
+                <material id="towerAddonMaterial" />
+                <material id="towerMaterial" />
             </materials>
-            <texture id="none" length_s="1" length_t="1"/>
+            <texture id="none"/>
             <children>
                 <componentref id="eyeComponent"/>
-                <componentref id="triangle1"/>
                 <componentref id="triangle2"/>
+                <componentref id="triangle1"/>
                 <componentref id="pupil"/>
             </children>
         </component>
+
         <component id="eyeComponent">
             <transformation>
                 <translate x="0" y="39" z="0"/>
@@ -332,19 +346,19 @@
             </transformation>
             <materials>
                 <material id="eyeMaterial" />
-                <material id="pupilMaterial" />
             </materials>
-            <texture id="none" length_s="1" length_t="1"/>
+            <texture id="none"/>
             <children>
                 <primitiveref id="eye"/>
             </children>
         </component>
+
         <component id="triangle2">
             <transformation>
                 <rotate axis="y" angle="180"/>
             </transformation>
             <materials>
-                <material id="towerAddonMaterial" />
+                <material id="inherit" />
             </materials>
             <texture id="triangleTopTower" length_s="1" length_t=""/>
             <children>
@@ -357,7 +371,7 @@
                 <scale x="1" y="2" z="1"/>
             </transformation>
             <materials>
-                <material id="towerAddonMaterial" />
+                <material id="inherit" />
             </materials>
             <texture id="triangleTopTower" length_s="1" length_t="1"/>
             <children>
@@ -365,6 +379,7 @@
                 <primitiveref id="triangleBackward"/>
             </children>
         </component>
+
         <component id="pupil">
             <transformation>
                 <translate x="0" y="39" z="0"/>
@@ -384,7 +399,8 @@
             <transformation>
             </transformation>
             <materials>
-                <material id="eyeMaterial" />
+                <material id="towerAddonMaterial" />
+                <material id="towerMaterial" />
             </materials>
             <texture id="towerTexture" length_s="1" length_t="1"/>
             <children>
@@ -396,6 +412,7 @@
                 <componentref id="completeJaggedTriangles" />
             </children>
         </component>
+
         <component id="holdUpCylinderFront">
             <transformation>
                 <rotate axis="x" angle="-90"/>
@@ -403,7 +420,7 @@
                 <scale x="0.2" y="0.2" z="1"/>
             </transformation>
             <materials>
-                <material id="towerAddonMaterial" />
+                <material id="inherit" />
             </materials>
             <texture id="inherit"/>
             <children>
@@ -415,7 +432,7 @@
                 <rotate axis="y" angle="90"/>
             </transformation>
             <materials>
-                <material id="towerAddonMaterial" />
+                <material id="inherit" />
             </materials>
             <texture id="inherit"/>
             <children>
@@ -427,7 +444,7 @@
                 <rotate axis="y" angle="180"/>
             </transformation>
             <materials>
-                <material id="towerAddonMaterial" />
+                <material id="inherit" />
             </materials>
             <texture id="inherit"/>
             <children>
@@ -439,11 +456,24 @@
                 <rotate axis="y" angle="-90"/>
             </transformation>
             <materials>
-                <material id="towerAddonMaterial" />
+                <material id="inherit" />
             </materials>
             <texture id="inherit"/>
             <children>
                 <componentref id="holdUpCylinderFront" />
+            </children>
+        </component>
+
+        <component id="foundationTorusTransformation">
+            <transformation>
+                <transformationref id="rotateZtoY"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="demoTexture" length_s="1" length_t="1"/>
+            <children>
+                <componentref id="foundationTorus"/>
             </children>
         </component>
         <component id="foundationTorus">
@@ -451,30 +481,19 @@
                 <translate x="0" y="0" z="13"/>
             </transformation>
             <materials>
-                <material id="towerAddonMaterial" />
+                <material id="inherit" />
             </materials>
             <texture id="parapetTexture" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="foundation"/>
             </children>
         </component>
-        <component id="foundationTorusTransformation">
-            <transformation>
-                <transformationref id="rotateZtoY"/>
-            </transformation>
-            <materials>
-                <material id="towerAddonMaterial" />
-            </materials>
-            <texture id="demoTexture" length_s="1" length_t="1"/>
-            <children>
-                <componentref id="foundationTorus"/>
-            </children>
-        </component>
+
         <component id="completeJaggedTriangles">
             <transformation>
             </transformation>
             <materials>
-                <material id="towerAddonMaterial" />
+                <material id="inherit" />
             </materials>
             <texture id="none"/>
             <children>
@@ -493,7 +512,7 @@
                 <rotate axis="y" angle="45"/>
             </transformation>
             <materials>
-                <material id="towerAddonMaterial" />
+                <material id="inherit" />
             </materials>
             <texture id="none"/>
             <children>
@@ -505,7 +524,7 @@
                 <rotate axis="y" angle="45"/>
             </transformation>
             <materials>
-                <material id="towerAddonMaterial" />
+                <material id="inherit" />
             </materials>
             <texture id="none"/>
             <children>
@@ -517,7 +536,7 @@
                 <rotate axis="y" angle="45"/>
             </transformation>
             <materials>
-                <material id="towerAddonMaterial" />
+                <material id="inherit" />
             </materials>
             <texture id="none"/>
             <children>
@@ -529,7 +548,7 @@
                 <rotate axis="y" angle="45"/>
             </transformation>
             <materials>
-                <material id="towerAddonMaterial" />
+                <material id="inherit" />
             </materials>
             <texture id="none"/>
             <children>
@@ -541,7 +560,7 @@
                 <rotate axis="y" angle="45"/>
             </transformation>
             <materials>
-                <material id="towerAddonMaterial" />
+                <material id="inherit" />
             </materials>
             <texture id="none"/>
             <children>
@@ -553,7 +572,7 @@
                 <rotate axis="y" angle="45"/>
             </transformation>
             <materials>
-                <material id="towerAddonMaterial" />
+                <material id="inherit" />
             </materials>
             <texture id="none"/>
             <children>
@@ -565,7 +584,7 @@
                 <rotate axis="y" angle="45"/>
             </transformation>
             <materials>
-                <material id="towerAddonMaterial" />
+                <material id="inherit" />
             </materials>
             <texture id="none"/>
             <children>
@@ -579,6 +598,7 @@
             </transformation>
             <materials>
                 <material id="towerAddonMaterial" />
+                <material id="towerMaterial" />
             </materials>
             <texture id="none"/>
             <children>
@@ -586,6 +606,7 @@
                 <componentref id="rightTriangleFace" />
             </children>
         </component>
+
         <component id="leftTriangleFace">
             <transformation>
                 <rotate axis="y" angle="-30"/>
@@ -618,6 +639,7 @@
             </transformation>
             <materials>
                 <material id="towerMaterial" />
+                <material id="towerAddonMaterial" />
             </materials>
             <texture id="none"/>
             <children>
@@ -635,6 +657,7 @@
             </transformation>
             <materials>
                 <material id="towerMaterial" />
+                <material id="towerAddonMaterial" />
             </materials>
             <texture id="none"/>
             <children>
@@ -647,6 +670,7 @@
             </transformation>
             <materials>
                 <material id="towerMaterial" />
+                <material id="towerAddonMaterial" />
             </materials>
             <texture id="none"/>
             <children>
@@ -659,17 +683,20 @@
             </transformation>
             <materials>
                 <material id="towerMaterial" />
+                <material id="towerAddonMaterial" />
             </materials>
             <texture id="none"/>
             <children>
                 <componentref id="fullOuterTower" />
             </children>
         </component>
+
         <component id="fullOuterTower">
             <transformation>
             </transformation>
             <materials>
                 <material id="towerMaterial" />
+                <material id="towerAddonMaterial" />
             </materials>
             <texture id="none"/>
             <children>
@@ -685,7 +712,7 @@
                 <translate x="-4.2" y="0" z="0" />
             </transformation>
             <materials>
-                <material id="towerMaterial" />
+                <material id="inherit" />
             </materials>
             <texture id="none"/>
             <children>
@@ -697,7 +724,7 @@
                 <translate x="0" y="0" z="-4.2" />
             </transformation>
             <materials>
-                <material id="towerMaterial" />
+                <material id="inherit" />
             </materials>
             <texture id="none"/>
             <children>
@@ -710,7 +737,7 @@
                 <rotate axis="y" angle="90" />
             </transformation>
             <materials>
-                <material id="towerMaterial" />
+                <material id="inherit" />
             </materials>
             <texture id="none"/>
             <children>
@@ -723,25 +750,11 @@
                 <translate x="3.5" y="4.5" z="2.1" />
             </transformation>
             <materials>
-                <material id="towerMaterial" />
+                <material id="inherit" />
             </materials>
             <texture id="none"/>
             <children>
                 <componentref id="outerTowerDecor" />
-            </children>
-        </component>
-
-        <component id="squareTower">
-            <transformation>
-                <translate x="12" y="0" z="0" />
-                <scale x="4" y="12" z="4" />
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="towerTexture" length_s="1" length_t="1"/>
-            <children>
-                <componentref id="cube" />
             </children>
         </component>
 
@@ -759,7 +772,6 @@
                 <componentref id="outerTowerWallBack" />
             </children>
         </component>
-
         <component id="outerTowerWallBack">
             <transformation>
                 <rotate axis="y" angle="180" />
@@ -809,6 +821,21 @@
                 <componentref id="cube" />
             </children>
         </component>
+
+        <component id="squareTower">
+            <transformation>
+                <translate x="12" y="0" z="0" />
+                <scale x="4" y="12" z="4" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="towerTexture" length_s="1" length_t="1"/>
+            <children>
+                <componentref id="cube" />
+            </children>
+        </component>
+
         <component id="cube">
             <transformation>
                 <translate x="-0.5" y="0" z="0.5"/>
@@ -816,7 +843,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit" length_s="1" length_t="1"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="cubeFace" />
                 <componentref id="rightCubeFace" />
@@ -897,6 +924,7 @@
             </transformation>
             <materials>
                 <material id="towerAddonMaterial" />
+                <material id="towerMaterial" />
             </materials>
             <texture id="towerTexture" length_s="1" length_t="1"/>
             <children>
@@ -917,6 +945,7 @@
                 <componentref id="outerTowerDecorShape" />
             </children>
         </component>
+        
         <component id="outerTowerDecorShape">
             <transformation>
             </transformation>

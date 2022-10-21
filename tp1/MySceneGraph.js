@@ -1166,7 +1166,6 @@ export class MySceneGraph {
             }
 
             // Texture
-
             if (textureIndex == -1){
                 this.onXMLError("component missing texture (ID = " + componentID + ")");
                 continue;
@@ -1183,22 +1182,34 @@ export class MySceneGraph {
             else{
                 component.texture = textureID;
 
-                if(textureID != "none" && textureID != "inherit"){
-                    var length_s = this.reader.getFloat(grandChildren[textureIndex], 'length_s');
-                    if(length_s == null){
-                        this.onXMLError("no length_s from texture with ID = " + textureID + " in componente with ID = " + componentID);
+                var length_s = this.reader.getFloat(grandChildren[textureIndex], "length_s", false);
+                var length_t = this.reader.getFloat(grandChildren[textureIndex], "length_t", false);
+                if(length_s != null && length_t != null){
+                    if(textureID == "inherit") {
+                        this.onXMLMinorError("there shouldn't be a length_s and/or length_t on inherited texture in component with ID = " + componentID);
+                        component.length_s = length_s;
+                        component.length_t = length_t;
                     }
-                    component.length_s = length_s;
-
-                    var length_t = this.reader.getFloat(grandChildren[textureIndex], 'length_s');
-                    if(length_t == null){
-                        this.onXMLError("no length_t from texture with ID = " + textureID + " in componente with ID = " + componentID);
+                    else if(textureID == "none"){
+                        this.onXMLMinorError("there shouldn't be a length_s and/or length_t on 'none' texture in component with ID = " + componentID);
                     }
-                    component.length_t = length_t;
+                    else{
+                        component.length_s = length_s;
+                        component.length_t = length_t;
+                    }
                 }
                 else{
-                    component.length_s = 1;
-                    component.length_t = 1;
+                    if(textureID != "none" && textureID != "inherit"){
+                        if(length_s == null){
+                            this.onXMLError("no length_s from texture with ID = " + textureID + " in componente with ID = " + componentID);
+                        }
+                        component.length_s = length_s;
+
+                        if(length_t == null){
+                            this.onXMLError("no length_t from texture with ID = " + textureID + " in componente with ID = " + componentID);
+                        }
+                        component.length_t = length_t;
+                    }
                 }
             }
 
