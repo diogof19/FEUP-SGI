@@ -176,6 +176,11 @@ export class XMLscene extends CGFscene {
 
         this.updateLights();
 
+        for (var i = 0; i < this.lights.length; i++) {
+            this.lights[i].setVisible(this.displayLights);
+            this.lights[i].update();
+        }
+
         if (this.sceneInited) {
             // Draw axis
             this.setDefaultAppearance();

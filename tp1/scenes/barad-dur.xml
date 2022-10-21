@@ -41,11 +41,9 @@
     </lights>
 
     <textures>
-        <texture id="demoTexture" file="scenes/images/dc5xykq-b16cd000-cc16-464d-b7e6-33744c395494.png" />
+        <texture id="groundTexture" file="scenes/images/dc5xykq-b16cd000-cc16-464d-b7e6-33744c395494.png" />
         <texture id="towerTexture" file="scenes/images/pexels-life-of-pix-8892.jpg" />
-        <texture id="parapetTexture" file="scenes/images/wall-gd4f0320c3_640.jpg" />
-        <texture id="towerFloorTexture" file="scenes/images/pexels-life-of-pix-8892.jpg" />
-        <texture id="triangleTopTower" file="scenes/images/wall-gd4f0320c3_640.jpg" />
+        <texture id="accentTexture" file="scenes/images/wall-gd4f0320c3_640.jpg" />
     </textures>
 
     <materials>
@@ -184,7 +182,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="demoTexture" length_s="1" length_t="1"/>
+            <texture id="towerTexture" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="eye" />
             </children>
@@ -211,7 +209,7 @@
                 <material id="towerAddonMaterial" />
                 <material id="towerMaterial" />
             </materials>
-            <texture id="parapetTexture" length_s="1" length_t="1"/>
+            <texture id="accentTexture" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="parapets" />
             </children>
@@ -258,7 +256,7 @@
                 <material id="towerAddonMaterial" />
                 <material id="towerMaterial" />
             </materials>
-            <texture id="parapetTexture" length_s="1" length_t="1"/>
+            <texture id="accentTexture" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="parapets"/>
             </children>
@@ -286,7 +284,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="towerFloorTexture" length_s="1" length_t="1"/>
+            <texture id="towerTexture" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="eye" />
             </children>
@@ -301,7 +299,7 @@
                 <material id="towerAddonMaterial" />
                 <material id="towerMaterial" />
             </materials>
-            <texture id="parapetTexture" length_s="1" length_t="1"/>
+            <texture id="accentTexture" length_s="1" length_t="1"/>
             <children>
                 <componentref id="foundationTorus"/>
             </children>
@@ -316,7 +314,7 @@
             <materials>
                 <material id="towerMaterial" />
             </materials>
-            <texture id="demoTexture" length_s="1" length_t="1"/>
+            <texture id="groundTexture" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="groundRectangle" />
             </children>
@@ -360,7 +358,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="triangleTopTower" length_s="1" length_t=""/>
+            <texture id="accentTexture" length_s="1" length_t=""/>
             <children>
                 <componentref id="triangle1"/>
             </children>
@@ -373,7 +371,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="triangleTopTower" length_s="1" length_t="1"/>
+            <texture id="accentTexture" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="triangleForward"/>
                 <primitiveref id="triangleBackward"/>
@@ -388,7 +386,7 @@
             <materials>
                 <material id="pupilMaterial" />
             </materials>
-            <texture id="demoTexture" length_s="1" length_t="1"/>
+            <texture id="none"/>
             <children>
                 <primitiveref id="eye" />
             </children>
@@ -471,7 +469,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="demoTexture" length_s="1" length_t="1"/>
+            <texture id="towerTexture" length_s="1" length_t="1"/>
             <children>
                 <componentref id="foundationTorus"/>
             </children>
@@ -483,7 +481,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="parapetTexture" length_s="1" length_t="1"/>
+            <texture id="accentTexture" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="foundation"/>
             </children>
@@ -945,7 +943,7 @@
                 <componentref id="outerTowerDecorShape" />
             </children>
         </component>
-        
+
         <component id="outerTowerDecorShape">
             <transformation>
             </transformation>

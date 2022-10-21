@@ -1202,13 +1202,16 @@ export class MySceneGraph {
                     if(textureID != "none" && textureID != "inherit"){
                         if(length_s == null){
                             this.onXMLError("no length_s from texture with ID = " + textureID + " in componente with ID = " + componentID);
+                            component.length_s = 1;
                         }
-                        component.length_s = length_s;
+                        else component.length_s = length_s;
+                        
 
                         if(length_t == null){
                             this.onXMLError("no length_t from texture with ID = " + textureID + " in componente with ID = " + componentID);
+                            component.length_t = 1;
                         }
-                        component.length_t = length_t;
+                        else component.length_t = length_t;
                     }
                 }
             }
