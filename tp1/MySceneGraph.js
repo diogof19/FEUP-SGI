@@ -365,7 +365,7 @@ export class MySceneGraph {
                 }
 
                 if (foundFrom && foundTo) {
-                    this.views[cameraID] = new CGFcamera(angle, near, far, from, to);
+                    this.views[cameraID] = new CGFcamera(angle * (Math.PI/180), near, far, from, to);
                 }
                 else {
                     this.onXMLMinorError('Camera ' + cameraID + 'missing from or to');
@@ -636,7 +636,7 @@ export class MySceneGraph {
                 }
                 else
                     return "light target undefined for ID = " + lightId;
-
+                    
                 global.push(...[angle, exponent, targetLight])
             }
 

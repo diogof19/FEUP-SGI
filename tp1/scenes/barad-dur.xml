@@ -1,20 +1,15 @@
 <sxs>
     <scene root="rootComponent" axis_length="0"/>
 
-    <views default="defaultCamera">
-        <perspective id="defaultCamera" near="0.1" far="500" angle="45">
-            <from x="0" y="5" z="40" />
+    <views default="lookingUpCamera">
+        <perspective id="lookingUpCamera" near="0.1" far="500" angle="45">
+            <from x="0" y="5" z="50" />
             <to x="0" y="20" z="0" />
         </perspective>
-        <perspective id="eyeCamera" near="0.5" far="1000" angle="30">
+        <perspective id="eyeCamera" near="0.5" far="1000" angle="55">
             <from x="0" y="39" z="10" />
             <to x="0" y="39" z="0" />
         </perspective>
-        <ortho id="upperOrthoView" near="3" far="80" left="-10" right="10" top="20" bottom="-10">
-            <from x="0" y="75" z="0"/>
-            <to x="0" y="0" z="0"/>
-            <up x="1" y="0" z="0"/>
-        </ortho>
         <ortho id="frontOrtho" near="5" far="80" left="-44.5" right="44.5" top="45" bottom="-5">
             <from x="0" y="5" z="50"/>
             <to x="0" y="4" z="0"/>
@@ -23,41 +18,34 @@
     </views>
 
     <ambient>
-        <ambient r="0.5" g="0.5" b="0.5" a="1.0" />
-        <background r="0.5" g="0.1" b="0.0" a="1" />
+        <ambient r="0.3" g="0.3" b="0.3" a="1" />
+        <background r="0.25" g="0" b="0.0" a="1" />
     </ambient>
 
     <lights>
-        <omni id="demoLight" enabled="0">
-            <location x="9.8" y="11.9" z="10" w="1.0" />
-            <ambient r="0" g="0" b="0" a="1.0" />
-            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
-            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
-            <attenuation constant="0" linear="1" quadratic="0" />
-        </omni>
-        <omni id="eyeLight" enabled="1">
+        <omni id="eyeGlowLight" enabled="1">
             <location x="0" y="39" z="0" w="1.0" />
             <ambient r="0.86" g="0.2" b="0" a="1" />
             <diffuse r="0.86" g="0.2" b="0" a="1" />
             <specular r="0.86" g="0.2" b="0" a="1" />
             <attenuation constant="0" linear="1" quadratic="0" />
         </omni>
-         <spot id="spotlight" enabled="1" angle="60" exponent="3">
+        <spot id="innerTowerLight" enabled="1" angle="60" exponent="3">
             <location x="0" y="15" z="0" w="60"/>
             <target x="0" y="0" z="0"/>
             <ambient r="0.2" g="0.2" b="0.2" a="0"/>
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0"/>
             <specular r="1.0" g="1.0" b="1.0" a="1.0"/>
-            <attenuation constant="1" linear="0" quadratic="0"/>
+            <attenuation constant="0" linear="0" quadratic="1"/>
         </spot>
     </lights>
 
     <textures>
         <texture id="demoTexture" file="scenes/images/dc5xykq-b16cd000-cc16-464d-b7e6-33744c395494.png" />
         <texture id="towerTexture" file="scenes/images/pexels-life-of-pix-8892.jpg" />
-        <texture id="parapetTexture" file="scenes/images/pexels-life-of-pix-8892.jpg" />
+        <texture id="parapetTexture" file="scenes/images/wall-gd4f0320c3_640.jpg" />
         <texture id="towerFloorTexture" file="scenes/images/pexels-life-of-pix-8892.jpg" />
-        <texture id="triangleTopTower" file="scenes/images/pexels-life-of-pix-8892.jpg" />
+        <texture id="triangleTopTower" file="scenes/images/wall-gd4f0320c3_640.jpg" />
     </textures>
 
     <materials>
