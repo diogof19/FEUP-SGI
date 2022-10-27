@@ -1,0 +1,106 @@
+<sxs>
+    <scene root="root" axis_length="5"/>
+
+    <views default="defaultCamera">
+        <perspective id="defaultCamera" near="0.1" far="500" angle="45">
+            <from x="30" y="15" z="30" />
+            <to x="0" y="-2" z="0" />
+        </perspective>
+    </views>
+
+    <ambient>
+        <ambient r="1" g="1" b="1" a="1.0" />
+        <background r="0.0" g="0.0" b="0.0" a="1.0" />
+    </ambient>
+
+    <lights>
+        <omni id="demoLight" enabled="1">
+            <location x="9.8" y="11.9" z="10" w="1.0" />
+            <ambient r="1" g="1" b="1" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+            <attenuation constant="0" linear="1" quadratic="0" />
+        </omni>
+    </lights>
+
+    <textures>
+        <texture id="vidralTexture" file="scenes/images/dc5xykq-b16cd000-cc16-464d-b7e6-33744c395494.jpg" />
+    </textures>
+
+    <materials>
+        <material id="demoMaterial" shininess="10">
+            <emission r="0.0" g="0.0" b="1.0" a="1.0" />
+            <ambient r="0.0" g="0.0" b="1.0" a="1.0" />
+            <diffuse r="0.0" g="0.0" b="1.0" a="1.0" />
+            <specular r="0.0" g="0.0" b="1.0" a="1.0" />
+        </material>
+        <material id="redMaterial" shininess="10">
+            <emission r="1.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="1.0" g="0.0" b="0.0" a="1.0" />
+            <diffuse r="1.0" g="0.0" b="0.0" a="1.0" />
+            <specular r="1.0" g="0.0" b="0.0" a="1.0" />
+        </material>
+    </materials>
+
+    <transformations>
+        <transformation id="demoTransform">
+            <rotate axis="y" angle="45" />
+        </transformation>
+    </transformations>
+
+    <primitives>
+        <primitive id="demoRectangle">
+            <rectangle x1="-0.5" y1="-1" x2="0.5" y2="1" />
+        </primitive>
+        <primitive id="Cylinder">
+            <cylinder base="0" top="2" height="5" slices="10" stacks="10" />
+        </primitive>
+        <primitive id="sphere">
+            <sphere radius="3" slices="64" stacks="16"/>
+        </primitive>
+        <primitive id="torus">
+            <torus inner="1" outer="5" slices="64" loops="64"/>
+        </primitive>
+        <primitive id="Triangle">
+            <triangle   x1="0" y1="0" z1="1"
+                        x2="1" y2="0" z2="0"
+                        x3="0" y3="1" z3="0" />
+        </primitive>
+        <primitive id="flatTorus">
+            <torus inner="1" outer="0" slices="100" loops="2" />
+        </primitive>
+        <primitive id="outerTowerDecorTriangle">
+            <triangle   x1="0" y1="0" z1="0"
+                        x2="1" y2="0" z2="0"
+                        x3="0.5" y3="1" z3="0" />
+        </primitive>
+        <primitive id="outerTowerDecorRectangle">
+            <rectangle x1="0" y1="-1" x2="1" y2="0" />
+        </primitive>
+        <primitive id="cubeFace" >
+            <rectangle x1="0" y1="0" x2="1" y2="1" />
+        </primitive>
+        <primitive id="patchRectanle">
+            <patch degree_u="1" parts_u="6" degree_v="1" parts_v="6">
+                <controlpoint x="-1" y="-1" z="0" />
+                <controlpoint x="-1" y="1" z="0" />
+                <controlpoint x="1" y="-1" z="0" />
+                <controlpoint x="1" y="1" z="0" />
+            </patch>
+        </primitive>
+    </primitives>
+
+    <components>
+        <component id="root">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="patchRectangle" />
+            </children>
+        </component>
+    </components>
+</sxs>
