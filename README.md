@@ -4,7 +4,7 @@
 | Name             | Number    | E-Mail             |
 | ---------------- | --------- | ------------------ |
 | André Flores        | 201907001 | up201907001@fe.up.pt  |
-| Diogo Faria         | 201907014 | up201907014@fe.up.pt|               |
+| Diogo Faria         | 201907014 | up201907014@fe.up.pt|
 
 ----
 
