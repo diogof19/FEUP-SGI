@@ -21,5 +21,14 @@ export class MyPatch extends CGFobject {
     display(){
         this.object.display();
     }
+
+    /**
+	 * @method updateTexCoords
+	 * Updates the list of texture coordinates of the patch
+	 * @param {Array} coords - Array of texture coordinates
+	 */
+	updateTexCoords(length_s, length_t) {
+		this.updateTexCoordsGLBuffers();
+	}
 }
 

@@ -1051,15 +1051,15 @@ export class MySceneGraph {
                     let controlPoints_u = [];
 
                     for (let v = 0; v <= degree_v; v++) {
-                        let index = u * degree_v + v;
+                        let index = u * (degree_v + 1) + v;
 
-                        var x = this.reader.getInteger(controlPointsNode[index], 'x');
+                        var x = this.reader.getFloat(controlPointsNode[index], 'x');
                         if(! (x != null && !isNaN(x)))
                             return "unable to parse x of the primitive for ID = " + primitiveId;
-                        var y = this.reader.getInteger(controlPointsNode[index], 'y');
+                        var y = this.reader.getFloat(controlPointsNode[index], 'y');
                         if(! (y != null && !isNaN(y)))
                             return "unable to parse y of the primitive for ID = " + primitiveId;
-                        var z = this.reader.getInteger(controlPointsNode[index], 'z');
+                        var z = this.reader.getFloat(controlPointsNode[index], 'z');
                         if(! (z != null && !isNaN(z)))
                             return "unable to parse z of the primitive for ID = " + primitiveId;
 
@@ -1069,7 +1069,9 @@ export class MySceneGraph {
                     controlPoints.push(controlPoints_u);
                 }
 
-                var patch = new MyPatch(this.scene, primitiveId, degree_u, degree_v, parts_u, parts_v, controlPoints);
+                console.log(controlPoints);
+
+                var patch = new MyPatch(this.scene, primitiveId, degree_u, parts_u, degree_v, parts_v, controlPoints);
                 this.primitives[primitiveId] = patch;
             }
             else {
