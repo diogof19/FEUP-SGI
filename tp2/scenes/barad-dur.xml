@@ -1,7 +1,7 @@
 <sxs>
     <scene root="rootComponent" axis_length="0"/>
 
-    <views default="lookingUpCamera">
+    <views default="encampmentCamera">
         <perspective id="lookingUpCamera" near="0.1" far="500" angle="45">
             <from x="0" y="5" z="50" />
             <to x="0" y="20" z="0" />
@@ -15,6 +15,10 @@
             <to x="0" y="4" z="0"/>
             <up x="0" y="1" z="0"/>
         </ortho>
+        <perspective id="encampmentCamera" near="0.1" far="50" angle="45">
+            <from x="30" y="7" z="30" />
+            <to x="20" y="0" z="20" />
+        </perspective>
     </views>
 
     <ambient>
@@ -71,6 +75,12 @@
             <diffuse r="0.0" g="0.0" b="0.0" a="1.0" />
             <specular r="1" g="1" b="1" a="1.0" />
         </material>
+        <material id="tentMaterial" shininess="1">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.13" g="0.4" b="0.13" a="1.0" />
+            <diffuse r="0.1" g="0.1" b="0.1" a="1.0" />
+            <specular r="0" g="0" b="0" a="1.0" />
+        </material>
     </materials>
 
     <transformations>
@@ -126,6 +136,62 @@
         <primitive id="cubeFace" >
             <rectangle x1="0" y1="0" x2="1" y2="1" />
         </primitive>
+        <primitive id="armyEncampmentTent">
+            <patch degree_u="1" parts_u="2" degree_v="2" parts_v="15">
+                <controlpoint x="0" y="0" z="2" />
+                <controlpoint x="0" y="3" z="1" />
+                <controlpoint x="0" y="0" z="0" />
+
+                <controlpoint x="1" y="0" z="2" />
+                <controlpoint x="1" y="3" z="1" />
+                <controlpoint x="1" y="0" z="0" />
+            </patch>
+        </primitive>
+        <primitive id="armyEncampmentTentInside">
+            <patch degree_u="1" parts_u="2" degree_v="2" parts_v="15">
+                <controlpoint x="0" y="0" z="0" />
+                <controlpoint x="0" y="3" z="1" />
+                <controlpoint x="0" y="0" z="2" />
+
+                <controlpoint x="1" y="0" z="0" />
+                <controlpoint x="1" y="3" z="1" />
+                <controlpoint x="1" y="0" z="2" />
+            </patch>
+        </primitive>
+        <primitive id="halfBarrel">
+            <patch degree_u="3" parts_u="12" degree_v="2" parts_v="15">
+                <controlpoint x="1" y="0" z="0" />
+                <controlpoint x="1.5" y="0.5" z="0" />
+                <controlpoint x="1" y="1" z="0" />
+
+                <controlpoint x="1" y="0" z="-1.333333" />
+                <controlpoint x="1.5" y="0.5" z="-1.9999995" />
+                <controlpoint x="1" y="1" z="-1.333333" />
+
+                <controlpoint x="-1" y="0" z="-1.333333" />
+                <controlpoint x="-1.5" y="0.5" z="-1.9999995" />
+                <controlpoint x="-1" y="1" z="-1.333333" />
+
+                <controlpoint x="-1" y="0" z="0" />
+                <controlpoint x="-1.5" y="0.5" z="0" />
+                <controlpoint x="-1" y="1" z="0" />
+            </patch>
+        </primitive>
+        <primitive id="halfCircle">
+            <patch degree_u="3" parts_u="12" degree_v="1" parts_v="15">
+                <controlpoint x="1" y="0" z="0" />
+                <controlpoint x="0" y="0" z="0" />
+
+                <controlpoint x="1" y="0" z="-1.333333" />
+                <controlpoint x="0" y="0" z="0" />
+
+                <controlpoint x="-1" y="0" z="-1.333333" />
+                <controlpoint x="0" y="0" z="0" />
+
+                <controlpoint x="-1" y="0" z="0" />
+                <controlpoint x="0" y="0" z="0" />
+            </patch>
+        </primitive>
     </primitives>
 
     <components>
@@ -144,6 +210,7 @@
                 <componentref id="eyePart"/>
                 <componentref id="decorations"/>
                 <componentref id="outerSquareTowers" />
+                <componentref id="armyEncampment"/>
             </children>
         </component>
 
@@ -968,6 +1035,105 @@
             <texture id="inherit"/>
             <children>
                 <primitiveref id="outerTowerDecorTriangle" />
+            </children>
+        </component>
+
+        <!-- ENCAMPMENT COMPONENTS -->
+        <component id="armyEncampment">
+            <transformation>
+                <translate x="20" y="0" z="20" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="armyEncampmentTent" />
+                <componentref id="barrel" />
+            </children>
+        </component>
+
+        <component id="armyEncampmentTent">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="tentMaterial" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="armyEncampmentTent" />
+                <primitiveref id="armyEncampmentTentInside" />
+            </children>
+        </component>
+
+        <component id="barrel">
+            <transformation>
+                <translate x="4" y="0" z="4" />
+                <scale x="0.5" y="0.75" z="0.5" />
+            </transformation>
+            <materials>
+                <material id="tentMaterial" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="topCircle" />
+                <primitiveref id="halfBarrel" />
+                <componentref id="otherBarrelHalf" />
+                <componentref id="bottomCircle" />
+            </children>
+        </component>
+
+        <component id="otherBarrelHalf">
+            <transformation>
+                <rotate axis="y" angle="180"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="halfBarrel" />
+            </children>
+        </component>
+
+        <component id="topCircle">
+            <transformation>
+                <translate x="0" y="1" z="0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="halfCircle" />
+                <componentref id="otherCircleHalf" />
+            </children>
+        </component>
+
+        <component id="otherCircleHalf">
+            <transformation>
+                <rotate axis="y" angle="180"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="halfCircle" />
+            </children>
+        </component>
+
+        <component id="bottomCircle">
+            <transformation>
+                <rotate axis="x" angle="180"/>
+                <translate x="0" y="-1" z="0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="topCircle" />
             </children>
         </component>
     </components>
