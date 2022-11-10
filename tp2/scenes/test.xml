@@ -1,73 +1,129 @@
 <sxs>
-    <scene root="root" axis_length="5"/>
+    <scene root="rootComponent" axis_length="0"/>
 
-    <views default="defaultCamera">
-        <perspective id="defaultCamera" near="0.1" far="500" angle="45">
-            <from x="30" y="15" z="30" />
-            <to x="0" y="-2" z="0" />
+    <views default="encampmentCamera">
+        <perspective id="lookingUpCamera" near="0.1" far="500" angle="45">
+            <from x="0" y="5" z="50" />
+            <to x="0" y="20" z="0" />
+        </perspective>
+        <perspective id="eyeCamera" near="0.5" far="1000" angle="55">
+            <from x="0" y="39" z="10" />
+            <to x="0" y="39" z="0" />
+        </perspective>
+        <ortho id="frontOrtho" near="5" far="80" left="-44.5" right="44.5" top="45" bottom="-5">
+            <from x="0" y="5" z="50"/>
+            <to x="0" y="4" z="0"/>
+            <up x="0" y="1" z="0"/>
+        </ortho>
+        <perspective id="encampmentCamera" near="0.1" far="50" angle="45">
+            <from x="30" y="7" z="30" />
+            <to x="20" y="0" z="20" />
         </perspective>
     </views>
 
     <ambient>
-        <ambient r="1" g="1" b="1" a="1.0" />
-        <background r="0.0" g="0.0" b="0.0" a="1.0" />
+        <ambient r="0.3" g="0.3" b="0.3" a="1" />
+        <background r="0.25" g="0" b="0.0" a="1" />
     </ambient>
 
     <lights>
-        <omni id="demoLight" enabled="1">
-            <location x="9.8" y="11.9" z="10" w="1.0" />
-            <ambient r="1" g="1" b="1" a="1.0" />
-            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
-            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+        <omni id="eyeGlowLight" enabled="1">
+            <location x="0" y="39" z="0" w="1.0" />
+            <ambient r="0.86" g="0.2" b="0" a="1" />
+            <diffuse r="0.86" g="0.2" b="0" a="1" />
+            <specular r="0.86" g="0.2" b="0" a="1" />
             <attenuation constant="0" linear="1" quadratic="0" />
         </omni>
+        <spot id="innerTowerLight" enabled="1" angle="60" exponent="3">
+            <location x="0" y="15" z="0" w="60"/>
+            <target x="0" y="0" z="0"/>
+            <ambient r="0.2" g="0.2" b="0.2" a="0"/>
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0"/>
+            <specular r="1.0" g="1.0" b="1.0" a="1.0"/>
+            <attenuation constant="0" linear="0" quadratic="1"/>
+        </spot>
     </lights>
 
     <textures>
-        <texture id="testTexture" file="scenes/images/pexels-life-of-pix-8892.jpg" />
+        <texture id="groundTexture" file="scenes/images/dc5xykq-b16cd000-cc16-464d-b7e6-33744c395494.png" />
+        <texture id="towerTexture" file="scenes/images/pexels-life-of-pix-8892.jpg" />
+        <texture id="accentTexture" file="scenes/images/wall-gd4f0320c3_640.jpg" />
     </textures>
 
     <materials>
-        <material id="demoMaterial" shininess="10">
-            <emission r="0.0" g="0.0" b="1.0" a="1.0" />
-            <ambient r="0.0" g="0.0" b="1.0" a="1.0" />
-            <diffuse r="0.0" g="0.0" b="1.0" a="1.0" />
-            <specular r="0.0" g="0.0" b="1.0" a="1.0" />
+        <material id="eyeMaterial" shininess="10">
+            <emission r="0.86" g="0.2" b="0.0" a="1.0" />
+            <ambient r="0.86" g="0.2" b="0.0" a="1.0" />
+            <diffuse r="0.86" g="0.2" b="0.0" a="1.0" />
+            <specular r="0.86" g="0.2" b="0.0" a="1.0" />
         </material>
-        <material id="redMaterial" shininess="10">
-            <emission r="1.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="1.0" g="0.0" b="0.0" a="1.0" />
-            <diffuse r="1.0" g="0.0" b="0.0" a="1.0" />
-            <specular r="1.0" g="0.0" b="0.0" a="1.0" />
+        <material id="towerMaterial" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="0.0" />
+            <ambient r="0.4" g="0.4" b="0.4" a="1.0" />
+            <diffuse r="0.7" g="0.7" b="0.7" a="1.0" />
+            <specular r="0.7" g="0.7" b="0.7" a="1.0" />
+        </material>
+        <material id="towerAddonMaterial" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="0.0" />
+            <ambient r="0.7" g="0.7" b="0.7" a="1.0" />
+            <diffuse r="0.2" g="0.2" b="0.2" a="1.0" />
+            <specular r="0.2" g="0.2" b="0.2" a="1.0" />
+        </material>
+        <material id="pupilMaterial" shininess="100">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
+            <diffuse r="0.0" g="0.0" b="0.0" a="1.0" />
+            <specular r="1" g="1" b="1" a="1.0" />
+        </material>
+        <material id="tentMaterial" shininess="1">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.13" g="0.4" b="0.13" a="1.0" />
+            <diffuse r="0.1" g="0.1" b="0.1" a="1.0" />
+            <specular r="0" g="0" b="0" a="1.0" />
         </material>
     </materials>
 
     <transformations>
         <transformation id="demoTransform">
-            <rotate axis="y" angle="45" />
+            <scale x="5" y="1" z="5" />
+            <rotate axis="x" angle="-45" />
+            <rotate axis="z" angle="-45" />
+        </transformation>
+        <transformation id="rotateZtoY">
+            <rotate axis="x" angle="-90"/>
         </transformation>
     </transformations>
 
     <primitives>
-        <primitive id="demoRectangle">
-            <rectangle x1="-0.5" y1="-1" x2="0.5" y2="1" />
+        <primitive id="tower">
+            <cylinder base="6" top="6" height="7" slices="64" stacks="16"/>
         </primitive>
-        <primitive id="Cylinder">
-            <cylinder base="0" top="2" height="5" slices="10" stacks="10" />
+        <primitive id="eye">
+            <sphere radius="6" slices="64" stacks="16"/>
         </primitive>
-        <primitive id="sphere">
-            <sphere radius="3" slices="64" stacks="16"/>
+        <primitive id="parapets">
+            <torus inner="0.5" outer="6.5" slices="64" loops="64"/>
         </primitive>
-        <primitive id="torus">
-            <torus inner="1" outer="5" slices="64" loops="64"/>
+        <primitive id="triangleForward">
+            <triangle x1="0" y1="0" z1="0" x2="2" y2="0" z2="0" x3="0" y3="3" z3="0"/>
         </primitive>
-        <primitive id="Triangle">
-            <triangle   x1="0" y1="0" z1="1"
-                        x2="1" y2="0" z2="0"
-                        x3="0" y3="1" z3="0" />
+        <primitive id="triangleBackward">
+            <triangle x3="0" y3="0" z3="0" x2="2" y2="0" z2="0" x1="0" y1="3" z1="0"/>
         </primitive>
-        <primitive id="flatTorus">
-            <torus inner="1" outer="0" slices="100" loops="2" />
+        <primitive id="invertedConeThing">
+            <cylinder base="6" top="12" height="2" slices="64" stacks="16"/>
+        </primitive>
+        <primitive id="groundRectangle">
+            <rectangle x1="-15" y1="-15" x2="15" y2="15" />
+        </primitive>
+        <primitive id="foundation">
+            <torus inner="0.5" outer="3.5" slices="64" loops="64"/>
+        </primitive>
+        <primitive id="torchHandle">
+            <cylinder base="40" top="5" height="45" slices="64" stacks="16"/>
+        </primitive>
+        <primitive id="detailRectangle">
+            <rectangle x1="0" y1="0" x2="0.2" y2="21" />
         </primitive>
         <primitive id="outerTowerDecorTriangle">
             <triangle   x1="0" y1="0" z1="0"
@@ -80,38 +136,77 @@
         <primitive id="cubeFace" >
             <rectangle x1="0" y1="0" x2="1" y2="1" />
         </primitive>
-        <primitive id="patchRectangle">
-            <patch degree_u="1" parts_u="10" degree_v="1" parts_v="10">
-                <controlpoint x="-1" y="-1" z="0" />
-                <controlpoint x="-1" y="1" z="0" />
-                <controlpoint x="1" y="-1" z="0" />
-                <controlpoint x="1" y="1" z="0" />
+        <primitive id="armyEncampmentTent">
+            <patch degree_u="1" parts_u="2" degree_v="2" parts_v="15">
+                <controlpoint x="0" y="0" z="2" />
+                <controlpoint x="0" y="3" z="1" />
+                <controlpoint x="0" y="0" z="0" />
+
+                <controlpoint x="1" y="0" z="2" />
+                <controlpoint x="1" y="3" z="1" />
+                <controlpoint x="1" y="0" z="0" />
             </patch>
         </primitive>
-        <primitive id="patchTent"> <!-- Not even started -->
-            <patch degree_u="1" parts_u="10" degree_v="2" parts_v="10">
-                <controlpoint x="-1" y="-1" z="0" />
-                <controlpoint x="-1" y="1" z="0" />
-                <controlpoint x="1" y="-1" z="0" />
+        <primitive id="armyEncampmentTentInside">
+            <patch degree_u="1" parts_u="2" degree_v="2" parts_v="15">
+                <controlpoint x="0" y="0" z="0" />
+                <controlpoint x="0" y="3" z="1" />
+                <controlpoint x="0" y="0" z="2" />
 
-                <controlpoint x="-1" y="-1" z="0" />
+                <controlpoint x="1" y="0" z="0" />
+                <controlpoint x="1" y="3" z="1" />
+                <controlpoint x="1" y="0" z="2" />
+            </patch>
+        </primitive>
+        <primitive id="halfBarrel">
+            <patch degree_u="3" parts_u="12" degree_v="2" parts_v="15">
+                <controlpoint x="1" y="0" z="0" />
+                <controlpoint x="1.5" y="0.5" z="0" />
+                <controlpoint x="1" y="1" z="0" />
+
+                <controlpoint x="1" y="0" z="-1.333333" />
+                <controlpoint x="1.5" y="0.5" z="-1.9999995" />
+                <controlpoint x="1" y="1" z="-1.333333" />
+
+                <controlpoint x="-1" y="0" z="-1.333333" />
+                <controlpoint x="-1.5" y="0.5" z="-1.9999995" />
+                <controlpoint x="-1" y="1" z="-1.333333" />
+
+                <controlpoint x="-1" y="0" z="0" />
+                <controlpoint x="-1.5" y="0.5" z="0" />
                 <controlpoint x="-1" y="1" z="0" />
-                <controlpoint x="1" y="-1" z="0" />
+            </patch>
+        </primitive>
+        <primitive id="halfCircle">
+            <patch degree_u="3" parts_u="12" degree_v="1" parts_v="15">
+                <controlpoint x="1" y="0" z="0" />
+                <controlpoint x="0" y="0" z="0" />
+
+                <controlpoint x="1" y="0" z="-1.333333" />
+                <controlpoint x="0" y="0" z="0" />
+
+                <controlpoint x="-1" y="0" z="-1.333333" />
+                <controlpoint x="0" y="0" z="0" />
+
+                <controlpoint x="-1" y="0" z="0" />
+                <controlpoint x="0" y="0" z="0" />
             </patch>
         </primitive>
     </primitives>
 
     <components>
-        <component id="root">
+        <component id="rootComponent">
             <transformation>
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="towerMaterial"/>
+                <material id="towerAddonMaterial" />
             </materials>
-            <texture id="none"/>
+            <texture id="towerTexture" length_s="1" length_t="1"/>
             <children>
-                <primitiveref id="patchTent" />
+                <primitiveref id="groundRectangle"/>
             </children>
+            <highlighted r="1" g="1" b="1" scale_h="1.2"/>
         </component>
     </components>
 </sxs>

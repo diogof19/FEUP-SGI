@@ -682,6 +682,7 @@ export class MySceneGraph {
                 return "no file defined for texture";
 
             var newTexture = new CGFtexture(this.scene, textureFile);
+            newTexture.bind(1);
 
             this.textures[textureID] = newTexture;
             numTextures++;
@@ -1128,6 +1129,7 @@ export class MySceneGraph {
             var materialsIndex = nodeNames.indexOf("materials");
             var textureIndex = nodeNames.indexOf("texture");
             var childrenIndex = nodeNames.indexOf("children");
+            var highlightedIndex = nodeNames.indexOf("highlighted");
 
             // Transformations
 
@@ -1305,6 +1307,33 @@ export class MySceneGraph {
             component.primitives = componentPrimitives;
             component.components = componentComponents;
 
+            if(highlightedIndex != -1){
+                component.highlighted = true;
+
+                var r = this.reader.getFloat(grandChildren[highlightedIndex], 'r');
+                if (!(r != null && !isNaN(r) && r >= 0 && r <= 1))
+                    return "unable to parse r in component with ID = " + componentID;
+
+                var g = this.reader.getFloat(grandChildren[highlightedIndex], 'g');
+                if (!(g != null && !isNaN(g) && g >= 0 && g <= 1))
+                    return "unable to parse g in component with ID = " + componentID;
+
+                var b = this.reader.getFloat(grandChildren[highlightedIndex], 'b');
+                if (!(b != null && !isNaN(b) && b >= 0 && b <= 1))
+                    return "unable to parse b in component with ID = " + componentID;
+
+                var scale_h = this.reader.getFloat(grandChildren[highlightedIndex], 'scale_h');
+                if (!(scale_h != null && !isNaN(scale_h)))
+                    return "unable to parse scale_h in component with ID = " + componentID;
+
+                component.highlight_colour = [r, g, b];
+                component.highlight_scale = scale_h;
+                console.log(component.highlight_colour);
+            }
+            else component.highlighted = false;
+
+           
+
             components[componentID] = component;
         }
 
@@ -1440,7 +1469,7 @@ export class MySceneGraph {
         var nodeMaterial = new CGFappearance(this.scene);
         var nodeTexture, nodeLength_s, nodeLength_t;
 
-        if(component.materials[0] == "inherit"){
+        if(component.materials[this.materialIndex % component.materials.length] == "inherit"){
             nodeMaterial = parentMaterial;
         }
         else{
@@ -1470,7 +1499,19 @@ export class MySceneGraph {
         for (let i = 0; i < component.primitives.length; i++) {
             var primitive = this.primitives[component.primitives[i]];
             primitive.updateTexCoords(nodeLength_s, nodeLength_t);
+
+            if (component.highlighted) {
+                this.scene.setActiveShader(this.scene.highlightingShader);
+
+                this.scene.highlightingShader.setUniformsValues({
+                    uHighlightColor: component.highlight_colour,
+                    uHighlightScale: component.highlight_scale,
+                    uTimeFactor: Date.now()
+                });
+            }
+            
             primitive.display();
+            this.scene.setActiveShader(this.scene.defaultShader);
             primitive.updateTexCoords(1 / nodeLength_s, 1 / nodeLength_t);
         }
         for (let i = 0; i < component.components.length; i++) {
@@ -1486,6 +1527,8 @@ export class MySceneGraph {
 
         //Create default appearance (need to get the root node appearance)
         //this.appearances.push(new CGFappearance(this.scene));
+
+        
 
         this.displayComponent(this.idRoot, new CGFappearance(this.scene), null, 1, 1);
     }

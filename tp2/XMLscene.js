@@ -1,5 +1,5 @@
 import { CGFscene } from '../lib/CGF.js';
-import { CGFaxis,CGFcamera } from '../lib/CGF.js';
+import { CGFaxis,CGFcamera,CGFshader } from '../lib/CGF.js';
 
 
 var DEGREE_TO_RAD = Math.PI / 180;
@@ -38,6 +38,10 @@ export class XMLscene extends CGFscene {
 
         this.axis = new CGFaxis(this);
         this.setUpdatePeriod(100);
+
+        this.highlightingShader = new CGFshader(this.gl, './shaders/vert/jello.vert', './shaders/frag/huey.frag');
+
+        this.highlightingShader.setUniformsValues({ uSampler: 1 });
 
         this.displayLights = false;
     }
