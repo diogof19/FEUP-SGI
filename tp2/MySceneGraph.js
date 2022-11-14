@@ -682,7 +682,7 @@ export class MySceneGraph {
                 return "no file defined for texture";
 
             var newTexture = new CGFtexture(this.scene, textureFile);
-            newTexture.bind(1);
+            newTexture.bind(0);
 
             this.textures[textureID] = newTexture;
             numTextures++;
@@ -1466,7 +1466,7 @@ export class MySceneGraph {
     displayComponent(cid, parentMaterial, parentTexture, length_s, length_t) {
         let component = this.components[cid];
 
-        var nodeMaterial = new CGFappearance(this.scene);
+        var nodeMaterial;
         var nodeTexture, nodeLength_s, nodeLength_t;
 
         if(component.materials[this.materialIndex % component.materials.length] == "inherit"){
@@ -1490,33 +1490,41 @@ export class MySceneGraph {
             nodeLength_t = component.length_t;
         }
 
+        
+        if (component.highlighted) {
+            this.scene.setActiveShader(this.scene.highlightingShader);
+
+            this.scene.highlightingShader.setUniformsValues({
+                uHighlightColor: component.highlight_colour
+            });
+            this.scene.highlightingShader.setUniformsValues({
+                uHighlightScale: component.highlight_scale
+            });
+        }
+
         nodeMaterial.setTexture(nodeTexture);
         nodeMaterial.setTextureWrap('REPEAT', 'REPEAT')
         nodeMaterial.apply();
 
         this.scene.pushMatrix();
         this.scene.multMatrix(component.transfMatrix);
+
+        
         for (let i = 0; i < component.primitives.length; i++) {
             var primitive = this.primitives[component.primitives[i]];
+
             primitive.updateTexCoords(nodeLength_s, nodeLength_t);
 
-            if (component.highlighted) {
-                this.scene.setActiveShader(this.scene.highlightingShader);
-
-                this.scene.highlightingShader.setUniformsValues({
-                    uHighlightColor: component.highlight_colour,
-                    uHighlightScale: component.highlight_scale,
-                    uTimeFactor: Date.now()
-                });
-            }
-            
             primitive.display();
-            this.scene.setActiveShader(this.scene.defaultShader);
             primitive.updateTexCoords(1 / nodeLength_s, 1 / nodeLength_t);
         }
+        
         for (let i = 0; i < component.components.length; i++) {
             this.displayComponent(component.components[i], nodeMaterial, nodeTexture, nodeLength_s, nodeLength_t);
         }
+        
+        this.scene.setActiveShader(this.scene.defaultShader);
+
         this.scene.popMatrix();
     }
 

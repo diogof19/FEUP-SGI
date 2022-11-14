@@ -31,6 +31,8 @@ export class XMLscene extends CGFscene {
 
         this.enableTextures(true);
 
+        this.setUpdatePeriod(1000)
+
         this.gl.clearDepth(100.0);
         this.gl.enable(this.gl.DEPTH_TEST);
         this.gl.enable(this.gl.CULL_FACE);
@@ -41,7 +43,10 @@ export class XMLscene extends CGFscene {
 
         this.highlightingShader = new CGFshader(this.gl, './shaders/vert/jello.vert', './shaders/frag/huey.frag');
 
-        this.highlightingShader.setUniformsValues({ uSampler: 1 });
+        this.highlightingShader.setUniformsValues({ uSampler: 0 });
+        this.highlightingShader.setUniformsValues({ uTimeFactor: 0 });
+        this.highlightingShader.setUniformsValues({ uHighlightScale: 1.0 });
+        this.highlightingShader.setUniformsValues({ uHighlightColor: [1.0, 1.0, 1.0] });
 
         this.displayLights = false;
     }
@@ -156,6 +161,10 @@ export class XMLscene extends CGFscene {
                 i++;
             }
         }
+    }
+
+    update(t) {
+        this.highlightingShader.setUniformsValues({ uTimeFactor: (Math.sin(((t % 60) / 60.0) * 2 * Math.PI) + 1.0) / 2.0 });
     }
 
     /**

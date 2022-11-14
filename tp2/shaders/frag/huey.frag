@@ -4,16 +4,16 @@ precision highp float;
 
 uniform sampler2D uSampler;
 uniform vec3 uHighlightColor;
+uniform float uTimeFactor;
 
 varying vec2 vTextureCoord;
-varying float vTimeFactor;
 
 void main() {
     vec3 objectColor = texture2D(uSampler, vTextureCoord).xyz;
 
     vec3 highlightColor = uHighlightColor;
 
-    vec3 mixedColor = mix(objectColor, highlightColor, (sin(vTimeFactor / 60.0) + 1.0) / 2.0);
+    vec3 mixedColor = mix(objectColor, highlightColor, uTimeFactor);
 
     gl_FragColor = vec4(mixedColor, 1.0);
 }

@@ -206,7 +206,7 @@
             <children>
                 <primitiveref id="groundRectangle"/>
             </children>
-            <highlighted r="1" g="1" b="1" scale_h="1.2"/>
+            <highlighted r="1" g="0" b="0" scale_h="1.2"/>
         </component>
     </components>
 </sxs>

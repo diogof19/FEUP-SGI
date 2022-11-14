@@ -397,9 +397,21 @@
             </materials>
             <texture id="none"/>
             <children>
-                <componentref id="eyeComponent"/>
                 <componentref id="triangle2"/>
                 <componentref id="triangle1"/>
+                <componentref id="eye"/>
+            </children>            
+        </component>
+
+        <component id="eye">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="eyeComponent"/>
                 <componentref id="pupil"/>
             </children>
         </component>
@@ -416,6 +428,7 @@
             <children>
                 <primitiveref id="eye"/>
             </children>
+            <highlighted r="1" g="0" b="0" scale_h="1.2"/>
         </component>
 
         <component id="triangle2">
@@ -457,6 +470,7 @@
             <children>
                 <primitiveref id="eye" />
             </children>
+            <highlighted r="0" g="0" b="0" scale_h="1.2"/>
         </component>
 
         <!-- DECORATION COMPONENTS -->
