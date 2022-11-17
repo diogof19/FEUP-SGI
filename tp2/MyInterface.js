@@ -51,6 +51,24 @@ export class MyInterface extends CGFinterface {
         return this.activeKeys[keyCode] || false;
     }
 
+    componentToHex(c) {
+        var hex = (c * 255).toString(16);
+        return hex.length == 1 ? "0" + hex : hex;
+    }
+      
+    rgbToHex(r, g, b) {
+        return "#" + this.componentToHex(r) + this.componentToHex(g) + this.componentToHex(b);
+    }
+
+    hexToRgb(hex) {
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return [
+          parseInt(result[1], 16) / 255,
+          parseInt(result[2], 16) / 255,
+          parseInt(result[3], 16) / 255
+        ];
+      }
+
     onGraphLoaded() {
         var itemNames = Object.keys(this.scene.graph.views)
         this.gui.add(this.scene.graph, 'selectedCamera', itemNames)
@@ -71,6 +89,18 @@ export class MyInterface extends CGFinterface {
         var lightNames = Object.keys(this.scene.graph.lights);
         for(let i = 0; i < lightNames.length; i++){
             folder.add(this.scene.lights[i], 'enabled').name(lightNames[i]).onChange(this.scene.updateLights.bind(this.scene));
+        }
+
+        var folder = this.gui.addFolder('Highlights');
+        var components = this.scene.graph.components;
+        for(let element in components){
+            if(components[element].highlighted){
+                var componentFolder = folder.addFolder(element)
+                componentFolder.add(components[element], 'highlighted').name(element); 
+                componentFolder.add(components[element], 'highlight_scale', 1, 10);
+                let colors = {'color': this.rgbToHex(...components[element].highlight_colour)}
+                componentFolder.addColor(colors, 'color').onChange(this.scene.updateHighlightColour(this.scene, components[element], this.hexToRgb(colors['color'])))
+            }
         }
     }
 }

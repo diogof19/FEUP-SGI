@@ -1500,6 +1500,9 @@ export class MySceneGraph {
             this.scene.highlightingShader.setUniformsValues({
                 uHighlightScale: component.highlight_scale
             });
+            this.scene.highlightingShader.setUniformsValues({
+                uMaterialColor: nodeTexture == null ? nodeMaterial.ambient.slice(0, 3) : [-1.0, -1.0, -1.0]
+            });
         }
 
         nodeMaterial.setTexture(nodeTexture);
@@ -1516,6 +1519,7 @@ export class MySceneGraph {
             primitive.updateTexCoords(nodeLength_s, nodeLength_t);
 
             primitive.display();
+
             primitive.updateTexCoords(1 / nodeLength_s, 1 / nodeLength_t);
         }
         
@@ -1523,7 +1527,9 @@ export class MySceneGraph {
             this.displayComponent(component.components[i], nodeMaterial, nodeTexture, nodeLength_s, nodeLength_t);
         }
         
-        this.scene.setActiveShader(this.scene.defaultShader);
+        if (component.highlighted) {
+            this.scene.setActiveShader(this.scene.defaultShader);
+        }
 
         this.scene.popMatrix();
     }
