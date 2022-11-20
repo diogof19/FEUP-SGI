@@ -1,7 +1,7 @@
 <sxs>
     <scene root="rootComponent" axis_length="0"/>
 
-    <views default="eyeCamera">
+    <views default="encampmentCamera">
         <perspective id="lookingUpCamera" near="0.1" far="500" angle="45">
             <from x="0" y="5" z="50" />
             <to x="0" y="20" z="0" />
@@ -194,6 +194,18 @@
         </primitive>
     </primitives>
 
+    <animations>
+        <keyframeanim id="testAnimation">        
+            <keyframe instant="5">
+                <translation x="5" y="0" z="0" />
+                <rotation axis="z" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="x" angle="0" />
+                <scale sx="1" sy="1" sz="1" />
+            </keyframe>
+        </keyframeanim>
+    </animations>
+
     <components>
         <component id="rootComponent">
             <transformation>
@@ -206,7 +218,8 @@
             <children>
                 <primitiveref id="groundRectangle"/>
             </children>
-            <highlighted r="1" g="0" b="0" scale_h="1.2"/>
+            <animation id="testAnimation"/>
+            <highlighted r="1" g="1" b="1" scale_h="1.2"/>
         </component>
     </components>
 </sxs>

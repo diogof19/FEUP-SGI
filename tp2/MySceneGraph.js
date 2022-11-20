@@ -5,6 +5,8 @@ import { MySphere } from './MySphere.js';
 import { MyTorus } from './MyTorus.js';
 import { MyTriangle } from './MyTriangle.js';
 import { MyPatch } from './MyPatch.js';
+import { MyKeyframeAnimation } from './animations/MyKeyframeAnimation.js';
+import { MyKeyframe } from './animations/MyKeyframe.js';
 
 var DEGREE_TO_RAD = Math.PI / 180;
 
@@ -17,7 +19,8 @@ var TEXTURES_INDEX = 4;
 var MATERIALS_INDEX = 5;
 var TRANSFORMATIONS_INDEX = 6;
 var PRIMITIVES_INDEX = 7;
-var COMPONENTS_INDEX = 8;
+var ANIMATIONS_INDEX = 8;
+var COMPONENTS_INDEX = 9;
 
 /**
  * MySceneGraph class, representing the scene graph.
@@ -238,6 +241,18 @@ export class MySceneGraph {
 
             //Parse primitives block
             if ((error = this.parsePrimitives(nodes[index])) != null)
+                return error;
+        }
+
+        // <components>
+        if ((index = nodeNames.indexOf("animations")) == -1)
+            return "tag <animations> missing";
+        else {
+            if (index != ANIMATIONS_INDEX)
+                this.onXMLMinorError("tag <animations> out of order");
+
+            //Parse components block
+            if ((error = this.parseAnimations(nodes[index])) != null)
                 return error;
         }
 
@@ -1084,6 +1099,107 @@ export class MySceneGraph {
         return null;
     }
 
+    parseRotation(node, animationID){
+        var axis = this.reader.getString(node, 'axis');
+        if(axis == null)
+            this.onXMLError("unable to parse axis of the rotation for ID = " + animationID);
+
+        var angle = this.reader.getFloat(node, 'angle');
+        if(! (angle != null && !isNaN(angle)))
+            return "unable to parse angle of the rotation for ID = " + animationID;
+
+        return [axis, angle * DEGREE_TO_RAD];
+    }
+
+    parseAnimations(animationsNode) {
+        this.animations = [];
+
+        var children = animationsNode.children;
+
+        for (var i = 0; i < children.length; i++) {
+            if (children[i].nodeName != "keyframeanim") {
+                this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+                continue;
+            }
+
+            var animationId = this.reader.getString(children[i], 'id');
+            if (animationId == null)
+                return "no ID defined for animation";
+
+            if (this.animations[animationId] != null)
+                return "ID must be unique for each animation (conflict: ID = " + animationId + ")";
+
+            var grandChildren = children[i].children;
+
+            var keyframes = [];
+            for(var k = 0; k < grandChildren.length; k++) {
+                var instant = this.reader.getFloat(grandChildren[k], 'instant');
+                if(! (instant != null && !isNaN(instant)))
+                    return "unable to parse instant of the animation for ID = " + animationId;
+
+                var rotation_x, rotation_y, rotation_z, scale;
+                var grandgrandChildren = grandChildren[k].children;
+
+                if(grandgrandChildren.length != 5)
+                    return "wrong number of transformations in animation with ID = " + animationId;
+
+                if(grandgrandChildren[0].nodeName != "translation")
+                    return "translate must be the first transformation of the animation with ID = " + animationId;
+
+                var x = this.reader.getFloat(grandgrandChildren[0], 'x');
+                if(! (x != null && !isNaN(x)))
+                    return "unable to parse x of the animation for ID = " + animationId;
+                var y = this.reader.getFloat(grandgrandChildren[0], 'y');
+                if(! (y != null && !isNaN(y)))
+                    return "unable to parse y of the animation for ID = " + animationId;
+                var z = this.reader.getFloat(grandgrandChildren[0], 'z');
+                if(! (z != null && !isNaN(z)))
+                    return "unable to parse z of the animation for ID = " + animationId;
+
+                var translation = [x, y, z];
+
+                if(grandgrandChildren[1].nodeName != "rotation" || grandgrandChildren[2].nodeName != "rotation" || grandgrandChildren[3].nodeName != "rotation")
+                    return "rotations must be the second, third and fourth transformations of the animation with ID = " + animationId;
+
+                var rotation_z = this.parseRotation(grandgrandChildren[1], animationId);
+                if(rotation_z[0] != 'z')
+                    return "rotation z must be the second transformation of the animation with ID = " + animationId;
+                rotation_z = rotation_z[1];
+
+                var rotation_y = this.parseRotation(grandgrandChildren[2], animationId);
+                if(rotation_y[0] != 'y')
+                    return "rotation y must be the third transformation of the animation with ID = " + animationId;
+                rotation_y = rotation_y[1];
+
+                var rotation_x = this.parseRotation(grandgrandChildren[3], animationId);
+                if(rotation_x[0] != 'x')
+                    return "rotation x must be the fourth transformation of the animation with ID = " + animationId;
+                rotation_x = rotation_x[1];
+
+                if(grandgrandChildren[4].nodeName != "scale")
+                    return "scale must be the fifth transformation of the animation with ID = " + animationId;
+
+                var sx = this.reader.getFloat(grandgrandChildren[4], 'sx');
+                if(! (sx != null && !isNaN(sx)))
+                    return "unable to parse sx of the animation for ID = " + animationId;
+
+                var sy = this.reader.getFloat(grandgrandChildren[4], 'sy');
+                if(! (sy != null && !isNaN(sy)))
+                    return "unable to parse sy of the animation for ID = " + animationId;
+                
+                var sz = this.reader.getFloat(grandgrandChildren[4], 'sz');
+                if(! (sz != null && !isNaN(sz)))
+                    return "unable to parse sz of the animation for ID = " + animationId;
+
+                var scale = [sx, sy, sz];
+
+                keyframes.push(new MyKeyframe(instant, translation, rotation_x, rotation_y, rotation_z, scale));
+            }
+
+            this.animations[animationId] = new MyKeyframeAnimation(this.scene, animationId, keyframes);
+        }
+    }
+
     /**
    * Parses the <components> block.
    * @param {components block element} componentsNode
@@ -1129,6 +1245,7 @@ export class MySceneGraph {
             var materialsIndex = nodeNames.indexOf("materials");
             var textureIndex = nodeNames.indexOf("texture");
             var childrenIndex = nodeNames.indexOf("children");
+            var animationIndex = nodeNames.indexOf("animation");
             var highlightedIndex = nodeNames.indexOf("highlighted");
 
             // Transformations
@@ -1328,14 +1445,24 @@ export class MySceneGraph {
 
                 component.highlight_colour = [r, g, b];
                 component.highlight_scale = scale_h;
-                console.log(component.highlight_colour);
             }
             else component.highlighted = false;
 
-           
+            if(animationIndex != -1){
+                var animationID = this.reader.getString(grandChildren[animationIndex], 'id');
+                if(animationID == null){
+                    this.onXMLError("no ID from animation in component (ID = " + componentID + ")");
+                    continue;
+                }
+                else if(this.animations[animationID] == null){
+                    this.onXMLError("no animation defined with ID = " + animationID);
+                }
+                else component.animation = animationID;
+            }
 
             components[componentID] = component;
-        }
+
+           }
 
         this.components = components;
 
@@ -1511,6 +1638,10 @@ export class MySceneGraph {
 
         this.scene.pushMatrix();
         this.scene.multMatrix(component.transfMatrix);
+
+        if(component.animation != null){
+            this.animations[component.animation].apply();
+        }
 
         
         for (let i = 0; i < component.primitives.length; i++) {

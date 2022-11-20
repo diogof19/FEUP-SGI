@@ -28,6 +28,7 @@ export class XMLscene extends CGFscene {
         this.sceneInited = false;
 
         this.setUpdatePeriod(1000);
+        this.startTime = null;
 
         this.initCameras();
 
@@ -167,13 +168,15 @@ export class XMLscene extends CGFscene {
 
     update(t) {
         this.highlightingShader.setUniformsValues({ uTimeFactor: (t % 1000) / 1000});
-    }
 
-    updateHighlightColour(component, newColour) {
-        console.log("ASDDADSDSADASDASD");
-        console.log(newColour);
-        component.highlight_colour = newColour;
-        this.display();
+        if(this.startTime == null)
+            this.startTime = t;
+
+        for(var key in this.graph.animations) {
+            if(this.graph.animations.hasOwnProperty(key)) {
+                this.graph.animations[key].update(t - this.startTime);
+            }
+        }
     }
 
     /**
