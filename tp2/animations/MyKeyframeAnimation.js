@@ -9,16 +9,18 @@ export class MyKeyframeAnimation extends MyAnimation {
         console.log(this.keyframes);
     }
 
+    interpolation(x, x1, x2, y1, y2){
+        return y1 + (x - x1) * (y2 - y1) / (x2 - x1);
+    }
+
     update(t){
         t = t / 1000; //MAYBE BUT NOT SURE
         
         //console.log("IN UPDATE");
         if(this.keyframes.length == 1){
             //console.log("ONLY ONE KEYFRAME");
-            if(this.keyframes[0].instant == t)
-                this.animationMatrix = this.keyframes[0].animationMatrix;
-            else{ //OBJETO NÂO EXISTIR ANTES DE COMEÇAR A ANIMAÇÃO
-
+            if(this.keyframes[0].instant < t){ //OBJETO NÂO EXISTIR ANTES DE COMEÇAR A ANIMAÇÃO MAS TEM DE EXISITR NO FIM
+                return;
             }
             return;
         }
@@ -54,21 +56,22 @@ export class MyKeyframeAnimation extends MyAnimation {
         vec3.lerp(translation, keyframe1.translation, keyframe2.translation, timeElapsed / timeDiff);
 
         var rotation_x = vec3.create();
-        vec3.lerp(rotation_x, keyframe1.rotation_x, keyframe2.rotation_x, timeElapsed / timeDiff);
+        vec3.lerp(rotation_x, vec3.fromValues(keyframe1.rotation_x, 0, 0), vec3.fromValues(keyframe2.rotation_x, 0, 0), timeElapsed / timeDiff);
+        console.log(rotation_x);
 
         var rotation_y = vec3.create();
-        vec3.lerp(rotation_y, keyframe1.rotation_y, keyframe2.rotation_y, timeElapsed / timeDiff);
+        vec3.lerp(rotation_y, vec3.fromValues(0, keyframe1.rotation_y, 0), vec3.fromValues(0, keyframe2.rotation_y, 0), timeElapsed / timeDiff);
 
         var rotation_z = vec3.create();
-        vec3.lerp(rotation_z, keyframe1.rotation_z, keyframe2.rotation_z, timeElapsed / timeDiff);
+        vec3.lerp(rotation_z, vec3.fromValues(0, 0, keyframe1.rotation_z), vec3.fromValues(0, 0, keyframe1.rotation_x), timeElapsed / timeDiff);
 
         var scale = vec3.create();
         vec3.lerp(scale, keyframe1.scale, keyframe2.scale, timeElapsed / timeDiff);
 
         mat4.translate(this.animationMatrix, this.animationMatrix, translation);
         mat4.rotate(this.animationMatrix, this.animationMatrix, rotation_x[0], [1, 0, 0]);
-        mat4.rotate(this.animationMatrix, this.animationMatrix, rotation_y[0], [0, 1, 0]);
-        mat4.rotate(this.animationMatrix, this.animationMatrix, rotation_z[0], [0, 0, 1]);
+        mat4.rotate(this.animationMatrix, this.animationMatrix, rotation_y[1], [0, 1, 0]);
+        mat4.rotate(this.animationMatrix, this.animationMatrix, rotation_z[2], [0, 0, 1]);
         mat4.scale(this.animationMatrix, this.animationMatrix, scale);
     }
 
