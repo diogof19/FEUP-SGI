@@ -1196,6 +1196,8 @@ export class MySceneGraph {
                 keyframes.push(new MyKeyframe(instant, translation, rotation_x, rotation_y, rotation_z, scale));
             }
 
+            console.log(keyframes);
+
             this.animations[animationId] = new MyKeyframeAnimation(this.scene, animationId, keyframes);
         }
     }

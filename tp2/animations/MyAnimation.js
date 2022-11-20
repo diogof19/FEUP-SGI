@@ -7,10 +7,6 @@ export class MyAnimation{
         this.animationMatrix = mat4.identity(this.animationMatrix);
     }
 
-    update(t){
-        
-    }
-
     apply(){
         this.scene.multMatrix(this.animationMatrix);
     }

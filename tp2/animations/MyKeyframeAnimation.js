@@ -6,14 +6,24 @@ export class MyKeyframeAnimation extends MyAnimation {
     
         this.animationID = animationID;
         this.keyframes = keyframes;
+        console.log(this.keyframes);
     }
 
     update(t){
+        t = t / 1000; //MAYBE BUT NOT SURE
+        
+        //console.log("IN UPDATE");
         if(this.keyframes.length == 1){
+            //console.log("ONLY ONE KEYFRAME");
             if(this.keyframes[0].instant == t)
                 this.animationMatrix = this.keyframes[0].animationMatrix;
+            else{ //OBJETO NÂO EXISTIR ANTES DE COMEÇAR A ANIMAÇÃO
+
+            }
             return;
         }
+
+        //console.log("MORE THAN ONE KEYFRAME");
 
         var keyframe1 = this.keyframes[0];
         var keyframe2 = this.keyframes[1];
@@ -24,11 +34,21 @@ export class MyKeyframeAnimation extends MyAnimation {
         var timeDiff = time2 - time1;
         var timeElapsed = t - time1;
 
+        console.log(t);
+
+        if(t < time1){
+            console.log(t);
+            return;
+        }
+
         if(timeElapsed >= timeDiff){
             this.keyframes.shift();
             this.update(t);
             return;
         }
+
+        console.log(timeElapsed);
+        console.log(keyframe1.translation);
 
         var translation = vec3.create();
         vec3.lerp(translation, keyframe1.translation, keyframe2.translation, timeElapsed / timeDiff);
