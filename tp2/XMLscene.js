@@ -170,8 +170,10 @@ export class XMLscene extends CGFscene {
     }
 
     updateHighlightColour(component, newColour) {
+        console.log("ASDDADSDSADASDASD");
         console.log(newColour);
         component.highlight_colour = newColour;
+        this.display();
     }
 
     /**

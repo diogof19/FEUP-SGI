@@ -97,9 +97,14 @@ export class MyInterface extends CGFinterface {
             if(components[element].highlighted){
                 var componentFolder = folder.addFolder(element)
                 componentFolder.add(components[element], 'highlighted').name(element); 
-                componentFolder.add(components[element], 'highlight_scale', 1, 10);
-                let colors = {'color': this.rgbToHex(...components[element].highlight_colour)}
-                componentFolder.addColor(colors, 'color').onChange(this.scene.updateHighlightColour(this.scene, components[element], this.hexToRgb(colors['color'])))
+                componentFolder.add(components[element], 'highlight_scale', 1, 10).name('Scale');
+
+                var colours = {'colour': this.rgbToHex(...components[element].highlight_colour)};
+                var colourController = componentFolder.addColor(colours, 'colour').name('Colour');
+                colourController.onChange((value) => {
+                    colours['colour'] = value;
+                    components[element].highlight_colour = this.hexToRgb(value);
+                });
             }
         }
     }
