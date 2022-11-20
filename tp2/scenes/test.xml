@@ -205,10 +205,10 @@
             </keyframe>
             <keyframe instant="5">
                 <translation x="4" y="0" z="0" />
-                <rotation axis="z" angle="0" />
+                <rotation axis="z" angle="45" />
                 <rotation axis="y" angle="0" />
                 <rotation axis="x" angle="0" />
-                <scale sx="1" sy="1" sz="1" />
+                <scale sx="1.1" sy="1.1" sz="1.1" />
             </keyframe>
         </keyframeanim>
     </animations>
