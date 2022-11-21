@@ -54,23 +54,17 @@ export class MyKeyframeAnimation extends MyAnimation {
         var translation = vec3.create();
         vec3.lerp(translation, keyframe1.translation, keyframe2.translation, timeElapsed / timeDiff);
 
-        var rotation1 = vec3.create();
-        rotation1 = vec3.fromValues(keyframe1.rotation_x, keyframe1.rotation_y, keyframe1.rotation_z);
-
-        var rotation2 = vec3.create();
-        rotation2 = vec3.fromValues(keyframe2.rotation_x, keyframe2.rotation_y, keyframe2.rotation_z);
-
-        var rotation = vec3.create();
-        vec3.lerp(rotation, rotation1, rotation2, timeElapsed / timeDiff);
-        console.log(rotation);
+        var rotation_x = keyframe1.rotation_x + (keyframe2.rotation_x - keyframe1.rotation_x) * (timeElapsed / timeDiff);
+        var rotation_y = keyframe1.rotation_y + (keyframe2.rotation_y - keyframe1.rotation_y) * (timeElapsed / timeDiff);
+        var rotation_z = keyframe1.rotation_z + (keyframe2.rotation_z - keyframe1.rotation_z) * (timeElapsed / timeDiff);
 
         var scale = vec3.create();
         vec3.lerp(scale, keyframe1.scale, keyframe2.scale, timeElapsed / timeDiff);
 
         mat4.translate(this.animationMatrix, this.animationMatrix, translation);
-        mat4.rotateZ(this.animationMatrix, this.animationMatrix, rotation[2]);
-        mat4.rotateY(this.animationMatrix, this.animationMatrix, rotation[1]);
-        mat4.rotateX(this.animationMatrix, this.animationMatrix, rotation[0]);
+        mat4.rotateZ(this.animationMatrix, this.animationMatrix, rotation_x);
+        mat4.rotateY(this.animationMatrix, this.animationMatrix, rotation_y);
+        mat4.rotateX(this.animationMatrix, this.animationMatrix, rotation_z);
         mat4.scale(this.animationMatrix, this.animationMatrix, scale);
     }
 
