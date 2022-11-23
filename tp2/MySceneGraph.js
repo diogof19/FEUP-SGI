@@ -1,10 +1,10 @@
 import { CGFappearance, CGFXMLreader, CGFtexture, CGFcamera, CGFcameraOrtho } from '../lib/CGF.js';
-import { MyCylinder } from './MyCylinder.js';
-import { MyRectangle } from './MyRectangle.js';
-import { MySphere } from './MySphere.js';
-import { MyTorus } from './MyTorus.js';
-import { MyTriangle } from './MyTriangle.js';
-import { MyPatch } from './MyPatch.js';
+import { MyCylinder } from './primitives/MyCylinder.js';
+import { MyRectangle } from './primitives/MyRectangle.js';
+import { MySphere } from './primitives/MySphere.js';
+import { MyTorus } from './primitives/MyTorus.js';
+import { MyTriangle } from './primitives/MyTriangle.js';
+import { MyPatch } from './primitives/MyPatch.js';
 import { MyKeyframeAnimation } from './animations/MyKeyframeAnimation.js';
 import { MyKeyframe } from './animations/MyKeyframe.js';
 

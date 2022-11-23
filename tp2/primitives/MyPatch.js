@@ -1,4 +1,4 @@
-import { CGFobject, CGFnurbsSurface, CGFnurbsObject } from '../lib/CGF.js';
+import { CGFobject, CGFnurbsSurface, CGFnurbsObject } from '../../lib/CGF.js';
 
 export class MyPatch extends CGFobject {
 	constructor(scene, id, degreeU, partsU, degreeV, partsV, controlPoints) {
