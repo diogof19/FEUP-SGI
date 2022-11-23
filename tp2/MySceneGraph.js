@@ -1591,93 +1591,9 @@ export class MySceneGraph {
     }
 
     /**
-     * 
-     * @param {*} cid 
-     * @param {CGFappearance} parentMaterial 
-     */
-    displayComponent(cid, parentMaterial, parentTexture, length_s, length_t) {
-        let component = this.components[cid];
-
-        var nodeMaterial;
-        var nodeTexture, nodeLength_s, nodeLength_t;
-
-        if(component.materialIds[this.materialIndex % component.materialIds.length] == "inherit"){
-            nodeMaterial = parentMaterial;
-        }
-        else{
-            nodeMaterial = this.appearances[component.materialIds[this.materialIndex % component.materialIds.length]];
-        }
-        
-        if(component.textureInfo.textureId == "none"){
-            nodeTexture = null;
-            nodeLength_s = 1;
-            nodeLength_t = 1;
-        } else if(component.textureInfo.textureId == "inherit"){
-            nodeTexture = parentTexture;
-            nodeLength_s = length_s;
-            nodeLength_t = length_t;
-        } else {
-            nodeTexture = this.textures[component.textureInfo.textureId];
-            nodeLength_s = component.textureInfo.lengthS;
-            nodeLength_t = component.textureInfo.lengthT;
-        }
-
-        
-        if (component.highlightInfo != null && component.highlightInfo.highlight) {
-            this.scene.setActiveShader(this.scene.highlightingShader);
-
-            this.scene.highlightingShader.setUniformsValues({
-                uHighlightColor: component.highlightInfo.color
-            });
-            this.scene.highlightingShader.setUniformsValues({
-                uHighlightScale: component.highlightInfo.scale
-            });
-            this.scene.highlightingShader.setUniformsValues({
-                uMaterialColor: nodeTexture == null ? nodeMaterial.ambient.slice(0, 3) : [-1.0, -1.0, -1.0]
-            });
-        }
-
-        nodeMaterial.setTexture(nodeTexture);
-        nodeMaterial.setTextureWrap('REPEAT', 'REPEAT')
-        nodeMaterial.apply();
-
-        this.scene.pushMatrix();
-        this.scene.multMatrix(component.transfMatrix);
-
-        if(component.animation != null){
-            let animation = this.animations[component.animation];
-            if (this.scene.instant < animation.startTime)
-                return;
-
-            animation.apply();
-        }
-
-        
-        for (let i = 0; i < component.primitiveIds.length; i++) {
-            var primitive = this.primitives[component.primitiveIds[i]];
-
-            primitive.updateTexCoords(nodeLength_s, nodeLength_t);
-
-            primitive.display();
-
-            primitive.updateTexCoords(1 / nodeLength_s, 1 / nodeLength_t);
-        }
-        
-        for (let i = 0; i < component.componentIds.length; i++) {
-            this.displayComponent(component.componentIds[i], nodeMaterial, nodeTexture, nodeLength_s, nodeLength_t);
-        }
-        
-        if (component.highlightInfo != null && component.highlightInfo.highlight) {
-            this.scene.setActiveShader(this.scene.defaultShader);
-        }
-
-        this.scene.popMatrix();
-    }
-
-    /**
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
-        this.displayComponent(this.idRoot, new CGFappearance(this.scene), null, 1, 1);
+        this.components[this.idRoot].display();
     }
 }
