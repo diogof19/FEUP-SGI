@@ -94,7 +94,7 @@ export class MyInterface extends CGFinterface {
         var folder = this.gui.addFolder('Highlights');
         var components = this.scene.graph.components;
         for(let element in components){
-            if(components[element].highlightInfo != null){
+            if(components[element].isHighlightable()){
                 var componentFolder = folder.addFolder(element)
                 componentFolder.add(components[element].highlightInfo, 'highlight').name(element); 
                 componentFolder.add(components[element].highlightInfo, 'scale', 1, 10).name('Scale');
