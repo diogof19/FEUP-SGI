@@ -1642,7 +1642,11 @@ export class MySceneGraph {
         this.scene.multMatrix(component.transfMatrix);
 
         if(component.animation != null){
-            this.animations[component.animation].apply();
+            let animation = this.animations[component.animation];
+            if (this.scene.instant < animation.startTime)
+                return;
+
+            animation.apply();
         }
 
         

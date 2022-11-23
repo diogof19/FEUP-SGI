@@ -4,6 +4,8 @@ import { CGFaxis,CGFcamera,CGFshader } from '../lib/CGF.js';
 
 var DEGREE_TO_RAD = Math.PI / 180;
 
+const UPDATE_PERIOD_MS = 1000;
+
 /**
  * XMLscene class, representing the scene that is to be rendered.
  */
@@ -16,6 +18,8 @@ export class XMLscene extends CGFscene {
         super();
 
         this.interface = myinterface;
+
+        this.instant = 0;
     }
 
     /**
@@ -27,7 +31,8 @@ export class XMLscene extends CGFscene {
 
         this.sceneInited = false;
 
-        this.setUpdatePeriod(1000);
+        this.setUpdatePeriod(UPDATE_PERIOD_MS);
+
         this.startTime = null;
 
         this.initCameras();
@@ -171,6 +176,8 @@ export class XMLscene extends CGFscene {
 
         if(this.startTime == null)
             this.startTime = t;
+
+        this.instant = (t - this.startTime) / 1000;
 
         for(var key in this.graph.animations) {
             if(this.graph.animations.hasOwnProperty(key)) {

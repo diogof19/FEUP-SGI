@@ -6,6 +6,7 @@ export class MyKeyframeAnimation extends MyAnimation {
     
         this.animationID = animationID;
         this.keyframes = keyframes;
+        this.startTime = keyframes[0].instant;
         console.log(this.keyframes);
     }
 
@@ -35,8 +36,6 @@ export class MyKeyframeAnimation extends MyAnimation {
 
         var timeDiff = time2 - time1;
         var timeElapsed = t - time1;
-
-        console.log(t);
 
         if(t < time1){
             console.log(t);
