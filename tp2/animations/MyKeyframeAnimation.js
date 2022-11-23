@@ -38,7 +38,6 @@ export class MyKeyframeAnimation extends MyAnimation {
         var timeElapsed = t - time1;
 
         if(t < time1){
-            console.log(t);
             return;
         }
 
@@ -59,7 +58,7 @@ export class MyKeyframeAnimation extends MyAnimation {
 
         //console.log("rot_x: " + rotation_x);
         //console.log("rot_y: " + rotation_y);
-        console.log("rot_z: " + rotation_z);
+        //console.log("rot_z: " + rotation_z);
 
         var scale = vec3.create();
         vec3.lerp(scale, keyframe1.scale, keyframe2.scale, timeElapsed / timeDiff);
