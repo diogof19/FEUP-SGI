@@ -96,9 +96,13 @@ export class MyInterface extends CGFinterface {
         for(let element in components){
             if(components[element].isHighlightable()){
                 var componentFolder = folder.addFolder(element)
-                componentFolder.add(components[element].highlightInfo, 'highlight').name(element); 
+                // Enable highlight
+                componentFolder.add(components[element].highlightInfo, 'highlight').name(element);
+
+                // Scaler
                 componentFolder.add(components[element].highlightInfo, 'scale', 1, 10).name('Scale');
 
+                // Color picker
                 var colors = {'color': this.rgbToHex(...components[element].highlightInfo.color)};
                 var colorController = componentFolder.addColor(colors, 'color').name('Color');
                 colorController.onChange((value) => {

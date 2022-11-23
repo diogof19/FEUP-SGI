@@ -13,11 +13,18 @@ export class MyPatch extends CGFobject {
         this.object = this.makeSurface();
 	}
 	
+	/**
+	 * Creates the surface
+	 * @returns {CGFnurbsObject} Patch object
+	 */
 	makeSurface(){
         var nurbsSurface = new CGFnurbsSurface(this.degreeU, this.degreeV, this.controlPoints);
 		return new CGFnurbsObject(this.scene, this.partsU, this.partsV, nurbsSurface);
     }
 
+	/**
+	 * Displays the object
+	 */
     display(){
         this.object.display();
     }

@@ -88,6 +88,12 @@ export class MySceneGraph {
         this.scene.onGraphLoaded();
     }
 
+    /**
+     * Utility for checking cyclic references in the scene graph.
+     * @param {string} cid
+     * @param {object} visited
+     * @param {object} recStack
+     */
     isCyclicUtil(cid, visited, recStack) {
         if (recStack[cid]) return true;
 
@@ -110,6 +116,10 @@ export class MySceneGraph {
         return false;
     }
 
+    /**
+     * Checks if the scene graph has cycles.
+     * @return {null} if there are no cycles, an error message otherwise
+     */
     checkSceneGraphCycles() {
         let visited = [];
         let recStack = [];
@@ -1102,6 +1112,12 @@ export class MySceneGraph {
         return null;
     }
 
+    /**
+     * Parses a rotation node.
+     * @param {rotation node} node
+     * @param {string} animation
+     * @returns {object} rotation
+     */
     parseRotation(node, animationID){
         var axis = this.reader.getString(node, 'axis');
         if(axis == null)
@@ -1114,6 +1130,11 @@ export class MySceneGraph {
         return [axis, angle * DEGREE_TO_RAD];
     }
 
+    /**
+     * Parses the animations node.
+     * @param {animations node} animationsNode
+     * @returns {null}
+     */
     parseAnimations(animationsNode) {
         this.animations = [];
 
@@ -1586,6 +1607,9 @@ export class MySceneGraph {
         console.log("   " + message);
     }
 
+    /**
+     * Increment the scene's material index
+     */
     incrementMaterialIndex(){
         this.materialIndex++;
     }

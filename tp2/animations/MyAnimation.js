@@ -7,6 +7,9 @@ export class MyAnimation{
         this.animationMatrix = mat4.identity(this.animationMatrix);
     }
 
+    /**
+     * Applies the animation matrix to the scene graph
+     */
     apply(){
         this.scene.multMatrix(this.animationMatrix);
     }

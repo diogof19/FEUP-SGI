@@ -181,7 +181,7 @@ export class XMLscene extends CGFscene {
 
         for(var key in this.graph.animations) {
             if(this.graph.animations.hasOwnProperty(key)) {
-                this.graph.animations[key].update(t - this.startTime);
+                this.graph.animations[key].update(this.instant);
             }
         }
     }

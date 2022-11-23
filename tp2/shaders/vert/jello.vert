@@ -18,6 +18,7 @@ varying float vTimeFactor;
 
 void main() {
     vec3 normal = normalize(aVertexNormal);
+    // Scale by the normal
     vec3 position = aVertexPosition + normal * (uHighlightScale - 1.0) * (sin((uTimeFactor) * 2.0 * 3.1415) + 1.0) / 2.0;
 
     vTextureCoord = aTextureCoord;

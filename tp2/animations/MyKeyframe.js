@@ -8,6 +8,4 @@ export class MyKeyframe {
         this.rotation_z = rotation_z;
         this.scale = scale;
     }
-
-
 }

@@ -24,22 +24,45 @@ export class MyComponent {
         this.componentIds = componentIds;
     }
 
+    /**
+     * Get the number of materials
+     * @returns {Number} - Number of materials
+     */
     materialNumber() {
         return this.materialIds.length;
     }
 
+    /**
+     * Get index of the selected material
+     * @returns {Number} Index of the selected material
+     */
     selectedMaterial() {
         return this.sceneGraph.materialIndex & this.materialNumber();
     }
 
+    /**
+     * Checks if the component is highlightable
+     * @returns {Boolean} - True if highlightable, false otherwise
+     */
     isHighlightable() {
         return this.highlightInfo != null;
     }
 
+    /**
+     * Checks if the component is animated
+     * @returns {boolean} True if the component is animated, false otherwise
+     */
     isAnimated() {
         return this.animation != null;
     }
 
+    /**
+     * Displays the component
+     * @param {CGFappearance} material - Material to be applied if inherited
+     * @param {CGFtexture} texture - Texture to be applied if inherited
+     * @param {Number} lengthS - Texture length in s axis
+     * @param {Number} lengthT - Texture length in t axis
+     */
     display
     (
         parentMaterial = new CGFappearance(this.sceneGraph.scene),

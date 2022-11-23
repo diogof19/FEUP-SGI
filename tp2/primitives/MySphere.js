@@ -16,13 +16,16 @@ export class MySphere extends CGFobject {
         this.normals = [];
         this.texCoords = [];
     
+        // Stack angle
         let phi = 0;
+        // Slice angle
         let theta = 0;
         let phiInc = Math.PI / (2 * this.stacks);
         let thetaInc = (2 * Math.PI) / this.slices;
         let index = 0;
         let verticesByStack = this.slices * 2;
     
+        // Only make trigonometric calculations for the top half of the sphere
         for (let latitude = 0; latitude <= this.stacks; latitude++) {
                 let sinPhi = Math.sin(phi);
                 let cosPhi = Math.cos(phi);
@@ -37,15 +40,21 @@ export class MySphere extends CGFobject {
                     let x1 = this.radius * sinPhi * cosTheta;
                     let y1 = this.radius * sinPhi * sinTheta;
 
+                    // Vertices
                     this.vertices.push(
                         x1, y1, z1,
                         x1, y1, -z1,
                     );
+                    // Normals
                     this.normals.push(
                         sinPhi * cosTheta, sinPhi * sinTheta, cosPhi,                 
                         sinPhi * cosTheta, sinPhi * sinTheta, -cosPhi,
                     );
+                    // Indices
                     if (latitude != this.stacks) {
+                        // Connect the current vertex with the one on the same longitude on the next latitude and the one on the next longitude and the next latitude
+                        // Connect the currect vertex with the one on the next longitude and the same latitude and the one on the next longitude and the next latitude
+                        // Do the same for south pole
                         this.indices.push(
                             // North
                             index, index + verticesByStack, index + verticesByStack + 2,
@@ -55,6 +64,7 @@ export class MySphere extends CGFobject {
                             index + verticesByStack + 1 + 2, index + verticesByStack + 1, index + 1
                         );
                     }
+                    // Texture Coordinates
                     this.texCoords.push(
                         // North
                         theta / (2 * Math.PI), cosPhi / 2 + 0.5,

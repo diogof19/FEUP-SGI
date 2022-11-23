@@ -22,10 +22,14 @@ export class MyCylinder extends CGFobject {
         var radius = this.base;
         var nZ = (this.base - this.top) / this.height;
 
+        // Bottom to top
 		for(var stack = 0; stack <= this.stacks; stack++){
-
+            // Current stack height
             var vZ = stack * this.height / this.stacks;
+
+            // Create a new circle
             for(var slice = 0; slice <= this.slices; slice++){
+                // Current slice angle
                 var alpha = Math.PI * 2 * slice / this.slices;
                 
                 var cos = Math.cos(alpha);
@@ -34,6 +38,7 @@ export class MyCylinder extends CGFobject {
                 var vX = cos * radius;
                 var vY = sin * radius;
                 
+                // Vertices
                 this.vertices.push(vX, vY, vZ);
 
                 var normal = vec3.create();
@@ -41,8 +46,10 @@ export class MyCylinder extends CGFobject {
                 var normalized = vec3.create();
                 normalized = vec3.normalize(normalized, normal);
 
+                // Normals
                 this.normals.push(normalized.x, normalized.y, normalized.z);
 
+                // Indices
                 if(stack != this.stacks && slice != this.slices){
                     var v1 = (this.slices + 1) * stack + slice;
                     var v2 = v1 + 1;
@@ -53,9 +60,11 @@ export class MyCylinder extends CGFobject {
                     this.indices.push(v4, v3, v1);
                 }
 
+                // Texture coordinates
                 this.texCoords.push(slice / this.slices, stack / this.stacks);
             }
 
+            // Update radius
             radius += radiusIncrement;
         }
 		

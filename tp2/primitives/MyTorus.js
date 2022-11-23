@@ -33,42 +33,47 @@ export class MyTorus extends CGFobject {
             let theta = 0;
 
             for (let slice = 0; slice <= this.slices; slice++) {
-                    let sinTheta = Math.sin(theta);
-                    let cosTheta = Math.cos(theta);
+                let sinTheta = Math.sin(theta);
+                let cosTheta = Math.cos(theta);
 
-                    let distanceToOrigin = this.outer + cosTheta * this.inner;
+                // Calculate the distance from the origin to the vertex
+                let distanceToOrigin = this.outer + cosTheta * this.inner;
 
-                    let x = sinPhi * distanceToOrigin;
-                    let y = cosPhi * distanceToOrigin;
-                    let z = sinTheta * this.inner;
-                    
-                    this.vertices.push(
-                        x, y, z,
-                    );
-                    this.normals.push(
-                        sinPhi * cosTheta, cosPhi * cosTheta, sinTheta
-                    );
-                    
-                    if (loop != this.loops) {
-                        this.indices.push(
-                            index + this.slices + 1, index + this.slices, index,
-                            index, index + 1, index + this.slices + 1
-                        );
-                    }
-
-                    this.texCoords.push(
-                        1 - (theta / (2 * Math.PI)), 1 - (phi / (2 * Math.PI))
-                    );
-
-                    theta += thetaInc;
-
-                    index++;
-                }
-                    
+                let x = sinPhi * distanceToOrigin;
+                let y = cosPhi * distanceToOrigin;
+                let z = sinTheta * this.inner;
                 
+                // Vertices
+                this.vertices.push(
+                    x, y, z,
+                );
 
-            phi += phiInc;
+                // Normals
+                this.normals.push(
+                    sinPhi * cosTheta, cosPhi * cosTheta, sinTheta
+                );
+                
+                // Indices
+                if (loop != this.loops) {
+                    // Connect the current vertex to the one on the same slice on the next loop and the one on the next slice on the next loop
+                    // Connect the current vertex to the one on the next slice on the same loop and the one on the next slice on the next loop
+                    this.indices.push(
+                        index + this.slices + 1, index + this.slices, index,
+                        index, index + 1, index + this.slices + 1
+                    );
+                }
+
+                // Texture coordinates
+                this.texCoords.push(
+                    1 - (theta / (2 * Math.PI)), 1 - (phi / (2 * Math.PI))
+                );
+
+                theta += thetaInc;
+
+                index++;
             }
+            phi += phiInc;
+        }
             
 		this.primitiveType = this.scene.gl.TRIANGLES;
 		this.initGLBuffers();

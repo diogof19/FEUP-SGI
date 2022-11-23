@@ -12,6 +12,7 @@ varying float vTimeFactor;
 void main() {
     vec3 objectColor = texture2D(uSampler, vTextureCoord).rgb;;
 
+    // If the object has no texture use the provided material color
     if (uMaterialColor != vec3(-1.0, -1.0, -1.0)) {
         objectColor = uMaterialColor;
     }

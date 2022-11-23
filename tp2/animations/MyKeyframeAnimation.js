@@ -7,26 +7,36 @@ export class MyKeyframeAnimation extends MyAnimation {
         this.animationID = animationID;
         this.keyframes = keyframes;
         this.startTime = keyframes[0].instant;
-        console.log(this.keyframes);
+        this.stopped = false;
     }
 
-    interpolation(x, x1, x2, y1, y2){
-        return y1 + (x - x1) * (y2 - y1) / (x2 - x1);
-    }
-
+    /**
+     * Updates the animation matrix according to the current time
+     * @param {Number} t time since scene started
+     * @returns 
+     */
     update(t){
-        t = t / 1000; //MAYBE BUT NOT SURE
-        
-        //console.log("IN UPDATE");
-        if(this.keyframes.length == 1){
-            //console.log("ONLY ONE KEYFRAME");
-            if(this.keyframes[0].instant < t){ //OBJETO NÂO EXISTIR ANTES DE COMEÇAR A ANIMAÇÃO MAS TEM DE EXISITR NO FIM
-                return;
-            }
+        // If there is only one keyframe, the animation is static (set animation matrix to the keyframe matrix)
+        // Set stopped to true for efficiency
+        if(this.keyframes.length == 1 && t >= this.keyframes[0].instant && !this.stopped){
+            this.stopped = true;
+            this.animationMatrix = mat4.identity(this.animationMatrix);
+
+            // Translation
+            this.animationMatrix = mat4.translate(this.animationMatrix, this.animationMatrix, this.keyframes[0].translation);
+
+            // Rotation
+            this.animationMatrix = mat4.rotateZ(this.animationMatrix, this.animationMatrix, this.keyframes[0].rotation_z);
+            this.animationMatrix = mat4.rotateY(this.animationMatrix, this.animationMatrix, this.keyframes[0].rotation_y);
+            this.animationMatrix = mat4.rotateX(this.animationMatrix, this.animationMatrix, this.keyframes[0].rotation_x);
+
+            // Scale
+            this.animationMatrix = mat4.scale(this.animationMatrix, this.animationMatrix, this.keyframes[0].scale);
             return;
         }
-
-        //console.log("MORE THAN ONE KEYFRAME");
+        // If the animation is stopped, do nothing
+        else if (this.stopped)
+            return;
 
         var keyframe1 = this.keyframes[0];
         var keyframe2 = this.keyframes[1];
@@ -37,28 +47,25 @@ export class MyKeyframeAnimation extends MyAnimation {
         var timeDiff = time2 - time1;
         var timeElapsed = t - time1;
 
+        // If the animation start instant hasn't been reached yet, do nothing
         if(t < time1){
             return;
         }
 
+        // If t is greater than the 2nd keyframe instant, remove the first keyframe and update the animation
         if(timeElapsed >= timeDiff){
             this.keyframes.shift();
             this.update(t);
             return;
         }
 
-        //console.log(timeElapsed / timeDiff);
-
+        // If the animation is between 2 keyframes, interpolate the values
         var translation = vec3.create();
         vec3.lerp(translation, keyframe1.translation, keyframe2.translation, timeElapsed / timeDiff);
 
         var rotation_x = keyframe1.rotation_x + (keyframe2.rotation_x - keyframe1.rotation_x) * (timeElapsed / timeDiff);
         var rotation_y = keyframe1.rotation_y + (keyframe2.rotation_y - keyframe1.rotation_y) * (timeElapsed / timeDiff);
         var rotation_z = keyframe1.rotation_z + (keyframe2.rotation_z - keyframe1.rotation_z) * (timeElapsed / timeDiff);
-
-        //console.log("rot_x: " + rotation_x);
-        //console.log("rot_y: " + rotation_y);
-        //console.log("rot_z: " + rotation_z);
 
         var scale = vec3.create();
         vec3.lerp(scale, keyframe1.scale, keyframe2.scale, timeElapsed / timeDiff);
