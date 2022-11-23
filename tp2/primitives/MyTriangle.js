@@ -1,5 +1,21 @@
 import { CGFobject } from '../../lib/CGF.js';
 
+/**
+ * MyTriangle class, which represents a triangle primitive
+ * @extends CGFobject
+ * @constructor
+ * @param {CGFscene} scene - MyScene object
+ * @param {String} id - ID of the primitive
+ * @param {Number} x1 - X coordinate of the first vertex
+ * @param {Number} y1 - Y coordinate of the first vertex
+ * @param {Number} z1 - Z coordinate of the first vertex
+ * @param {Number} x2 - X coordinate of the second vertex
+ * @param {Number} y2 - Y coordinate of the second vertex
+ * @param {Number} z2 - Z coordinate of the second vertex
+ * @param {Number} x3 - X coordinate of the third vertex
+ * @param {Number} y3 - Y coordinate of the third vertex
+ * @param {Number} z3 - Z coordinate of the third vertex
+ */
 export class MyTriangle extends CGFobject {
 	constructor(scene, id, x1, y1, z1, x2, y2, z2, x3, y3, z3) {
 		super(scene);

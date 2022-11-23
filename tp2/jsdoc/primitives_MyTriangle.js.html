@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: primitives/MyTriangle.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: primitives/MyTriangle.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { CGFobject } from '../../lib/CGF.js';
+
+/**
+ * MyTriangle class, which represents a triangle primitive
+ * @extends CGFobject
+ * @constructor
+ * @param {CGFscene} scene - MyScene object
+ * @param {String} id - ID of the primitive
+ * @param {Number} x1 - X coordinate of the first vertex
+ * @param {Number} y1 - Y coordinate of the first vertex
+ * @param {Number} z1 - Z coordinate of the first vertex
+ * @param {Number} x2 - X coordinate of the second vertex
+ * @param {Number} y2 - Y coordinate of the second vertex
+ * @param {Number} z2 - Z coordinate of the second vertex
+ * @param {Number} x3 - X coordinate of the third vertex
+ * @param {Number} y3 - Y coordinate of the third vertex
+ * @param {Number} z3 - Z coordinate of the third vertex
+ */
+export class MyTriangle extends CGFobject {
+	constructor(scene, id, x1, y1, z1, x2, y2, z2, x3, y3, z3) {
+		super(scene);
+		this.x1 = x1;
+		this.y1 = y1;
+        this.z1 = z1;
+        this.x2 = x2;
+        this.y2 = y2;
+        this.z2 = z2;
+        this.x3 = x3;
+        this.y3 = y3;
+        this.z3 = z3;
+
+		this.initBuffers();
+	}
+	
+	initBuffers() {
+		this.vertices = [
+			this.x1, this.y1, this.z1,
+            this.x2, this.y2, this.z2,
+            this.x3, this.y3, this.z3
+		];
+
+		//Counter-clockwise reference of vertices
+		this.indices = [
+			0, 1, 2
+		];
+
+        var vectorU = vec3.create();
+        var vectorV = vec3.create();
+        vec3.subtract(vectorU, vec3.fromValues(this.x2, this.y2, this.z2), vec3.fromValues(this.x1, this.y1, this.z1));
+        vec3.subtract(vectorV, vec3.fromValues(this.x3, this.y3, this.z3), vec3.fromValues(this.x1, this.y1, this.z1));
+
+        var normal = vec3.create();
+		vec3.cross(normal, vectorU, vectorV);
+
+        this.normals = [
+            normal[0], normal[1], normal[2],
+            normal[0], normal[1], normal[2],
+            normal[0], normal[1], normal[2]
+        ]
+
+        var a = Math.sqrt(Math.pow(this.x2 - this.x1, 2) + Math.pow(this.y2 - this.y1, 2) + Math.pow(this.z2 - this.z1, 2));
+        var b = Math.sqrt(Math.pow(this.x3 - this.x2, 2) + Math.pow(this.y3 - this.y2, 2) + Math.pow(this.z3 - this.z2, 2));
+        var c = Math.sqrt(Math.pow(this.x1 - this.x3, 2) + Math.pow(this.y1 - this.y3, 2) + Math.pow(this.z1 - this.z3, 2));
+
+        var cosAlpha = (Math.pow(a, 2) - Math.pow(b, 2) + Math.pow(c, 2)) / (2 * a * c)
+        var sinAlpha = Math.sqrt(1 - Math.pow(cosAlpha, 2));
+
+		this.texCoords = [
+            0, 0,
+            a, 0,
+            c * cosAlpha, c * sinAlpha
+        ]
+
+		this.primitiveType = this.scene.gl.TRIANGLES;
+		this.initGLBuffers();
+	}
+
+	/**
+	 * @method updateTexCoords
+	 * Updates the list of texture coordinates of the rectangle
+	 * @param {Array} coords - Array of texture coordinates
+	 */
+	updateTexCoords(length_s, length_t) {
+		var newCoords = [];
+
+		for(var i = 0; i &lt; this.texCoords.length; i++){
+			if(i % 2 == 0){
+				newCoords[i] = this.texCoords[i] / length_s;
+			}
+			else newCoords[i] = this.texCoords[i] / length_t;
+		}
+
+		this.texCoords = newCoords;
+
+		this.updateTexCoordsGLBuffers();
+	}
+}
+
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="MyAnimation.html">MyAnimation</a></li><li><a href="MyComponent.html">MyComponent</a></li><li><a href="MyCylinder.html">MyCylinder</a></li><li><a href="MyHighlightInfo.html">MyHighlightInfo</a></li><li><a href="MyInterface.html">MyInterface</a></li><li><a href="MyKeyframe.html">MyKeyframe</a></li><li><a href="MyKeyframeAnimation.html">MyKeyframeAnimation</a></li><li><a href="MyPatch.html">MyPatch</a></li><li><a href="MyRectangle.html">MyRectangle</a></li><li><a href="MySceneGraph.html">MySceneGraph</a></li><li><a href="MySphere.html">MySphere</a></li><li><a href="MyTextureInfo.html">MyTextureInfo</a></li><li><a href="MyTorus.html">MyTorus</a></li><li><a href="MyTriangle.html">MyTriangle</a></li><li><a href="XMLscene.html">XMLscene</a></li></ul><h3>Global</h3><ul><li><a href="global.html#updateTexCoordsUpdatesthelistoftexturecoordinatesofthepatch">updateTexCoordsUpdates the list of texture coordinates of the patch</a></li><li><a href="global.html#updateTexCoordsUpdatesthelistoftexturecoordinatesoftherectangle">updateTexCoordsUpdates the list of texture coordinates of the rectangle</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.0</a> on Wed Nov 23 2022 17:55:45 GMT+0000 (Western European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

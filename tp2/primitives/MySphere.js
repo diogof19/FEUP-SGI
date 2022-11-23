@@ -1,5 +1,15 @@
 import { CGFobject } from "../../lib/CGF.js";
 
+/**
+ * MySphere
+ * @extends CGFobject
+ * @constructor
+ * @param scene - Reference to MyScene object
+ * @param id - ID of the primitive
+ * @param radius - Radius of the sphere
+ * @param slices - Number of slices
+ * @param stacks - Number of stacks
+ */
 export class MySphere extends CGFobject {
     constructor(scene, id, radius, slices, stacks) {
         super(scene);

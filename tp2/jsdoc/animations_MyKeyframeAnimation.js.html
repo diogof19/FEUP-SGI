@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: animations/MyKeyframeAnimation.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: animations/MyKeyframeAnimation.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { MyAnimation } from "./MyAnimation.js";
+
+/**
+ * Keyframe animation class
+ * @extends MyAnimation
+ * @constructor
+ * @param {CGFscene} scene - MyScene object
+ * @param {String} animationID - ID of the animation
+ * @param {Array} keyframes - Array of keyframes
+ */
+export class MyKeyframeAnimation extends MyAnimation {
+    constructor(scene, animationID, keyframes){
+        super(scene);
+    
+        this.animationID = animationID;
+        this.keyframes = keyframes;
+        this.startTime = keyframes[0].instant;
+        this.stopped = false;
+    }
+
+    /**
+     * Updates the animation matrix according to the current time
+     * @param {Number} t time since scene started
+     * @returns {null}
+     */
+    update(t){
+        // If there is only one keyframe, the animation is static (set animation matrix to the keyframe matrix)
+        // Set stopped to true for efficiency
+        if(this.keyframes.length == 1 &amp;&amp; t >= this.keyframes[0].instant &amp;&amp; !this.stopped){
+            this.stopped = true;
+            this.animationMatrix = mat4.identity(this.animationMatrix);
+
+            // Translation
+            this.animationMatrix = mat4.translate(this.animationMatrix, this.animationMatrix, this.keyframes[0].translation);
+
+            // Rotation
+            this.animationMatrix = mat4.rotateZ(this.animationMatrix, this.animationMatrix, this.keyframes[0].rotation_z);
+            this.animationMatrix = mat4.rotateY(this.animationMatrix, this.animationMatrix, this.keyframes[0].rotation_y);
+            this.animationMatrix = mat4.rotateX(this.animationMatrix, this.animationMatrix, this.keyframes[0].rotation_x);
+
+            // Scale
+            this.animationMatrix = mat4.scale(this.animationMatrix, this.animationMatrix, this.keyframes[0].scale);
+            return;
+        }
+        // If the animation is stopped, do nothing
+        else if (this.stopped)
+            return;
+
+        var keyframe1 = this.keyframes[0];
+        var keyframe2 = this.keyframes[1];
+
+        var time1 = keyframe1.instant;
+        var time2 = keyframe2.instant;
+
+        var timeDiff = time2 - time1;
+        var timeElapsed = t - time1;
+
+        // If the animation start instant hasn't been reached yet, do nothing
+        if(t &lt; time1){
+            return;
+        }
+
+        // If t is greater than the 2nd keyframe instant, remove the first keyframe and update the animation
+        if(timeElapsed >= timeDiff){
+            this.keyframes.shift();
+            this.update(t);
+            return;
+        }
+
+        // If the animation is between 2 keyframes, interpolate the values
+        var translation = vec3.create();
+        vec3.lerp(translation, keyframe1.translation, keyframe2.translation, timeElapsed / timeDiff);
+
+        var rotation_x = keyframe1.rotation_x + (keyframe2.rotation_x - keyframe1.rotation_x) * (timeElapsed / timeDiff);
+        var rotation_y = keyframe1.rotation_y + (keyframe2.rotation_y - keyframe1.rotation_y) * (timeElapsed / timeDiff);
+        var rotation_z = keyframe1.rotation_z + (keyframe2.rotation_z - keyframe1.rotation_z) * (timeElapsed / timeDiff);
+
+        var scale = vec3.create();
+        vec3.lerp(scale, keyframe1.scale, keyframe2.scale, timeElapsed / timeDiff);
+
+        this.animationMatrix = mat4.identity(this.animationMatrix);
+        mat4.translate(this.animationMatrix, this.animationMatrix, translation);
+        mat4.rotateZ(this.animationMatrix, this.animationMatrix, rotation_z);
+        mat4.rotateY(this.animationMatrix, this.animationMatrix, rotation_y);
+        mat4.rotateX(this.animationMatrix, this.animationMatrix, rotation_x);
+        mat4.scale(this.animationMatrix, this.animationMatrix, scale);
+    }
+
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="MyAnimation.html">MyAnimation</a></li><li><a href="MyComponent.html">MyComponent</a></li><li><a href="MyCylinder.html">MyCylinder</a></li><li><a href="MyHighlightInfo.html">MyHighlightInfo</a></li><li><a href="MyInterface.html">MyInterface</a></li><li><a href="MyKeyframe.html">MyKeyframe</a></li><li><a href="MyKeyframeAnimation.html">MyKeyframeAnimation</a></li><li><a href="MyPatch.html">MyPatch</a></li><li><a href="MyRectangle.html">MyRectangle</a></li><li><a href="MySceneGraph.html">MySceneGraph</a></li><li><a href="MySphere.html">MySphere</a></li><li><a href="MyTextureInfo.html">MyTextureInfo</a></li><li><a href="MyTorus.html">MyTorus</a></li><li><a href="MyTriangle.html">MyTriangle</a></li><li><a href="XMLscene.html">XMLscene</a></li></ul><h3>Global</h3><ul><li><a href="global.html#updateTexCoordsUpdatesthelistoftexturecoordinatesofthepatch">updateTexCoordsUpdates the list of texture coordinates of the patch</a></li><li><a href="global.html#updateTexCoordsUpdatesthelistoftexturecoordinatesoftherectangle">updateTexCoordsUpdates the list of texture coordinates of the rectangle</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.0</a> on Wed Nov 23 2022 17:55:45 GMT+0000 (Western European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

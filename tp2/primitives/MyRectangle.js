@@ -1,6 +1,7 @@
 import { CGFobject } from '../../lib/CGF.js';
 /**
  * MyRectangle
+ * @extends CGFobject
  * @constructor
  * @param scene - Reference to MyScene object
  * @param x - Scale of rectangle in X

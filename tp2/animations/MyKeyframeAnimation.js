@@ -1,5 +1,13 @@
 import { MyAnimation } from "./MyAnimation.js";
 
+/**
+ * Keyframe animation class
+ * @extends MyAnimation
+ * @constructor
+ * @param {CGFscene} scene - MyScene object
+ * @param {String} animationID - ID of the animation
+ * @param {Array} keyframes - Array of keyframes
+ */
 export class MyKeyframeAnimation extends MyAnimation {
     constructor(scene, animationID, keyframes){
         super(scene);
@@ -13,7 +21,7 @@ export class MyKeyframeAnimation extends MyAnimation {
     /**
      * Updates the animation matrix according to the current time
      * @param {Number} t time since scene started
-     * @returns 
+     * @returns {null}
      */
     update(t){
         // If there is only one keyframe, the animation is static (set animation matrix to the keyframe matrix)

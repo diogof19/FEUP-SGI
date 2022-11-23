@@ -1,5 +1,16 @@
 import { CGFobject } from "../../lib/CGF.js";
 
+/**
+ * MyTorus
+ * @extends CGFobject
+ * @constructor
+ * @param scene - Reference to MyScene object
+ * @param id - ID of the primitive
+ * @param inner - Inner radius of the torus
+ * @param outer - Outer radius of the torus
+ * @param slices - Number of slices
+ * @param loops - Number of loops
+ */
 export class MyTorus extends CGFobject {
     constructor(scene, id, inner, outer, slices, loops) {
         super(scene);

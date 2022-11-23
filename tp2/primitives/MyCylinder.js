@@ -1,5 +1,17 @@
 import { CGFobject } from '../../lib/CGF.js';
 
+/**
+ * MyCylinder class, which represents a cylinder primitive
+ * @extends CGFobject
+ * @constructor
+ * @param {CGFscene} scene - MyScene object
+ * @param {String} id - ID of the primitive
+ * @param {Number} base - Cylinder base radius
+ * @param {Number} top - Cylinder top radius
+ * @param {Number} height - Cylinder height
+ * @param {Number} slices - Number of slices
+ * @param {Number} stacks - Number of stacks
+ */
 export class MyCylinder extends CGFobject {
 	constructor(scene, id, base, top, height, slices, stacks) {
 		super(scene);

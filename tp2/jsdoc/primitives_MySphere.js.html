@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: primitives/MySphere.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: primitives/MySphere.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { CGFobject } from "../../lib/CGF.js";
+
+/**
+ * MySphere
+ * @extends CGFobject
+ * @constructor
+ * @param scene - Reference to MyScene object
+ * @param id - ID of the primitive
+ * @param radius - Radius of the sphere
+ * @param slices - Number of slices
+ * @param stacks - Number of stacks
+ */
+export class MySphere extends CGFobject {
+    constructor(scene, id, radius, slices, stacks) {
+        super(scene);
+        this.radius = radius;
+        this.stacks = stacks;
+        this.slices = slices;
+
+        this.initBuffers();
+    }
+
+    initBuffers() {
+        this.vertices = [];
+        this.indices = [];
+        this.normals = [];
+        this.texCoords = [];
+    
+        // Stack angle
+        let phi = 0;
+        // Slice angle
+        let theta = 0;
+        let phiInc = Math.PI / (2 * this.stacks);
+        let thetaInc = (2 * Math.PI) / this.slices;
+        let index = 0;
+        let verticesByStack = this.slices * 2;
+    
+        // Only make trigonometric calculations for the top half of the sphere
+        for (let latitude = 0; latitude &lt;= this.stacks; latitude++) {
+                let sinPhi = Math.sin(phi);
+                let cosPhi = Math.cos(phi);
+
+                theta = 0;
+
+                for (let longitude = 0; longitude &lt;= this.slices; longitude++) {
+                    let sinTheta = Math.sin(theta);
+                    let cosTheta = Math.cos(theta);
+
+                    let z1 = this.radius * cosPhi;
+                    let x1 = this.radius * sinPhi * cosTheta;
+                    let y1 = this.radius * sinPhi * sinTheta;
+
+                    // Vertices
+                    this.vertices.push(
+                        x1, y1, z1,
+                        x1, y1, -z1,
+                    );
+                    // Normals
+                    this.normals.push(
+                        sinPhi * cosTheta, sinPhi * sinTheta, cosPhi,                 
+                        sinPhi * cosTheta, sinPhi * sinTheta, -cosPhi,
+                    );
+                    // Indices
+                    if (latitude != this.stacks) {
+                        // Connect the current vertex with the one on the same longitude on the next latitude and the one on the next longitude and the next latitude
+                        // Connect the currect vertex with the one on the next longitude and the same latitude and the one on the next longitude and the next latitude
+                        // Do the same for south pole
+                        this.indices.push(
+                            // North
+                            index, index + verticesByStack, index + verticesByStack + 2,
+                            index + verticesByStack + 2, index + 2, index,
+                            // South
+                            index + 1, index + 1 + 2, index + verticesByStack + 1 + 2,
+                            index + verticesByStack + 1 + 2, index + verticesByStack + 1, index + 1
+                        );
+                    }
+                    // Texture Coordinates
+                    this.texCoords.push(
+                        // North
+                        theta / (2 * Math.PI), cosPhi / 2 + 0.5,
+                        // South
+                        theta / (2 * Math.PI), 0.5 - cosPhi / 2,
+                    )
+                    theta += thetaInc;
+                    index += 2;
+            }
+            phi += phiInc;
+        }
+    
+        this.primitiveType = this.scene.gl.TRIANGLES;
+        this.initGLBuffers();
+    }
+
+    /**
+	 * @method updateTexCoords
+	 * Updates the list of texture coordinates of the rectangle
+	 * @param {Array} coords - Array of texture coordinates
+	 */
+	updateTexCoords(length_s, length_t) {
+		this.updateTexCoordsGLBuffers();
+	}
+
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="MyAnimation.html">MyAnimation</a></li><li><a href="MyComponent.html">MyComponent</a></li><li><a href="MyCylinder.html">MyCylinder</a></li><li><a href="MyHighlightInfo.html">MyHighlightInfo</a></li><li><a href="MyInterface.html">MyInterface</a></li><li><a href="MyKeyframe.html">MyKeyframe</a></li><li><a href="MyKeyframeAnimation.html">MyKeyframeAnimation</a></li><li><a href="MyPatch.html">MyPatch</a></li><li><a href="MyRectangle.html">MyRectangle</a></li><li><a href="MySceneGraph.html">MySceneGraph</a></li><li><a href="MySphere.html">MySphere</a></li><li><a href="MyTextureInfo.html">MyTextureInfo</a></li><li><a href="MyTorus.html">MyTorus</a></li><li><a href="MyTriangle.html">MyTriangle</a></li><li><a href="XMLscene.html">XMLscene</a></li></ul><h3>Global</h3><ul><li><a href="global.html#updateTexCoordsUpdatesthelistoftexturecoordinatesofthepatch">updateTexCoordsUpdates the list of texture coordinates of the patch</a></li><li><a href="global.html#updateTexCoordsUpdatesthelistoftexturecoordinatesoftherectangle">updateTexCoordsUpdates the list of texture coordinates of the rectangle</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.0</a> on Wed Nov 23 2022 17:55:45 GMT+0000 (Western European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

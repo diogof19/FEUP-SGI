@@ -1,5 +1,21 @@
 import { CGFappearance } from "../lib/CGF.js";
+import { MyKeyframeAnimation } from "./animations/MyKeyframeAnimation.js";
+import { MyHighlightInfo } from "./records/MyHighlightInfo.js";
+import { MyTextureInfo } from "./records/MyTextureInfo.js";
 
+/**
+ * MyComponent class, which represents a component
+ * @constructor
+ * @param {MySceneGraph} sceneGraph - MySceneGraph object
+ * @param {String} id - ID of the component
+ * @param {Array} transfMatrix - Transformation matrix
+ * @param {Array} materialIds - Array of material IDs
+ * @param {MyKeyframeAnimation} animation - Animation object
+ * @param {MyTextureInfo} textureInfo - Texture information
+ * @param {MyHighlightInfo} highlightInfo - Highlight information
+ * @param {Array} primitiveIds - Array of primitive IDs
+ * @param {Array} componentIds - Array of component IDs
+ */
 export class MyComponent {
     constructor
     (
