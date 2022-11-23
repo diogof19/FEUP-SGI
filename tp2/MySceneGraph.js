@@ -7,6 +7,9 @@ import { MyTriangle } from './primitives/MyTriangle.js';
 import { MyPatch } from './primitives/MyPatch.js';
 import { MyKeyframeAnimation } from './animations/MyKeyframeAnimation.js';
 import { MyKeyframe } from './animations/MyKeyframe.js';
+import { MyTextureInfo } from './records/MyTextureInfo.js';
+import { MyHighlightInfo } from './records/MyHighlightInfo.js';
+import { MyComponent } from './MyComponent.js';
 
 var DEGREE_TO_RAD = Math.PI / 180;
 
@@ -94,7 +97,7 @@ export class MySceneGraph {
 
         recStack[cid] = true;
 
-        let children = this.components[cid].components;
+        let children = this.components[cid].componentIds;
 
         for (let i = 0; i < children.length; i++) {
             if (this.isCyclicUtil(children[i], visited, recStack)) {
@@ -1217,8 +1220,6 @@ export class MySceneGraph {
 
         // Any number of components.
         for (var i = 0; i < children.length; i++) {
-            let component = {};
-
             if (children[i].nodeName != "component") {
                 this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
                 continue;
@@ -1233,8 +1234,6 @@ export class MySceneGraph {
             // Checks for repeated IDs.
             if (components[componentID] != null)
                 return "ID must be unique for each component (conflict: ID = " + componentID + ")";
-
-            component.id = componentID;
 
             grandChildren = children[i].children;
 
@@ -1306,15 +1305,13 @@ export class MySceneGraph {
                 }
             }
 
-            component.transfMatrix = transfMatrix;
-
             // Materials
             if (materialsIndex == -1){
                 this.onXMLError("component missing material (ID = " + componentID + ")");
                 continue;
             }
 
-            component.materials = [];
+            let materials = [];
             grandgrandChildren = grandChildren[materialsIndex].children;
 
             for (var k = 0; k < grandgrandChildren.length; k++){
@@ -1334,7 +1331,7 @@ export class MySceneGraph {
                     continue;
                 }
                 
-                component.materials.push(materialID);
+                materials.push(materialID);
             }
 
             // Texture
@@ -1344,6 +1341,8 @@ export class MySceneGraph {
             }
 
             var textureID = this.reader.getString(grandChildren[textureIndex], 'id');
+            let lengthS = 1;
+            let lengthT = 1;
             if(textureID == null){
                 this.onXMLError("no ID from texture in component (ID = " + componentID + ")");
                 continue;
@@ -1352,41 +1351,40 @@ export class MySceneGraph {
                 this.onXMLError("no texture defined with ID = " + textureID);
             }
             else{
-                component.texture = textureID;
-
                 var length_s = this.reader.getFloat(grandChildren[textureIndex], "length_s", false);
                 var length_t = this.reader.getFloat(grandChildren[textureIndex], "length_t", false);
                 if(length_s != null && length_t != null){
                     if(textureID == "inherit") {
                         this.onXMLMinorError("there shouldn't be a length_s and/or length_t on inherited texture in component with ID = " + componentID);
-                        component.length_s = length_s;
-                        component.length_t = length_t;
+                        lengthS = length_s;
+                        lengthT = length_t;
                     }
                     else if(textureID == "none"){
                         this.onXMLMinorError("there shouldn't be a length_s and/or length_t on 'none' texture in component with ID = " + componentID);
                     }
                     else{
-                        component.length_s = length_s;
-                        component.length_t = length_t;
+                        lengthS = length_s;
+                        lengthT = length_t;
                     }
                 }
                 else{
                     if(textureID != "none" && textureID != "inherit"){
                         if(length_s == null){
                             this.onXMLError("no length_s from texture with ID = " + textureID + " in componente with ID = " + componentID);
-                            component.length_s = 1;
+                            lengthS = 1;
                         }
-                        else component.length_s = length_s;
+                        else lengthS = length_s;
                         
 
                         if(length_t == null){
                             this.onXMLError("no length_t from texture with ID = " + textureID + " in componente with ID = " + componentID);
-                            component.length_t = 1;
+                            lengthT = 1;
                         }
-                        else component.length_t = length_t;
+                        else lengthT = length_t;
                     }
                 }
             }
+            let textureInfo = new MyTextureInfo(textureID, lengthS, lengthT);
 
             // Children
 
@@ -1423,12 +1421,8 @@ export class MySceneGraph {
                 }
             }
 
-            component.primitives = componentPrimitives;
-            component.components = componentComponents;
-
+            let highlightInfo = null;
             if(highlightedIndex != -1){
-                component.highlighted = true;
-
                 var r = this.reader.getFloat(grandChildren[highlightedIndex], 'r');
                 if (!(r != null && !isNaN(r) && r >= 0 && r <= 1))
                     return "unable to parse r in component with ID = " + componentID;
@@ -1445,11 +1439,10 @@ export class MySceneGraph {
                 if (!(scale_h != null && !isNaN(scale_h)))
                     return "unable to parse scale_h in component with ID = " + componentID;
 
-                component.highlight_colour = [r, g, b];
-                component.highlight_scale = scale_h;
+                highlightInfo = new MyHighlightInfo([r, g, b], scale_h);
             }
-            else component.highlighted = false;
 
+            let animation = null;
             if(animationIndex != -1){
                 var animationID = this.reader.getString(grandChildren[animationIndex], 'id');
                 if(animationID == null){
@@ -1459,10 +1452,20 @@ export class MySceneGraph {
                 else if(this.animations[animationID] == null){
                     this.onXMLError("no animation defined with ID = " + animationID);
                 }
-                else component.animation = animationID;
+                else animation = animationID;
             }
 
-            components[componentID] = component;
+            components[componentID] = new MyComponent(
+                this,
+                componentID,
+                transfMatrix,
+                materials,
+                animation,
+                textureInfo,
+                highlightInfo,
+                componentPrimitives,
+                componentComponents
+            );
 
            }
 
@@ -1598,36 +1601,36 @@ export class MySceneGraph {
         var nodeMaterial;
         var nodeTexture, nodeLength_s, nodeLength_t;
 
-        if(component.materials[this.materialIndex % component.materials.length] == "inherit"){
+        if(component.materialIds[this.materialIndex % component.materialIds.length] == "inherit"){
             nodeMaterial = parentMaterial;
         }
         else{
-            nodeMaterial = this.appearances[component.materials[this.materialIndex % component.materials.length]];
+            nodeMaterial = this.appearances[component.materialIds[this.materialIndex % component.materialIds.length]];
         }
         
-        if(component.texture == "none"){
+        if(component.textureInfo.textureId == "none"){
             nodeTexture = null;
             nodeLength_s = 1;
             nodeLength_t = 1;
-        } else if(component.texture == "inherit"){
+        } else if(component.textureInfo.textureId == "inherit"){
             nodeTexture = parentTexture;
             nodeLength_s = length_s;
             nodeLength_t = length_t;
         } else {
-            nodeTexture = this.textures[component.texture];
-            nodeLength_s = component.length_s;
-            nodeLength_t = component.length_t;
+            nodeTexture = this.textures[component.textureInfo.textureId];
+            nodeLength_s = component.textureInfo.lengthS;
+            nodeLength_t = component.textureInfo.lengthT;
         }
 
         
-        if (component.highlighted) {
+        if (component.highlightInfo != null) {
             this.scene.setActiveShader(this.scene.highlightingShader);
 
             this.scene.highlightingShader.setUniformsValues({
-                uHighlightColor: component.highlight_colour
+                uHighlightColor: component.highlightInfo.color
             });
             this.scene.highlightingShader.setUniformsValues({
-                uHighlightScale: component.highlight_scale
+                uHighlightScale: component.highlightInfo.scale
             });
             this.scene.highlightingShader.setUniformsValues({
                 uMaterialColor: nodeTexture == null ? nodeMaterial.ambient.slice(0, 3) : [-1.0, -1.0, -1.0]
@@ -1650,8 +1653,8 @@ export class MySceneGraph {
         }
 
         
-        for (let i = 0; i < component.primitives.length; i++) {
-            var primitive = this.primitives[component.primitives[i]];
+        for (let i = 0; i < component.primitiveIds.length; i++) {
+            var primitive = this.primitives[component.primitiveIds[i]];
 
             primitive.updateTexCoords(nodeLength_s, nodeLength_t);
 
@@ -1660,8 +1663,8 @@ export class MySceneGraph {
             primitive.updateTexCoords(1 / nodeLength_s, 1 / nodeLength_t);
         }
         
-        for (let i = 0; i < component.components.length; i++) {
-            this.displayComponent(component.components[i], nodeMaterial, nodeTexture, nodeLength_s, nodeLength_t);
+        for (let i = 0; i < component.componentIds.length; i++) {
+            this.displayComponent(component.componentIds[i], nodeMaterial, nodeTexture, nodeLength_s, nodeLength_t);
         }
         
         if (component.highlighted) {
@@ -1675,12 +1678,6 @@ export class MySceneGraph {
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
-
-        //Create default appearance (need to get the root node appearance)
-        //this.appearances.push(new CGFappearance(this.scene));
-
-        
-
         this.displayComponent(this.idRoot, new CGFappearance(this.scene), null, 1, 1);
     }
 }
