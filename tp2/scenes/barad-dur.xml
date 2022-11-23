@@ -194,6 +194,10 @@
         </primitive>
     </primitives>
 
+    <animations>
+        
+    </animations>
+
     <components>
         <component id="rootComponent">
             <transformation>

@@ -94,16 +94,16 @@ export class MyInterface extends CGFinterface {
         var folder = this.gui.addFolder('Highlights');
         var components = this.scene.graph.components;
         for(let element in components){
-            if(components[element].highlighted){
+            if(components[element].highlightInfo != null){
                 var componentFolder = folder.addFolder(element)
-                componentFolder.add(components[element], 'highlighted').name(element); 
-                componentFolder.add(components[element], 'highlight_scale', 1, 10).name('Scale');
+                componentFolder.add(components[element].highlightInfo, 'highlight').name(element); 
+                componentFolder.add(components[element].highlightInfo, 'scale', 1, 10).name('Scale');
 
-                var colours = {'colour': this.rgbToHex(...components[element].highlight_colour)};
-                var colourController = componentFolder.addColor(colours, 'colour').name('Colour');
-                colourController.onChange((value) => {
-                    colours['colour'] = value;
-                    components[element].highlight_colour = this.hexToRgb(value);
+                var colors = {'color': this.rgbToHex(...components[element].highlightInfo.color)};
+                var colorController = componentFolder.addColor(colors, 'color').name('Color');
+                colorController.onChange((value) => {
+                    colors['color'] = value;
+                    components[element].highlightInfo.color = this.hexToRgb(value);
                 });
             }
         }

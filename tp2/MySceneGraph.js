@@ -1439,7 +1439,7 @@ export class MySceneGraph {
                 if (!(scale_h != null && !isNaN(scale_h)))
                     return "unable to parse scale_h in component with ID = " + componentID;
 
-                highlightInfo = new MyHighlightInfo([r, g, b], scale_h);
+                highlightInfo = new MyHighlightInfo(true, [r, g, b], scale_h);
             }
 
             let animation = null;
@@ -1623,7 +1623,7 @@ export class MySceneGraph {
         }
 
         
-        if (component.highlightInfo != null) {
+        if (component.highlightInfo != null && component.highlightInfo.highlight) {
             this.scene.setActiveShader(this.scene.highlightingShader);
 
             this.scene.highlightingShader.setUniformsValues({
@@ -1667,7 +1667,7 @@ export class MySceneGraph {
             this.displayComponent(component.componentIds[i], nodeMaterial, nodeTexture, nodeLength_s, nodeLength_t);
         }
         
-        if (component.highlighted) {
+        if (component.highlightInfo != null && component.highlightInfo.highlight) {
             this.scene.setActiveShader(this.scene.defaultShader);
         }
 
