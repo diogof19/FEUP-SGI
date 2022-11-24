@@ -1,7 +1,7 @@
 <sxs>
     <scene root="rootComponent" axis_length="0"/>
 
-    <views default="encampmentCamera">
+    <views default="frontOrtho">
         <perspective id="lookingUpCamera" near="0.1" far="500" angle="45">
             <from x="0" y="5" z="50" />
             <to x="0" y="20" z="0" />
@@ -135,6 +135,14 @@
         </primitive>
         <primitive id="cubeFace" >
             <rectangle x1="0" y1="0" x2="1" y2="1" />
+        </primitive>
+        <primitive id="patchRectangle">
+            <patch degree_u="1" parts_u="10" degree_v="1" parts_v="10">
+                <controlpoint x="-1" y="-1" z="0" />
+                <controlpoint x="-1" y="1" z="0" />
+                <controlpoint x="1" y="-1" z="0" />
+                <controlpoint x="1" y="1" z="0" />
+            </patch>
         </primitive>
         <primitive id="armyEncampmentTent">
             <patch degree_u="1" parts_u="2" degree_v="2" parts_v="15">
