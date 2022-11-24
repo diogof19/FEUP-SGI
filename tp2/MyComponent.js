@@ -149,6 +149,7 @@ export class MyComponent {
 
             // If animation hasn't started yet, do not display
             if (this.sceneGraph.scene.instant < animation.startTime) {
+                this.sceneGraph.scene.popMatrix();
                 return;
             }
 
