@@ -1,7 +1,7 @@
 <sxs>
     <scene root="rootComponent" axis_length="0"/>
 
-    <views default="frontOrtho">
+    <views default="encampmentCamera">
         <perspective id="lookingUpCamera" near="0.1" far="500" angle="45">
             <from x="0" y="5" z="50" />
             <to x="0" y="20" z="0" />
@@ -15,7 +15,7 @@
             <to x="0" y="4" z="0"/>
             <up x="0" y="1" z="0"/>
         </ortho>
-        <perspective id="encampmentCamera" near="0.1" far="50" angle="45">
+        <perspective id="encampmentCamera" near="0.1" far="500" angle="45">
             <from x="30" y="7" z="30" />
             <to x="20" y="0" z="20" />
         </perspective>
@@ -104,6 +104,12 @@
             <ambient r="1.0" g="1.0" b="1.0" a="1.0" />
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
             <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+        </material>
+        <material id="fireMaterial" shininess="0">
+            <emission r="1.0" g="0.5" b="0.0" a="1.0" />
+            <ambient r="1.0" g="0.5" b="0.0" a="1.0" />
+            <diffuse r="1.0" g="0.5" b="0.0" a="1.0" />
+            <specular r="1.0" g="0.5" b="0.0" a="1.0" />
         </material>
     </materials>
 
@@ -225,6 +231,9 @@
                 <controlpoint x="0" y="0" z="0" />
             </patch>
         </primitive>
+        <primitive id="flame">
+            <triangle x1="0" y1="0" z1="0" x2="0.5" y2="0" z2="0" x3="0.25" y3="1" z3="0"/>
+        </primitive>
     </primitives>
 
     <animations>
@@ -287,6 +296,7 @@
                 <componentref id="outerSquareTowers" />
                 <componentref id="armyEncampment"/>
                 <componentref id="moon"/>
+                <componentref id="fire"/>
             </children>
         </component>
 
@@ -1429,5 +1439,118 @@
             </children>
             <animation id="moonAnim"/>
         </component>
+
+        <!-- Fire -->
+        <component id="fire">
+            <transformation>
+                <translate x="24" y="0" z="24" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="flames" />
+                <componentref id="fireBase" />
+            </children>
+        </component>
+
+        <component id="flames">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="fireMaterial" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <componentref id="flame1" />
+                <componentref id="flame2" />
+                <componentref id="flame3" />
+            </children>
+            <highlighted r="1" g="1" b="1" scale_h="1.2"/>
+        </component>
+
+        <component id="flame1">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="flame1Obverse" />
+                <componentref id="flame1Reverse" />
+            </children>
+        </component>
+
+        <component id="flame1Obverse">
+            <transformation>
+                <scale x="1" y="2" z="1" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="flame" />
+            </children>
+        </component>
+
+        <component id="flame1Reverse">
+            <transformation>
+                <rotate axis="y" angle="180" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <componentref id="flame1Obverse" />
+            </children>
+        </component>
+
+        <component id="flame2">
+            <transformation>
+                <translate x="-0.2" y="0" z="0.1" />
+                <scale x="0.8" y="1.6" z="0.8" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <componentref id="flame1" />
+            </children>
+        </component>
+
+        <component id="flame3">
+            <transformation>
+                <translate x="-0.6" y="0" z="-0.1" />
+                <scale x="0.8" y="0.9" z="0.8" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <componentref id="flame1" />
+            </children>
+        </component>
+
+        <component id="fireBase">
+            <transformation>
+                <rotate axis="x" angle="90" />
+                <scale x="0.1" y="0.1" z="0.3" />
+                <translate x="0" y="0" z="-0.5" />
+            </transformation>
+            <materials>
+                <material id="towerMaterial" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="parapets" />
+            </children>
+        </component>
+
     </components>
 </sxs>
