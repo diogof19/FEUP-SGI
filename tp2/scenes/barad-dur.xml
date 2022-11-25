@@ -42,12 +42,35 @@
             <specular r="1.0" g="1.0" b="1.0" a="1.0"/>
             <attenuation constant="0" linear="0" quadratic="1"/>
         </spot>
+        <spot id="testLight" enabled="1" angle="45" exponent="3">
+            <location x="18.5" y="0.5" z="16" w="60"/>
+            <target x="20" y="0" z="16"/>
+            <ambient r="0.2" g="0.2" b="0.2" a="0"/>
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0"/>
+            <specular r="1.0" g="1.0" b="1.0" a="1.0"/>
+            <attenuation constant="0" linear="1" quadratic="0"/>
+        </spot>
+        <omni id="fireLight" enabled="1">
+            <location x="24" y="1" z="25" w="1.0" />
+            <ambient r="0.3" g="0.3" b="0.3" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+            <attenuation constant="0" linear="1" quadratic="0" />
+        </omni>
     </lights>
 
     <textures>
         <texture id="groundTexture" file="scenes/images/dc5xykq-b16cd000-cc16-464d-b7e6-33744c395494.png" />
         <texture id="towerTexture" file="scenes/images/pexels-life-of-pix-8892.jpg" />
         <texture id="accentTexture" file="scenes/images/wall-gd4f0320c3_640.jpg" />
+        <texture id="planksBeamedTexture" file="scenes/images/planks_beamed.jpg" />
+        <texture id="planksTexture" file="scenes/images/planks.jpg" />
+        <texture id="barkTexture" file="scenes/images/bark.jpg" />
+        <texture id="rugTexture" file="scenes/images/rug.jpg" />
+        <texture id="tentTexture" file="scenes/images/tent.jpg" />
+        <texture id="rocksTexture" file="scenes/images/rock.jpg" />
+        <texture id="moonTexture" file="scenes/images/moon.jpg" />
+        <texture id="dirtTexture" file="scenes/images/dirt.jpg" />
     </textures>
 
     <materials>
@@ -168,13 +191,12 @@
         </primitive>
         <primitive id="patchRectangle">
             <patch degree_u="1" parts_u="10" degree_v="1" parts_v="10">
-                <controlpoint x="-1" y="-1" z="0" />
-                <controlpoint x="-1" y="1" z="0" />
-                <controlpoint x="1" y="-1" z="0" />
-                <controlpoint x="1" y="1" z="0" />
+                <controlpoint x="-1" y="-2" z="0" />
+                <controlpoint x="-1" y="2" z="0" />
+                <controlpoint x="1" y="-2" z="0" />
+                <controlpoint x="1" y="2" z="0" />
             </patch>
         </primitive>
-
         <primitive id="armyEncampmentTent">
             <patch degree_u="1" parts_u="2" degree_v="2" parts_v="15">
                 <controlpoint x="0" y="0" z="2" />
@@ -258,21 +280,21 @@
                 <translation x="0" y="0" z="0" />
                 <rotation axis="z" angle="0" />
                 <rotation axis="y" angle="0" />
-                <rotation axis="x" angle="0" />
+                <rotation axis="x" angle="90" />
                 <scale sx="1" sy="1" sz="1" />
             </keyframe>
             <keyframe instant="6">
-                <translation x="20" y="30" z="0" />
-                <rotation axis="z" angle="90" />
-                <rotation axis="y" angle="0" />
-                <rotation axis="x" angle="0" />
+                <translation x="20" y="25" z="0" />
+                <rotation axis="z" angle="0" />
+                <rotation axis="y" angle="90" />
+                <rotation axis="x" angle="90" />
                 <scale sx="1" sy="1" sz="1" />
             </keyframe>
             <keyframe instant="9">
-                <translation x="40" y="60" z="0" />
-                <rotation axis="z" angle="90" />
-                <rotation axis="y" angle="0" />
-                <rotation axis="x" angle="0" />
+                <translation x="40" y="50" z="0" />
+                <rotation axis="z" angle="0" />
+                <rotation axis="y" angle="180" />
+                <rotation axis="x" angle="90" />
                 <scale sx="1" sy="1" sz="1" />
             </keyframe>
         </keyframeanim>
@@ -461,7 +483,7 @@
         <!-- GROUND COMPONENTS -->
         <component id="ground">
             <transformation>
-                <scale x="5" y="1" z="5"/>
+                <scale x="31.5" y="1" z="15.5"/>
                 <rotate axis="x" angle="-90"/>
             </transformation>
             <materials>
@@ -469,7 +491,7 @@
             </materials>
             <texture id="groundTexture" length_s="1" length_t="1"/>
             <children>
-                <primitiveref id="groundRectangle" />
+                <primitiveref id="patchRectangle" />
             </children>
         </component>
 
@@ -1151,6 +1173,22 @@
                 <componentref id="barrels" />
                 <componentref id="trunks" />
                 <componentref id="tents" />
+                <componentref id="encampmentGround" />
+            </children>
+        </component>
+
+        <component id="encampmentGround">
+            <transformation>
+                <translate x="7.5" y="0.1" z="6" />
+                <rotate axis="x" angle="-90" />
+                <scale x="9" y="5" z="1" />
+            </transformation>
+            <materials>
+                <material id="woodMaterial" />
+            </materials>
+            <texture id="dirtTexture" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="patchRectangle" />
             </children>
         </component>
 
@@ -1159,12 +1197,12 @@
                 <rotate axis="x" angle="-90" />
                 <rotate axis="z" angle="90" />
                 <translate x="-1" y="-0.5" z="0.1" />
-                <scale x="0.7" y="0.5" z="1" />
+                <scale x="0.7" y="0.25" z="1" />
             </transformation>
             <materials>
                 <material id="tentRugMaterial" />
             </materials>
-            <texture id="none" />
+            <texture id="rugTexture" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="patchRectangle" />
             </children>
@@ -1177,7 +1215,7 @@
             <materials>
                 <material id="tentMaterial" />
             </materials>
-            <texture id="none" />
+            <texture id="tentTexture" length_s="1" length_t="1" />
             <children>
                 <primitiveref id="armyEncampmentTent" />
                 <primitiveref id="armyEncampmentTentInside" />
@@ -1193,7 +1231,7 @@
             <materials>
                 <material id="barrelWoodMaterial" />
             </materials>
-            <texture id="none"/>
+            <texture id="inherit"/>
             <children>
                 <componentref id="topCircle" />
                 <primitiveref id="halfBarrel" />
@@ -1222,7 +1260,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="none" />
+            <texture id="planksTexture" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="halfCircle" />
                 <componentref id="otherCircleHalf" />
@@ -1236,7 +1274,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="none" />
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="halfCircle" />
             </children>
@@ -1250,7 +1288,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="none" />
+            <texture id="planksTexture" length_s="1" length_t="1"/>
             <children>
                 <componentref id="topCircle" />
             </children>
@@ -1262,11 +1300,68 @@
             <materials>
                 <material id="woodMaterial" />
             </materials>
-            <texture id="none" />
+            <texture id="barkTexture" length_s="1" length_t="1" />
             <children>
                 <componentref id="treeTrunk" />
                 <componentref id="trunk2" />
                 <componentref id="trunk3/4" />
+            </children>
+        </component>
+
+        <component id="trunkBase">
+            <transformation>
+                <scale x="6" y="6" z="6" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="planksTexture" length_s="1" length_t="1"/>
+            <children>
+                <componentref id="halfBase" />
+                <componentref id="secondHalfBase" />
+            </children>
+        </component>
+
+        <component id="halfBase">
+            <transformation>
+                <rotate axis="z" angle="90"/>
+                <rotate axis="x" angle="-90"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="halfCircle" />
+            </children>
+        </component>
+
+        <component id="secondHalfBase">
+            <transformation>
+                <rotate axis="z" angle="180"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="halfBase" />
+            </children>
+        </component>
+
+        <component id="trunkTop">
+            <transformation>
+                <scale x="6" y="6" z="6" />
+                <rotate axis="x" angle="180"/>
+                <translate x="0" y="0" z="-1.167" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="planksTexture" length_s="1" length_t="1"/>
+            <children>
+                <componentref id="halfBase" />
+                <componentref id="secondHalfBase" />
             </children>
         </component>
 
@@ -1282,6 +1377,8 @@
             <texture id="inherit" />
             <children>
                 <primitiveref id="tower" />
+                <componentref id="trunkBase" />
+                <componentref id="trunkTop" />
             </children>
         </component>
 
@@ -1321,7 +1418,7 @@
             <materials>
                 <material id="tentMaterial" />
             </materials>
-            <texture id="none" />
+            <texture id="tentTexture" length_s="1" length_t="1"/>
             <children>
                 <componentref id="armyEncampmentTent" />
                 <componentref id="tent2" />
@@ -1336,7 +1433,7 @@
             <materials>
                 <material id="tentMaterial" />
             </materials>
-            <texture id="none" />
+            <texture id="tentTexture" length_s="1" length_t="1" />
             <children>
                 <componentref id="armyEncampmentTent" />
             </children>
@@ -1348,7 +1445,7 @@
             <materials>
                 <material id="barrelWoodMaterial" />
             </materials>
-            <texture id="none" />
+            <texture id="planksBeamedTexture" length_s="1" length_t="1"/>
             <children>
                 <componentref id="barrel" />
                 <componentref id="fallenBarrel" />
@@ -1433,7 +1530,7 @@
             <materials>
                 <material id="moonMaterial" />
             </materials>
-            <texture id="none" />
+            <texture id="moonTexture" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="eye" />
             </children>
@@ -1457,6 +1554,7 @@
 
         <component id="flames">
             <transformation>
+                <translate x="0" y="0" z="0.8" />
             </transformation>
             <materials>
                 <material id="fireMaterial" />
@@ -1539,18 +1637,157 @@
 
         <component id="fireBase">
             <transformation>
-                <rotate axis="x" angle="90" />
-                <scale x="0.2" y="0.15" z="0.3" />
-                <translate x="0" y="0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="towerMaterial" />
             </materials>
-            <texture id="none" />
+            <texture id="rocksTexture" length_s="1" length_t="1"/>
             <children>
-                <primitiveref id="parapets" />
+                <componentref id="halfFireBase" />
+                <componentref id="secondHalfFireBase" />
             </children>
         </component>
 
+        <component id="smallRock">
+            <transformation>
+                <scale x="0.3" y="0.3" z="0.3" />
+                <translate x="0" y="0" z="-1.5" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <componentref id="cube" />
+            </children>
+        </component>
+
+        <component id="rock2">
+            <transformation>
+                <rotate axis="y" angle="15" />
+                <translate x="-0.25" y="0" z="0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <componentref id="smallRock" />
+            </children>
+        </component>
+
+        <component id="rock3">
+            <transformation>
+                <rotate axis="y" angle="15" />
+                <translate x="-0.25" y="0" z="0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <componentref id="rock2" />
+            </children>
+        </component>
+
+        <component id="rock4">
+            <transformation>
+                <rotate axis="y" angle="15" />
+                <translate x="-0.25" y="0" z="0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <componentref id="rock3" />
+            </children>
+        </component>
+
+        <component id="rock5">
+            <transformation>
+                <rotate axis="y" angle="15" />
+                <translate x="-0.25" y="0" z="0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <componentref id="rock4" />
+            </children>
+        </component>
+
+        <component id="rock6">
+            <transformation>
+                <rotate axis="y" angle="15" />
+                <translate x="-0.25" y="0" z="0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <componentref id="rock5" />
+            </children>
+        </component>
+
+        <component id="quarterBase">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="smallRock" />
+                <componentref id="rock2" />
+                <componentref id="rock3" />
+                <componentref id="rock4" />
+                <componentref id="rock5" />
+                <componentref id="rock6" />
+            </children>
+        </component>
+
+        <component id="secondQuarter">
+            <transformation>
+                <rotate axis="y" angle="90" />
+                <translate x="-1" y="0" z="-0.8" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="quarterBase" />
+            </children>
+        </component>
+
+        <component id="halfFireBase">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="quarterBase" />
+                <componentref id="secondQuarter" />
+            </children>
+        </component>
+
+        <component id="secondHalfFireBase">
+            <transformation>
+                <rotate axis="y" angle="180" />
+                <translate x="0" y="0" z="-1.8" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="halfFireBase" />
+            </children>
+        </component>
     </components>
 </sxs>
