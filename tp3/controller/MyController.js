@@ -1,4 +1,5 @@
 import { MyCheckerboard } from "../model/MyCheckerboard.js";
+import { MyCommand } from "./commands/MyCommand.js";
 
 /**
  * MyController, implements rules for game and manages the game state.
@@ -214,12 +215,14 @@ export class MyController {
      */
     makeMove(row, col, newRow, newCol) {
         if (this.#isValidMove(row, col, newRow, newCol)) {
-            // TODO - Execute move command
+            let command = new MyCommand(this, row, col, newRow, newCol);
+
+            command.execute();
+
+            this.commands.push(command);
             
             if (this.#isGameOver())
                 this.gameOver = true;
-            else
-                this.currentPlayer = this.currentPlayer == this.player1 ? this.player2 : this.player1;
         }
     }
 
