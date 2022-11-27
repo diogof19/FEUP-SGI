@@ -13,6 +13,7 @@ export class MyController {
         this.player1 = board.player1;
         this.currentPlayer = this.player0;
         this.commands = [];
+        this.gameOver = false;
     }
 
     /**
@@ -179,7 +180,7 @@ export class MyController {
      * @private
      */
     #isGameOver() {
-        return this.#getValidMoves().length == 0;
+        return this.player0.captured == 12 || this.player1.captured == 12 || this.#getValidMoves().length == 0;
     }
 
     /**
@@ -193,7 +194,8 @@ export class MyController {
 
         for (let row = 0; row < 7; row++) {
             for (let col = 0; col < 7; col++) {
-                if (this.board.getPiece(row, col) !== null && this.board.getPiece(row, col).isPlayerPiece(this.currentPlayer)) {
+                let piece = this.board.getPiece(row, col);
+                if (piece !== null && piece.isPlayerPiece(this.currentPlayer)) {
                     for (let newRow = 0; newRow < 7; newRow++) {
                         for (let newCol = 0; newCol < 7; newCol++) {
                             if (this.#isValidMove(row, col, newRow, newCol))
@@ -221,8 +223,7 @@ export class MyController {
 
             this.commands.push(command);
             
-            if (this.#isGameOver())
-                this.gameOver = true;
+            this.gameOver = this.#isGameOver();
         }
     }
 
