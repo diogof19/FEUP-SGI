@@ -1,4 +1,4 @@
-import { CGFscene } from "../../lib/CGF.js";
+import { CGFscene } from "../../../lib/CGF.js";
 
 /**
  * Animation class

@@ -1,4 +1,4 @@
-import { CGFobject } from '../../lib/CGF.js';
+import { CGFobject } from '../../../lib/CGF.js';
 
 /**
  * MyCylinder class, which represents a cylinder primitive

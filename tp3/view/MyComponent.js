@@ -1,4 +1,4 @@
-import { CGFappearance } from "../lib/CGF.js";
+import { CGFappearance } from "../../lib/CGF.js";
 import { MyKeyframeAnimation } from "./animations/MyKeyframeAnimation.js";
 import { MyHighlightInfo } from "./records/MyHighlightInfo.js";
 import { MyTextureInfo } from "./records/MyTextureInfo.js";

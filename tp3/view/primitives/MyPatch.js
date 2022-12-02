@@ -1,4 +1,4 @@
-import { CGFobject, CGFnurbsSurface, CGFnurbsObject } from '../../lib/CGF.js';
+import { CGFobject, CGFnurbsSurface, CGFnurbsObject } from '../../../lib/CGF.js';
 
 /**
  * MyPatch class, which represents a NURBS primitive

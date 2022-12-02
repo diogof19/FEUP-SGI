@@ -1,4 +1,4 @@
-import { CGFappearance, CGFXMLreader, CGFtexture, CGFcamera, CGFcameraOrtho } from '../lib/CGF.js';
+import { CGFappearance, CGFXMLreader, CGFtexture, CGFcamera, CGFcameraOrtho } from '../../lib/CGF.js';
 import { MyCylinder } from './primitives/MyCylinder.js';
 import { MyRectangle } from './primitives/MyRectangle.js';
 import { MySphere } from './primitives/MySphere.js';
@@ -10,6 +10,7 @@ import { MyKeyframe } from './animations/MyKeyframe.js';
 import { MyTextureInfo } from './records/MyTextureInfo.js';
 import { MyHighlightInfo } from './records/MyHighlightInfo.js';
 import { MyComponent } from './MyComponent.js';
+import { MyCheckerboard } from './board/MyCheckerboard.js';
 
 var DEGREE_TO_RAD = Math.PI / 180;
 
@@ -52,6 +53,8 @@ export class MySceneGraph {
         this.axisCoords['y'] = [0, 1, 0];
         this.axisCoords['z'] = [0, 0, 1];
 
+        this.board = null;
+
         // File reading 
         this.reader = new CGFXMLreader();
 
@@ -82,10 +85,14 @@ export class MySceneGraph {
             return;
         }
 
+        this.setUpBoard();
+
         this.loadedOk = true;
 
         // As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
         this.scene.onGraphLoaded();
+
+        
     }
 
     /**
@@ -1614,10 +1621,15 @@ export class MySceneGraph {
         this.materialIndex++;
     }
 
+    setUpBoard(){
+        this.board = new MyCheckerboard(this.scene, this.textures['barkTexture'], this.textures['barkTexture'], this.appearances['woodMaterial'], this.appearances['woodMaterial']);
+    }
+
     /**
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
         this.components[this.idRoot].display();
+        this.board.display();
     }
 }

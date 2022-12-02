@@ -1,8 +1,14 @@
 import { CGFobject } from '../../../lib/CGF.js';
+import { MySquare } from './MySquare.js';
 
-class MyCheckerboard extends CGFobject {
+export class MyCheckerboard extends CGFobject {
     constructor(scene, darkTexture, lightTexture, darkMaterial, lightMaterial) {
         super(scene);
+
+        this.darkTexture = darkTexture;
+        this.lightTexture = lightTexture;
+        this.darkMaterial = darkMaterial;
+        this.lightMaterial = lightMaterial;
 
         this.squares = [
             [new MySquare(scene, this, 0, 0, true), new MySquare(scene, this, 1, 0, false), new MySquare(scene, this, 2, 0, true), new MySquare(scene, this, 3, 0, false), new MySquare(scene, this, 4, 0, true), new MySquare(scene, this, 5, 0, false), new MySquare(scene, this, 6, 0, true), new MySquare(scene, this, 7, 0, false)],
@@ -14,14 +20,24 @@ class MyCheckerboard extends CGFobject {
             [new MySquare(scene, this, 0, 6, true), new MySquare(scene, this, 1, 6, false), new MySquare(scene, this, 2, 6, true), new MySquare(scene, this, 3, 6, false), new MySquare(scene, this, 4, 6, true), new MySquare(scene, this, 5, 6, false), new MySquare(scene, this, 6, 6, true), new MySquare(scene, this, 7, 6, false)],
             [new MySquare(scene, this, 0, 7, false), new MySquare(scene, this, 1, 7, true), new MySquare(scene, this, 2, 7, false), new MySquare(scene, this, 3, 7, true), new MySquare(scene, this, 4, 7, false), new MySquare(scene, this, 5, 7, true), new MySquare(scene, this, 6, 7, false), new MySquare(scene, this, 7, 7, true)]
         ];
-
-        this.darkTexture = darkTexture;
-        this.lightTexture = lightTexture;
-        this.darkMaterial = darkMaterial;
-        this.lightMaterial = lightMaterial;
     }
 
     display() {
         this.squares.forEach(row => row.forEach(square => square.display()));
+        /*this.squares.forEach(row => row.forEach((square) => {
+            if(square.material == undefined) console.log('undefined:', square);
+            else console.log('defined:', square);
+            console.log('BOARD_MAT:', square.material);
+            square.material.setTexture(square.texture);
+            square.material.apply();
+
+            this.scene.pushMatrix();
+
+            square.patch.display();
+
+            this.scene.popMatrix();
+        }));*/
+
+        // I DO NOT KNOW WHY IT WORKS
     }
 }

@@ -1,0 +1,122 @@
+<sxs>
+    <scene root="rootComponent" axis_length="0"/>
+
+    <views default="encampmentCamera">
+        <perspective id="lookingUpCamera" near="0.1" far="500" angle="45">
+            <from x="0" y="5" z="50" />
+            <to x="0" y="20" z="0" />
+        </perspective>
+        <perspective id="eyeCamera" near="0.5" far="1000" angle="55">
+            <from x="0" y="39" z="10" />
+            <to x="0" y="39" z="0" />
+        </perspective>
+        <ortho id="frontOrtho" near="5" far="80" left="-44.5" right="44.5" top="45" bottom="-5">
+            <from x="0" y="5" z="50"/>
+            <to x="0" y="4" z="0"/>
+            <up x="0" y="1" z="0"/>
+        </ortho>
+        <perspective id="encampmentCamera" near="0.1" far="50" angle="45">
+            <from x="30" y="7" z="30" />
+            <to x="20" y="0" z="20" />
+        </perspective>
+    </views>
+
+    <ambient>
+        <ambient r="0" g="0" b="0" a="1" />
+        <background r="0.25" g="0" b="0.0" a="1" />
+    </ambient>
+
+    <lights>
+        <spot id="innerTowerLight" enabled="1" angle="0" exponent="1">
+            <location x="0" y="0" z="5" w="60"/>
+            <target x="0" y="0" z="0"/>
+            <ambient r="0" g="0.2" b="0.2" a="0.0"/>
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0"/>
+            <specular r="1.0" g="1.0" b="1.0" a="1.0"/>
+            <attenuation constant="1" linear="0" quadratic="0"/>
+        </spot>
+        <omni id="eyeGlowLight" enabled="1">
+            <location x="0" y="0" z="5" w="1.0" />
+            <ambient r="0.3" g="0.3" b="0.3" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+            <attenuation constant="0" linear="1" quadratic="0" />
+        </omni>
+    </lights>
+
+    <textures>
+        <texture id="barkTexture" file="scenes/images/bark.jpg" />
+    </textures>
+
+    <materials>
+        <material id="woodMaterial" shininess="1">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.25" g="0.18" b="0.11" a="1.0" />
+            <diffuse r="0.25" g="0.18" b="0.11" a="1.0" />
+            <specular r="0.25" g="0.18" b="0.11" a="1.0" />
+        </material>
+    </materials>
+
+    <transformations>
+        <transformation id="demoTransform">
+            <scale x="5" y="1" z="5" />
+            <rotate axis="x" angle="-45" />
+            <rotate axis="z" angle="-45" />
+        </transformation>
+        <transformation id="rotateZtoY">
+            <rotate axis="x" angle="-90"/>
+        </transformation>
+    </transformations>
+
+    <primitives>
+        <primitive id="patchRectangle">
+            <patch degree_u="1" parts_u="100" degree_v="1" parts_v="100">
+                <controlpoint x="-1" y="-2" z="0" />
+                <controlpoint x="-1" y="2" z="0" />
+                <controlpoint x="1" y="-2" z="0" />
+                <controlpoint x="1" y="2" z="0" />
+            </patch>
+        </primitive>
+    </primitives>
+
+    <animations>
+        <keyframeanim id="testAnimation">        
+            <keyframe instant="3">
+                <translation x="0" y="0" z="0" />
+                <rotation axis="z" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="x" angle="0" />
+                <scale sx="1" sy="1" sz="1" />
+            </keyframe>
+            <keyframe instant="5">
+                <translation x="0" y="0" z="0" />
+                <rotation axis="z" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="x" angle="0" />
+                <scale sx="1.5" sy="1.5" sz="1.5" />
+            </keyframe>      
+            <keyframe instant="7">
+                <translation x="0" y="0" z="0" />
+                <rotation axis="z" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="x" angle="0" />
+                <scale sx="1" sy="1" sz="1" />
+            </keyframe>
+        </keyframeanim>
+    </animations>
+
+    <components>
+        <component id="rootComponent">
+            <transformation>
+                <scale x="0" y="0" z="0" />
+            </transformation>
+            <materials>
+                <material id="woodMaterial"/>
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="patchRectangle"/>
+            </children>
+        </component>
+    </components>
+</sxs>

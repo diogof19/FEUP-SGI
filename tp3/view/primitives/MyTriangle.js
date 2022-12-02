@@ -1,4 +1,4 @@
-import { CGFobject } from '../../lib/CGF.js';
+import { CGFobject } from '../../../lib/CGF.js';
 
 /**
  * MyTriangle class, which represents a triangle primitive
