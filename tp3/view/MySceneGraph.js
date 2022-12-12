@@ -11,6 +11,9 @@ import { MyTextureInfo } from './records/MyTextureInfo.js';
 import { MyHighlightInfo } from './records/MyHighlightInfo.js';
 import { MyComponent } from './MyComponent.js';
 import { MyCheckerboard } from './board/MyCheckerboard.js';
+import { MyController } from '../controller/MyController.js';
+import { MyCheckerboard as MyCheckerboardModel } from '../model/MyCheckerboard.js';
+import { MyPlayer } from '../model/MyPlayer.js';
 
 var DEGREE_TO_RAD = Math.PI / 180;
 
@@ -85,14 +88,28 @@ export class MySceneGraph {
             return;
         }
 
-        this.setUpBoard();
+        this.setUpBoardView();
+
+        this.player0  = new MyPlayer(0, [0,1,0])
+        this.player1  = new MyPlayer(1, [0,0,1])
+        this.boardModel = new MyCheckerboardModel(this.player0, this.player1, 
+           [
+                [1,0,1,0,1,0,1,0],
+                [0,1,0,1,0,1,0,1],
+                [1,0,1,0,1,0,1,0],
+                [0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0],
+                [0,2,0,2,0,2,0,2],
+                [2,0,2,0,2,0,2,0],
+                [0,2,0,2,0,2,0,2]
+            ]
+        )
+        this.boardController = new MyController(this.boardModel, this.board);
 
         this.loadedOk = true;
 
         // As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
-        this.scene.onGraphLoaded();
-
-        
+        this.scene.onGraphLoaded();        
     }
 
     /**
@@ -693,7 +710,7 @@ export class MySceneGraph {
      * Parses the <textures> block. 
      * @param {textures block element} texturesNode
      */
-     parseTextures(texturesNode) {
+    parseTextures(texturesNode) {
         var children = texturesNode.children;
 
         this.textures = [];
@@ -1621,15 +1638,16 @@ export class MySceneGraph {
         this.materialIndex++;
     }
 
-    setUpBoard(){
-        this.board = new MyCheckerboard(this.scene, this.textures['barkTexture'], this.textures['barkTexture'], this.appearances['woodMaterial'], this.appearances['woodMaterial']);
+    setUpBoardView(){
+        this.board = new MyCheckerboard(this.scene, this.textures['barkTexture'], this.textures['moonTexture'], this.appearances['woodMaterial'], this.appearances['moonMaterial']);
     }
 
     /**
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
-        this.components[this.idRoot].display();
+        this.boardController.readSceneInput();
+        //this.components[this.idRoot].display();
         this.board.display();
     }
 }

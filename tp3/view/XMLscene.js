@@ -56,6 +56,8 @@ export class XMLscene extends CGFscene {
         this.highlightingShader.setUniformsValues({ uHighlightColor: [1.0, 1.0, 1.0] });
 
         this.displayLights = false;
+
+        this.setPickEnabled(true);
     }
 
     /**
@@ -114,6 +116,7 @@ export class XMLscene extends CGFscene {
         this.setSpecular(0.2, 0.4, 0.8, 1.0);
         this.setShininess(10.0);
     }
+
     /** Handler called when the graph is finally loaded. 
      * As loading is asynchronous, this may be called already after the application has started the run loop
      */
@@ -184,6 +187,24 @@ export class XMLscene extends CGFscene {
             }
         }
     }
+
+    logPicking()
+	{
+		if (this.pickMode == false) {
+			// results can only be retrieved when picking mode is false
+			if (this.pickResults != null && this.pickResults.length > 0) {
+				for (var i=0; i< this.pickResults.length; i++) {
+					var obj = this.pickResults[i][0];
+					if (obj)
+					{
+						var customId = this.pickResults[i][1];				
+						console.log("Picked object: " + obj + ", with pick id " + customId);
+					}
+				}
+				this.pickResults.splice(0,this.pickResults.length);
+			}		
+		}
+	}
 
     /**
      * Displays the scene.

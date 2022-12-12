@@ -1,5 +1,6 @@
 import { MyCheckerboard } from "../model/MyCheckerboard.js";
 import { MyCommand } from "./commands/MyCommand.js";
+import { MyPiece }from "../view/board/MyPiece.js"; 
 
 /**
  * MyController, implements rules for game and manages the game state.
@@ -7,13 +8,28 @@ import { MyCommand } from "./commands/MyCommand.js";
  * @param {MyCheckerboard} board - Checkerboard
  */
 export class MyController {
-    constructor(board) {
+    constructor(board, boardView) {
         this.board = board;
+        this.boardView = boardView;
         this.player0 = board.player0;
         this.player1 = board.player1;
         this.currentPlayer = this.player0;
         this.commands = [];
         this.gameOver = false;
+        console.log(this.board);
+        this.setBoardViewPieces();
+    }
+
+    setBoardViewPieces() {
+        for (let i = 0; i < 8; i++) {
+            for (let j = 0; j < 8; j++) {
+                if (this.board.board[i][j] !== null) {
+                    let square = this.boardView.getSquare(i, j);
+                    let coords = square.getMiddle();
+                    square.setPiece(new MyPiece(this.boardView.scene, coords[0], coords[1], [1,1,1]));
+                }
+            }
+        }
     }
 
     /**
@@ -27,7 +43,7 @@ export class MyController {
      * @returns {Boolean} - True if move is forward, false otherwise
      * @private
      */
-    #isForwardMove(row, _, newRow, _) {
+    #isForwardMove(row, _, newRow, __) {
         if (this.currentPlayer.number == 0) {
             return newRow > row;
         }
@@ -128,7 +144,7 @@ export class MyController {
      * @returns {Boolean} - True if move is king move, false otherwise
      * @private
      */
-    #isKingMove(row, col, _, _) {
+    #isKingMove(row, col, _, __) {
         let piece = this.board.getPiece(row, col);
         return piece.isKing();
     }
@@ -234,5 +250,22 @@ export class MyController {
         let command = this.commands.pop();
 
         command.undo();
+    }
+
+    readSceneInput() {
+        let scene = this.boardView.scene;
+
+        if (scene.pickMode == false) {
+            if (scene.pickResults != null && scene.pickResults.length > 0) {
+                for (let i = 0; i < scene.pickResults.length; i++) {
+                    let obj = scene.pickResults[i][0];
+                    if (obj) {
+                        let customId = scene.pickResults[i][1];
+                        this.boardView.toggleSelectSquare(customId);
+                    }
+                }
+                scene.pickResults.splice(0, scene.pickResults.length);
+            }
+        }
     }
 }

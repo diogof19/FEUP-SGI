@@ -9,11 +9,11 @@ import { MyPlayer } from "./MyPlayer.js";
  * @param {Array[Array[Number]]} board - Board
  */
 export class MyCheckerboard {
-    constructor(player0, player0, board) {
-        this.#validateArguments(player0, player0, board);
+    constructor(player0, player1, board) {
+        this.#validateArguments(player0, player1, board);
 
         this.player0 = player0;
-        this.player0 = player0;
+        this.player1 = player1;
 
         this.board = this.#makeBoard(board);
     }
@@ -33,12 +33,6 @@ export class MyCheckerboard {
         else if (player0 === null || player1 === null || board === null) {
             throw new Error("All arguments must be defined");
         }
-        else if (player0.type !== "MyPlayer" || player1.type !== "MyPlayer") {
-            throw new Error("Players must be of type MyPlayer");
-        }
-        else if (board.type !== "Array") {
-            throw new Error("Board must be of type Array");
-        }
         else if (board.length !== 8) {
             throw new Error("Board must have 8 rows");
         }
@@ -53,16 +47,19 @@ export class MyCheckerboard {
      * @returns {Array[Array[MyPiece | Number]]} - Board
      */
     #makeBoard(board) {
+        let newBoard = [];
         for (let row = 0; row < 8; row++) {
+            newBoard[row] = [];
             for (let column = 0; column < 8; column++) {
                 if (board[row][column] !== 0) {
-                    board[row][column] = new MyPiece(board[row][column], false);
+                    newBoard[row][column] = new MyPiece(board[row][column], false);
                 }
                 else {
-                    board[row][column] = null;
+                    newBoard[row][column] = null;
                 }
             }
         }
+        return newBoard;
     }
 
     /**
