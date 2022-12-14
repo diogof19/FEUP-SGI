@@ -144,11 +144,8 @@ export class MyCheckerboard {
         if (player === undefined || player === null) {
             throw new Error("Player must be defined");
         }
-        else if (player.type !== "MyPlayer") {
-            throw new Error("Player must be of type MyPlayer");
-        }
         else {
-            return this.getPlayerPieces(player) > 0;
+            return this.getPlayerPieces(player).length > 0;
         }
     }
 
@@ -159,7 +156,7 @@ export class MyCheckerboard {
      * @returns {Boolean} - True if the square is empty, false otherwise
      * @throws {Error} - If the position is invalid
      */
-    isEmptySquare(row, column) {
+    #isEmptySquare(row, column) {
         if (row < 0 || row > 7) {
             throw new Error("Row must be between 0 and 7");
         }
@@ -244,19 +241,20 @@ export class MyCheckerboard {
         if (piece === null || !piece.isPlayerPiece(this.currentPlayer))
             return false;
 
+        // min and max are to ensure moves are within the board
         if (piece.isKing()) {
-            return this.#isCaptureMove(row, col, row + 2, col + 2) ||
-                this.#isCaptureMove(row, col, row + 2, col - 2) ||
-                this.#isCaptureMove(row, col, row - 2, col + 2) ||
-                this.#isCaptureMove(row, col, row - 2, col - 2);
+            return  this.#isCaptureMove(row, col, Math.min(row + 2, 7), Math.min(col + 2, 7)) ||
+                    this.#isCaptureMove(row, col, Math.min(row + 2, 7), Math.max(col - 2, 0)) ||
+                    this.#isCaptureMove(row, col, Math.max(row - 2, 0), Math.min(col + 2, 7)) ||
+                    this.#isCaptureMove(row, col, Math.max(row - 2, 0), Math.max(col - 2, 0));
         }
-        else if (this.currentPlayer.number == 0) {
-            return this.#isCaptureMove(row, col, row + 2, col + 2) ||
-                this.#isCaptureMove(row, col, row + 2, col - 2);
+        else if (this.currentPlayer.number == this.player0.number) {
+            return this.#isCaptureMove(row, col, Math.min(row + 2, 7), Math.min(col + 2, 7)) ||
+                this.#isCaptureMove(row, col, Math.min(row + 2, 7), Math.max(col - 2, 0));
         }
         else {
-            return this.#isCaptureMove(row, col, row - 2, col + 2) ||
-                this.#isCaptureMove(row, col, row - 2, col - 2);
+            return this.#isCaptureMove(row, col, Math.max(row - 2, 0), Math.min(col + 2, 7)) ||
+                this.#isCaptureMove(row, col, Math.max(row - 2, 0), Math.max(col - 2, 0));
         }
     }
 
@@ -270,8 +268,8 @@ export class MyCheckerboard {
      * @private
      */
     #isInBounds(row, col, newRow, newCol) {
-        return row >= 0 && row < 7 && col >= 0 && col < 7 &&
-            newRow >= 0 && newRow < 7 && newCol >= 0 && newCol < 7;
+        return row >= 0 && row <= 7 && col >= 0 && col <= 7 &&
+            newRow >= 0 && newRow <= 7 && newCol >= 0 && newCol <= 7;
     }
 
     /**
@@ -284,7 +282,7 @@ export class MyCheckerboard {
      * @private
      */
     #isCaptureMove(row, col, newRow, newCol) {
-        if (!this.isEmptySquare(newRow, newCol))
+        if (!this.#isEmptySquare(newRow, newCol))
             return false;
 
         if (!this.#isInBounds(row, col, newRow, newCol))
@@ -341,14 +339,7 @@ export class MyCheckerboard {
         if (!this.#isInBounds(row, col, newRow, newCol))
             return false;
 
-        console.log('Is in bounds');
-
-        console.log('Empty square', this.isEmptySquare(row, col));
-        console.log('Player piece',this.getPiece(row, col).isPlayerPiece(this.currentPlayer));
-        console.log('Piece',this.getPiece(row, col));
-        console.log('Current player',this.currentPlayer);
-
-        if (this.isEmptySquare(row, col) || !this.getPiece(row, col).isPlayerPiece(this.currentPlayer))
+        if (this.#isEmptySquare(row, col) || !this.getPiece(row, col).isPlayerPiece(this.currentPlayer))
             return false;
 
         console.log('Is player piece');
