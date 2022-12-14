@@ -88,8 +88,8 @@ export class MySceneGraph {
             return;
         }
 
-        this.player0  = new MyPlayer(1, [0,1,0])
-        this.player1  = new MyPlayer(2, [0,0,1])
+        this.player0  = new MyPlayer(1, this.appearances['eyeMaterial'])
+        this.player1  = new MyPlayer(2, this.appearances['barrelWoodMaterial'])
         this.boardModel = new MyCheckerboardModel(this.player0, this.player1, 
            [
                 [1,0,1,0,1,0,1,0],
@@ -106,6 +106,8 @@ export class MySceneGraph {
         this.boardView = new MyCheckerboard(this.scene, this.textures['barkTexture'], this.textures['moonTexture'], this.appearances['woodMaterial'], this.appearances['moonMaterial'], this.boardModel);
 
         this.boardController = new MyController(this.boardModel, this.boardView);
+
+        console.log(this.boardView);
 
         this.loadedOk = true;
 

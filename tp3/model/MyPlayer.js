@@ -2,9 +2,9 @@
  * MyPlayer class, which represents the player.
  */
 export class MyPlayer {
-    constructor(number, color) {
+    constructor(number, appearance) {
         this.number = number;
-        this.color = color;
+        this.appearance = appearance;
         this.captured = 0;
     }
 }
