@@ -1,14 +1,16 @@
 import { CGFobject } from '../../../lib/CGF.js';
 import { MySquare } from './MySquare.js';
+import { MyPiece } from './MyPiece.js';
 
 export class MyCheckerboard extends CGFobject {
-    constructor(scene, darkTexture, lightTexture, darkMaterial, lightMaterial) {
+    constructor(scene, darkTexture, lightTexture, darkMaterial, lightMaterial, board) {
         super(scene);
 
         this.darkTexture = darkTexture;
         this.lightTexture = lightTexture;
         this.darkMaterial = darkMaterial;
         this.lightMaterial = lightMaterial;
+        this.board = board;
 
         this.squares = [
             [
@@ -60,6 +62,8 @@ export class MyCheckerboard extends CGFobject {
                 new MySquare(scene, this, 6, 7, false), new MySquare(scene, this, 7, 7, true)
             ]
         ];
+
+        this.setBoardViewPieces();
     }
 
     toggleSelectSquare(squareId) {
@@ -67,6 +71,14 @@ export class MyCheckerboard extends CGFobject {
         let col = squareId % 10;
 
         this.squares[row][col].toggleSelect();
+    }
+
+    deselectAllSquares() {
+        this.squares.forEach(row => {
+            row.forEach(square => {
+                square.deselect();
+            });
+        });
     }
 
     getSquare(squareId) {
@@ -89,6 +101,21 @@ export class MyCheckerboard extends CGFobject {
                 // object on row 1, col 2 has id 12
                 this.scene.registerForPick(row * 10 + col, this.squares[row][col]);
                 this.squares[row][col].display();
+            }
+        }
+    }
+
+    setBoardViewPieces() {
+        for (let i = 0; i < 8; i++) {
+            for (let j = 0; j < 8; j++) {
+                let square = this.getSquare(i, j);
+                if (this.board.board[i][j] !== null) {
+                    let coords = square.getMiddle();
+                    square.setPiece(new MyPiece(this.scene, coords[0], coords[1], [1,1,1]));
+                }
+                else {
+                    square.setPiece(null);
+                }
             }
         }
     }

@@ -88,10 +88,8 @@ export class MySceneGraph {
             return;
         }
 
-        this.setUpBoardView();
-
-        this.player0  = new MyPlayer(0, [0,1,0])
-        this.player1  = new MyPlayer(1, [0,0,1])
+        this.player0  = new MyPlayer(1, [0,1,0])
+        this.player1  = new MyPlayer(2, [0,0,1])
         this.boardModel = new MyCheckerboardModel(this.player0, this.player1, 
            [
                 [1,0,1,0,1,0,1,0],
@@ -104,7 +102,10 @@ export class MySceneGraph {
                 [0,2,0,2,0,2,0,2]
             ]
         )
-        this.boardController = new MyController(this.boardModel, this.board);
+
+        this.boardView = new MyCheckerboard(this.scene, this.textures['barkTexture'], this.textures['moonTexture'], this.appearances['woodMaterial'], this.appearances['moonMaterial'], this.boardModel);
+
+        this.boardController = new MyController(this.boardModel, this.boardView);
 
         this.loadedOk = true;
 
@@ -1638,16 +1639,12 @@ export class MySceneGraph {
         this.materialIndex++;
     }
 
-    setUpBoardView(){
-        this.board = new MyCheckerboard(this.scene, this.textures['barkTexture'], this.textures['moonTexture'], this.appearances['woodMaterial'], this.appearances['moonMaterial']);
-    }
-
     /**
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
         this.boardController.readSceneInput();
         //this.components[this.idRoot].display();
-        this.board.display();
+        this.boardView.display();
     }
 }

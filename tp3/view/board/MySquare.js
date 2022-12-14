@@ -38,6 +38,10 @@ export class MySquare extends CGFobject {
         this.selected = !this.selected;
     }
 
+    deselect() {
+        this.selected = false;
+    }
+
     setPiece(piece) {
         this.piece = piece;
     }
