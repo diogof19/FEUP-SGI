@@ -440,6 +440,13 @@ export class MyCheckerboard {
             this.currentPlayer.captured++;
         }
 
+        if (newRow == 7 && piece.isPlayerPiece(this.player0))
+            piece.king = true;
+        else if (newRow == 0 && piece.isPlayerPiece(this.player1))
+            piece.king = true;
+
+        console.log('King: ' + piece.isKing());
+
         this.setPiece(row, col, null);
         this.setPiece(newRow, newCol, piece);
 
