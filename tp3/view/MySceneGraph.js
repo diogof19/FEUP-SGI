@@ -15,6 +15,8 @@ import { MyController } from '../controller/MyController.js';
 import { MyCheckerboard as MyCheckerboardModel } from '../model/MyCheckerboard.js';
 import { MyPlayer } from '../model/MyPlayer.js';
 
+let START_BOARD = await (await fetch('boards/startBoard.json')).json();
+
 var DEGREE_TO_RAD = Math.PI / 180;
 
 // Order of the groups in the XML document.
@@ -90,18 +92,7 @@ export class MySceneGraph {
 
         this.player0  = new MyPlayer(1, this.appearances['eyeMaterial'])
         this.player1  = new MyPlayer(2, this.appearances['barrelWoodMaterial'])
-        this.boardModel = new MyCheckerboardModel(this.player0, this.player1, 
-           [
-                [1,0,1,0,1,0,1,0],
-                [0,1,0,1,0,1,0,1],
-                [1,0,1,0,1,0,1,0],
-                [0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0],
-                [0,2,0,2,0,2,0,2],
-                [2,0,2,0,2,0,2,0],
-                [0,2,0,2,0,2,0,2]
-            ]
-        )
+        this.boardModel = new MyCheckerboardModel(this.player0, this.player1, START_BOARD)
 
         this.boardView = new MyCheckerboard(this.scene, this.textures['barkTexture'], this.textures['moonTexture'], this.appearances['woodMaterial'], this.appearances['moonMaterial'], this.boardModel);
 
