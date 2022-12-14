@@ -43,12 +43,10 @@ export class MyController {
 
                         if (this.state == controllerState.IDLE) {
                             this.state = controllerState.SELECTING_MOVE;
-                            this.selectedCoords = [Math.floor(customId / 10), customId % 10];                            
-                            console.log("SELECTING MOVE", this.selectedCoords, this.state);
+                            this.selectedCoords = [Math.floor(customId / 10), customId % 10];
                         }
                         else if (this.state == controllerState.SELECTING_MOVE) {
-                            this.state = controllerState.IDLE;                  
-                            console.log("MAKING MOVE", this.selectedCoords, this.state);
+                            this.state = controllerState.IDLE;
                             this.makeMove(this.selectedCoords[0], this.selectedCoords[1], Math.floor(customId / 10), customId % 10);
                             this.boardView.deselectAllSquares();
                         }

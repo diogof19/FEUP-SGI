@@ -25,12 +25,12 @@ export class MyCommand {
      */
     execute() {
         if (this.boardModel.makeMove(this.row, this.col, this.newRow, this.newCol)) {
-            console.log("Move made");
             console.log(this.boardModel.board);
+            // TODO Replace with animation
             this.boardView.setBoardViewPieces()
         }
         else {
-            console.log("Invalid move");
+            // TODO User feedback
         }
     }
 
