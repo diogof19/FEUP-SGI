@@ -177,7 +177,7 @@ export class MyCheckerboard {
      * @throws {Error} - If the position is invalid
      * @throws {Error} - If the player is invalid
      */
-    isOpponentSquare(row, column, player) {
+    #isOpponentSquare(row, column, player) {
         if (row < 0 || row > 7) {
             throw new Error("Row must be between 0 and 7");
         }
