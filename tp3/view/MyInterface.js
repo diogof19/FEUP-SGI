@@ -80,7 +80,13 @@ export class MyInterface extends CGFinterface {
         this.processKeyboard = function(){
             if(this.isKeyPressed("KeyM")){
                 this.scene.graph.incrementMaterialIndex();
-            } 
+            }
+            if(this.isKeyPressed("KeyZ")){
+                this.scene.graph.boardController.undo();
+            }
+            if(this.isKeyPressed("KeyA")){
+                this.scene.graph.boardController.redo();
+            }
         };
 
         this.gui.add(this.scene, 'displayLights').name('Lights Visible').onChange(this.scene.updateLightsVisibility.bind(this.scene));

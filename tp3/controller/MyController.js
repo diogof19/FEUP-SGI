@@ -17,17 +17,8 @@ export class MyController {
 
         this.selectedCoords = null;
 
-        this.commands = [];
-        console.log(this.board);
-    }
-
-    /**
-     * Undo move.
-     */
-    undo() {
-        let command = this.commands.pop();
-
-        command.undo();
+        this.undoStack = [];
+        this.redoStack = [];
     }
 
     readSceneInput() {
@@ -60,6 +51,26 @@ export class MyController {
     makeMove(row1, col1, row2, col2) {
         let command = new MyCommand(this.board, this.boardView, row1, col1, row2, col2);
         command.execute();
-        this.commands.push(command);
+        this.undoStack.push(command);
+    }
+
+    undo() {
+        if (this.undoStack.length == 0) {
+            return;
+        }
+
+        let command = this.undoStack.pop();
+        command.undo();
+        this.redoStack.push(command);
+    }
+
+    redo() {
+        if (this.redoStack.length == 0) {
+            return;
+        }
+
+        let command = this.redoStack.pop();
+        command.redo();
+        this.undoStack.push(command);
     }
 }

@@ -1,5 +1,6 @@
 import { MyPiece } from "./MyPiece.js";
 import { MyPlayer } from "./MyPlayer.js";
+import { MyMoveRecord } from "./records/MyMoveRecord.js";
 
 /**
  * MyCheckerboard class, which represents a checkerboard.
@@ -9,6 +10,9 @@ import { MyPlayer } from "./MyPlayer.js";
  * @param {Array[Array[Number]]} board - Board
  */
 export class MyCheckerboard {
+    #moveNumber;
+    #moveRecords;
+
     constructor(player0, player1, board) {
         this.#validateArguments(player0, player1, board);
 
@@ -16,6 +20,9 @@ export class MyCheckerboard {
         this.player1 = player1;
         this.currentPlayer = this.player0;
         this.gameOver = false;
+
+        this.#moveNumber = -1;
+        this.#moveRecords = [];
 
         this.board = this.#makeBoard(board);
     }
@@ -417,17 +424,21 @@ export class MyCheckerboard {
     // TODO: Add documentation, King moves
     makeMove(row, col, newRow, newCol) {
         if (!this.#isValidMove(row, col, newRow, newCol)) {
-            return false;
+            return -1;
         }
 
         if (this.#isGameOver()) {
             console.log('Game is over');
-            return false;
+            return -1;
         }
+
+        this.#moveNumber++;
         
         let piece = this.getPiece(row, col);
 
         let isCaptureMove = this.#isCaptureMove(row, col, newRow, newCol);
+
+        let capturedPiece = isCaptureMove ? this.getPiece(row + (newRow - row) / 2, col + (newCol - col) / 2) : null;
 
         if (isCaptureMove) {
             let rowDiff = newRow - row;
@@ -445,11 +456,40 @@ export class MyCheckerboard {
         this.setPiece(row, col, null);
         this.setPiece(newRow, newCol, piece);
 
+        
+        this.#moveRecords.push(new MyMoveRecord(row, col, newRow, newCol, capturedPiece, this.currentPlayer));
+
         if (!isCaptureMove)
             this.#switchPlayer();
 
-        return true;
+        return this.#moveNumber;
     }
 
+    // TODO: Add documentation
+    undoMove(moveNumber) {
+        if (moveNumber < 0 || moveNumber >= this.#moveRecords.length) {
+            console.log('Invalid move number');
+            return;
+        }
 
+        let moveRecord = this.#moveRecords[moveNumber];
+
+        let piece = this.getPiece(moveRecord.newRow, moveRecord.newCol);
+
+        if (moveRecord.capturedPiece !== null) {
+            let rowDiff = moveRecord.newRow - moveRecord.row;
+            let colDiff = moveRecord.newCol - moveRecord.col;
+
+            this.setPiece(moveRecord.row + rowDiff / 2, moveRecord.col + colDiff / 2, moveRecord.capturedPiece);
+            this.currentPlayer.captured--;
+        }
+
+        this.setPiece(moveRecord.row, moveRecord.col, piece);
+        this.setPiece(moveRecord.newRow, moveRecord.newCol, null);
+        this.currentPlayer = moveRecord.playerBefore;
+
+        this.#moveRecords.splice(moveNumber);
+
+        this.#moveNumber = moveNumber - 1;
+    }
 }

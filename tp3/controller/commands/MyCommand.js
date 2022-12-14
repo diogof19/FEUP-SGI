@@ -15,6 +15,7 @@ export class MyCommand {
         this.col = col;
         this.newRow = newRow;
         this.newCol = newCol;
+        this.moveNumber = -1;
     }
 
     /**
@@ -24,8 +25,8 @@ export class MyCommand {
      * @public
      */
     execute() {
-        if (this.boardModel.makeMove(this.row, this.col, this.newRow, this.newCol)) {
-            console.log(this.boardModel.board);
+        this.moveNumber = this.boardModel.makeMove(this.row, this.col, this.newRow, this.newCol)
+        if (this.moveNumber != -1) {
             // TODO Replace with animation
             this.boardView.setBoardViewPieces()
         }
@@ -40,19 +41,12 @@ export class MyCommand {
      * @throws {Error} - If the command is invalid
      * @public
      */
-    /* undo() {
-        let piece = this.controller.boardModel.getPiece(this.newRow, this.newCol);
+    undo() {
+        this.boardModel.undoMove(this.moveNumber);
+        this.boardView.setBoardViewPieces();
+    }
 
-        if (this.isCaptureMove) {
-            this.controller.boardModel.setPiece((this.row + this.newRow) / 2, (this.col + this.newCol) / 2, this.capturedPiece);
-            this.controller.currentPlayer.captured--;
-        }
-
-        this.controller.boardModel.setPiece(this.row, this.col, piece);
-        this.controller.boardModel.setPiece(this.newRow, this.newCol, null);
-
-        if (!this.isCaptureMove) {
-            this.#switchPlayer();
-        }
-    } */
+    redo() {
+        this.execute();
+    }
 }
