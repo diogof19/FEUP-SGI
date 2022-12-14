@@ -272,6 +272,16 @@ export class MyCheckerboard {
             newRow >= 0 && newRow <= 7 && newCol >= 0 && newCol <= 7;
     }
 
+    #hasCaptureMoves() {
+        for (let row = 0; row < 8; row++) {
+            for (let col = 0; col < 8; col++) {
+                if (this.#hasCaptureMove(row, col))
+                    return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * Checks if move is capture move.
      * @param {Number} row - Row
@@ -354,9 +364,9 @@ export class MyCheckerboard {
 
         console.log('Is diagonal move');
 
-        if (this.#hasCaptureMove(row, col) && this.#isCaptureMove(row, col, newRow, newCol)) {
-            console.log('Has capture move');
-            return true;
+        if (this.#hasCaptureMoves()) {
+            console.log('Has capture moves');
+            return this.#isCaptureMove(row, col, newRow, newCol);
         }
         else {
             console.log('Checking one step move');
