@@ -352,24 +352,16 @@ export class MyCheckerboard {
         if (this.#isEmptySquare(row, col) || !this.getPiece(row, col).isPlayerPiece(this.currentPlayer))
             return false;
 
-        console.log('Is player piece');
-
         if (!this.#isKingMove(row, col, newRow, newCol) && !this.#isForwardMove(row, col, newRow, newCol))
             return false
-
-        console.log('Is forward move or king move');
 
         if (!this.#isDiagonalMove(row, col, newRow, newCol))
             return false;
 
-        console.log('Is diagonal move');
-
         if (this.#hasCaptureMoves()) {
-            console.log('Has capture moves');
             return this.#isCaptureMove(row, col, newRow, newCol);
         }
         else {
-            console.log('Checking one step move');
             return this.#isOneStepMove(row, col, newRow, newCol);
         }
     }
@@ -392,12 +384,12 @@ export class MyCheckerboard {
     #getValidMoves() {
         let moves = [];
 
-        for (let row = 0; row < 7; row++) {
-            for (let col = 0; col < 7; col++) {
+        for (let row = 0; row < 8; row++) {
+            for (let col = 0; col < 8; col++) {
                 let piece = this.getPiece(row, col);
                 if (piece !== null && piece.isPlayerPiece(this.currentPlayer)) {
-                    for (let newRow = 0; newRow < 7; newRow++) {
-                        for (let newCol = 0; newCol < 7; newCol++) {
+                    for (let newRow = 0; newRow < 8; newRow++) {
+                        for (let newCol = 0; newCol < 8; newCol++) {
                             if (this.#isValidMove(row, col, newRow, newCol))
                                 moves.push([row, col, newRow, newCol]);
                         }
@@ -427,6 +419,11 @@ export class MyCheckerboard {
         if (!this.#isValidMove(row, col, newRow, newCol)) {
             return false;
         }
+
+        if (this.#isGameOver()) {
+            console.log('Game is over');
+            return false;
+        }
         
         let piece = this.getPiece(row, col);
 
@@ -444,8 +441,6 @@ export class MyCheckerboard {
             piece.king = true;
         else if (newRow == 0 && piece.isPlayerPiece(this.player1))
             piece.king = true;
-
-        console.log('King: ' + piece.isKing());
 
         this.setPiece(row, col, null);
         this.setPiece(newRow, newCol, piece);
