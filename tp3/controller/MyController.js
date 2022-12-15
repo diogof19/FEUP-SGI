@@ -39,6 +39,7 @@ export class MyController {
                         else if (this.state == controllerState.SELECTING_MOVE) {
                             this.state = controllerState.IDLE;
                             this.makeMove(this.selectedCoords[0], this.selectedCoords[1], Math.floor(customId / 10), customId % 10);
+                            this.redoStack = [];
                             this.boardView.deselectAllSquares();
                         }
                     }
