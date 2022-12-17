@@ -10,9 +10,12 @@ import { controllerState } from "./enums/MyControllerState.js";
  * @param {MyCheckerboardView} boardView - Checkerboard
  */
 export class MyController {
-    constructor(boardModel, boardView) {
+    constructor(boardModel, boardView, auxBoardView0, auxBoardView1) {
         this.board = boardModel;
         this.boardView = boardView;
+        this.auxBoardView0 = auxBoardView0;
+        this.auxBoardView1 = auxBoardView1;
+
         this.state = controllerState.IDLE;
 
         this.selectedCoords = null;
@@ -54,7 +57,7 @@ export class MyController {
     }
 
     makeMove(row1, col1, row2, col2) {
-        let command = new MyCommand(this.board, this.boardView, row1, col1, row2, col2);
+        let command = new MyCommand(this.board, this.boardView, row1, col1, row2, col2, this.auxBoardView0, this.auxBoardView1);
         command.execute();
         this.undoStack.push(command);
     }

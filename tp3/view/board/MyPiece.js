@@ -29,7 +29,7 @@ export class MyPiece extends CGFobject {
         ]);
     }
 
-    display(animation) {
+    display(animation = null) {
         this.appearance.apply();
         this.scene.pushMatrix();
         this.scene.translate(this.x, this.y, 0.1);

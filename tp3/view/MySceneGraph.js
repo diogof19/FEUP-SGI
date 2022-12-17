@@ -14,6 +14,8 @@ import { MyCheckerboard } from './board/MyCheckerboard.js';
 import { MyController } from '../controller/MyController.js';
 import { MyCheckerboard as MyCheckerboardModel } from '../model/MyCheckerboard.js';
 import { MyPlayer } from '../model/MyPlayer.js';
+import { MyAuxBoard } from './board/MyAuxBoard.js';
+import { MyAuxBoard as MyAuxBoardModel } from '../model/MyAuxBoard.js';
 
 let START_BOARD = await (await fetch('boards/startBoard.json')).json();
 
@@ -92,11 +94,17 @@ export class MySceneGraph {
 
         this.player0  = new MyPlayer(1, this.appearances['eyeMaterial'])
         this.player1  = new MyPlayer(2, this.appearances['barrelWoodMaterial'])
-        this.boardModel = new MyCheckerboardModel(this.player0, this.player1, START_BOARD)
+
+        this.auxBoardModel0 = new MyAuxBoardModel(this.player0, this.player1)
+        this.auxBoardModel1 = new MyAuxBoardModel(this.player1, this.player0)
+        this.boardModel = new MyCheckerboardModel(this.player0, this.player1, START_BOARD, this.auxBoardModel0, this.auxBoardModel1)
+        
 
         this.boardView = new MyCheckerboard(this.scene, this.textures['barkTexture'], this.textures['moonTexture'], this.appearances['woodMaterial'], this.appearances['moonMaterial'], this.boardModel);
+        this.auxBoardView0 = new MyAuxBoard(this.scene, this.textures['moonTexture'], this.appearances['moonMaterial'], this.auxBoardModel0, 1);
+        this.auxBoardView1 = new MyAuxBoard(this.scene, this.textures['moonTexture'], this.appearances['moonMaterial'], this.auxBoardModel1, 2);
 
-        this.boardController = new MyController(this.boardModel, this.boardView);
+        this.boardController = new MyController(this.boardModel, this.boardView, this.auxBoardView0, this.auxBoardView1);
 
         console.log(this.boardView);
 
@@ -1646,6 +1654,8 @@ export class MySceneGraph {
         this.scene.rotate(-Math.PI/2, 1, 0, 0);
         
         this.boardView.display();
+        this.auxBoardView0.display();
+        this.auxBoardView1.display();
 
         this.scene.popMatrix();
     }
