@@ -432,6 +432,10 @@ export class MyCheckerboard {
             return -1;
         }
 
+        let player0CapturedBefore = this.player0.captured;
+        let player1CapturedBefore = this.player1.captured;
+        let currentPlayerNumberBefore = this.currentPlayer.number;
+
         this.#moveNumber++;
         
         let piece = this.getPiece(row, col);
@@ -457,9 +461,9 @@ export class MyCheckerboard {
         this.setPiece(newRow, newCol, piece);
 
         
-        this.#moveRecords.push(new MyMoveRecord(row, col, newRow, newCol, capturedPiece, this.currentPlayer));
+        this.#moveRecords.push(new MyMoveRecord(row, col, newRow, newCol, capturedPiece, currentPlayerNumberBefore, player0CapturedBefore, player1CapturedBefore));
 
-        if (!isCaptureMove)
+        if (!isCaptureMove || !this.#hasCaptureMoves())
             this.#switchPlayer();
 
         return this.#moveNumber;
@@ -481,12 +485,14 @@ export class MyCheckerboard {
             let colDiff = moveRecord.newCol - moveRecord.col;
 
             this.setPiece(moveRecord.row + rowDiff / 2, moveRecord.col + colDiff / 2, moveRecord.capturedPiece);
-            this.currentPlayer.captured--;
         }
 
         this.setPiece(moveRecord.row, moveRecord.col, piece);
         this.setPiece(moveRecord.newRow, moveRecord.newCol, null);
-        this.currentPlayer = moveRecord.playerBefore;
+
+        this.currentPlayer = moveRecord.playerNumberBefore == this.player0.number ? this.player0 : this.player1;
+        this.player0.captured = moveRecord.player0CapturedBefore;
+        this.player1.captured = moveRecord.player1CapturedBefore;
 
         this.#moveRecords.splice(moveNumber);
 
