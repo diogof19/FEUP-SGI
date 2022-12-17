@@ -29,10 +29,15 @@ export class MyPiece extends CGFobject {
         ]);
     }
 
-    display() {
+    display(animation) {
         this.appearance.apply();
         this.scene.pushMatrix();
         this.scene.translate(this.x, this.y, 0.1);
+
+        if (animation != null){
+            animation.apply();
+        }
+            
         this.cylinder.display();
         this.cylinderTopHalfOne.display();
         this.scene.rotate(Math.PI, 0, 0, 1);

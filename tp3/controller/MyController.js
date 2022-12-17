@@ -24,7 +24,10 @@ export class MyController {
     readSceneInput() {
         let scene = this.boardView.scene;
 
-        if (scene.pickMode == false) {
+        if(this.boardView.currentAnimation.animation == null && this.state == controllerState.ANIMATING)
+            this.state = controllerState.IDLE;
+
+        if (scene.pickMode == false && this.state != controllerState.ANIMATING) {
             if (scene.pickResults != null && scene.pickResults.length > 0) {
                 for (let i = 0; i < scene.pickResults.length; i++) {
                     let obj = scene.pickResults[i][0];
@@ -37,8 +40,8 @@ export class MyController {
                             this.selectedCoords = [Math.floor(customId / 10), customId % 10];
                         }
                         else if (this.state == controllerState.SELECTING_MOVE) {
-                            this.state = controllerState.IDLE;
-                            this.makeMove(this.selectedCoords[0], this.selectedCoords[1], Math.floor(customId / 10), customId % 10);
+                            this.state = controllerState.ANIMATING;
+                            this.makeMove(this.selectedCoords[0], this.selectedCoords[1], Math.floor(customId / 10),  customId % 10);
                             this.boardView.deselectAllSquares();
                         }
                     }
