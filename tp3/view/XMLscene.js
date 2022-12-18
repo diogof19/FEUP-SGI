@@ -186,6 +186,9 @@ export class XMLscene extends CGFscene {
                 this.graph.animations[key].update(this.instant);
             }
         }
+
+        if(this.graph.boardView != null)
+            this.graph.boardView.update(this.instant);
     }
 
     logPicking()

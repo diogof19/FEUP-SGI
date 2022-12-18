@@ -10,9 +10,12 @@ import { controllerState } from "./enums/MyControllerState.js";
  * @param {MyCheckerboardView} boardView - Checkerboard
  */
 export class MyController {
-    constructor(boardModel, boardView) {
+    constructor(boardModel, boardView, auxBoardView0, auxBoardView1) {
         this.board = boardModel;
         this.boardView = boardView;
+        this.auxBoardView0 = auxBoardView0;
+        this.auxBoardView1 = auxBoardView1;
+
         this.state = controllerState.IDLE;
 
         this.selectedCoords = null;
@@ -24,7 +27,10 @@ export class MyController {
     readSceneInput() {
         let scene = this.boardView.scene;
 
-        if (scene.pickMode == false) {
+        if(this.boardView.currentAnimation.animation == null && this.state == controllerState.ANIMATING)
+            this.state = controllerState.IDLE;
+
+        if (scene.pickMode == false && this.state != controllerState.ANIMATING) {
             if (scene.pickResults != null && scene.pickResults.length > 0) {
                 console.log(scene.pickResults);
                 for (let i = 0; i < scene.pickResults.length; i++) {
@@ -38,8 +44,9 @@ export class MyController {
                             this.selectedCoords = [Math.floor(customId / 10), customId % 10];
                         }
                         else if (this.state == controllerState.SELECTING_MOVE) {
-                            this.state = controllerState.IDLE;
-                            this.makeMove(this.selectedCoords[0], this.selectedCoords[1], Math.floor(customId / 10), customId % 10);
+                            this.state = controllerState.ANIMATING;
+                            this.makeMove(this.selectedCoords[0], this.selectedCoords[1], Math.floor(customId / 10),  customId % 10);
+    
                             this.redoStack = [];
                             this.boardView.deselectAllSquares();
                         }
@@ -51,7 +58,7 @@ export class MyController {
     }
 
     makeMove(row1, col1, row2, col2) {
-        let command = new MyCommand(this.board, this.boardView, row1, col1, row2, col2);
+        let command = new MyCommand(this.board, this.boardView, row1, col1, row2, col2, this.auxBoardView0, this.auxBoardView1);
         command.execute();
         this.undoStack.push(command);
     }

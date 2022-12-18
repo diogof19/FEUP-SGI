@@ -13,7 +13,7 @@ export class MyCheckerboard {
     #moveNumber;
     #moveRecords;
 
-    constructor(player0, player1, board) {
+    constructor(player0, player1, board, auxBoard0, auxBoard1) {
         this.#validateArguments(player0, player1, board);
 
         this.player0 = player0;
@@ -25,6 +25,9 @@ export class MyCheckerboard {
         this.#moveRecords = [];
 
         this.board = this.#makeBoard(board);
+
+        this.auxBoard0 = auxBoard0;
+        this.auxBoard1 = auxBoard1;
     }
 
     /**
@@ -450,6 +453,11 @@ export class MyCheckerboard {
 
             this.setPiece(row + rowDiff / 2, col + colDiff / 2, null);
             this.currentPlayer.captured++;
+            
+            if(this.currentPlayer == this.player0)
+                this.auxBoard0.addPiece();
+            else
+                this.auxBoard1.addPiece();
         }
 
         if (newRow == 7 && piece.isPlayerPiece(this.player0))
@@ -485,6 +493,11 @@ export class MyCheckerboard {
             let colDiff = moveRecord.newCol - moveRecord.col;
 
             this.setPiece(moveRecord.row + rowDiff / 2, moveRecord.col + colDiff / 2, moveRecord.capturedPiece);
+
+            if(moveRecord.playerNumberBefore == this.player0.number)
+                this.auxBoard0.removePiece();
+            else
+                this.auxBoard1.removePiece();
         }
 
         this.setPiece(moveRecord.row, moveRecord.col, piece);

@@ -50,7 +50,7 @@ export class MySquare extends CGFobject {
         return [this.x + 0.5, this.y + 0.5];
     }
     
-    display() {
+    display(animation = null) {
         if (this.selected) {
             this.scene.setActiveShader(this.scene.highlightingShader);
             this.scene.highlightingShader.setUniformsValues({ uHighlightColor: [1.0, 0.0, 0.0] });
@@ -61,7 +61,7 @@ export class MySquare extends CGFobject {
         this.material.apply();
         this.patch.display();
         if (this.piece != null) {
-            this.piece.display();
+            this.piece.display(animation);
         }
         if (this.selected) {
             this.scene.setActiveShader(this.scene.defaultShader);

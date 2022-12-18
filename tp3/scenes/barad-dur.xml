@@ -318,7 +318,6 @@
                 <componentref id="outerSquareTowers" />
                 <componentref id="armyEncampment"/>
                 <componentref id="moon"/>
-                <componentref id="fire"/>
             </children>
         </component>
 
