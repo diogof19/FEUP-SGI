@@ -26,6 +26,7 @@ export class MyController {
 
         if (scene.pickMode == false) {
             if (scene.pickResults != null && scene.pickResults.length > 0) {
+                console.log(scene.pickResults);
                 for (let i = 0; i < scene.pickResults.length; i++) {
                     let obj = scene.pickResults[i][0];
                     if (obj) {

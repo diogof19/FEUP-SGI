@@ -11,6 +11,7 @@ export class MyCheckerboard extends CGFobject {
         this.darkMaterial = darkMaterial;
         this.lightMaterial = lightMaterial;
         this.board = board;
+        this.registerForPick = true;
 
         this.setBoardSquares();
 
@@ -68,9 +69,15 @@ export class MyCheckerboard extends CGFobject {
 
         for(let row = 0; row < 8; row++) {
             for(let col = 0; col < 8; col++) {
-                // id = row * 10 + col
-                // object on row 1, col 2 has id 12
-                this.scene.registerForPick(row * 10 + col, this.squares[row][col]);
+                // TODO - make controller set register for pick
+                let pieceModel = this.board.getPiece(row, col);
+                if (this.registerForPick && pieceModel !== null && pieceModel.playerNumber == this.board.currentPlayer.number)
+                    // id = row * 10 + col
+                    // object on row 1, col 2 has id 12
+                    this.scene.registerForPick(row * 10 + col, this.squares[row][col]);
+                else
+                    this.scene.registerForPick(-1, this.squares[row][col]);
+                    
                 this.squares[row][col].display();
             }
         }
