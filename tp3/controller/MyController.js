@@ -32,20 +32,20 @@ export class MyController {
 
         if (scene.pickMode == false && this.state != controllerState.ANIMATING) {
             if (scene.pickResults != null && scene.pickResults.length > 0) {
-                console.log(scene.pickResults);
                 for (let i = 0; i < scene.pickResults.length; i++) {
                     let obj = scene.pickResults[i][0];
-                    if (obj) {
-                        let customId = scene.pickResults[i][1];
+                    let customId = scene.pickResults[i][1];
+                    if (obj && customId != 0) {
                         this.boardView.toggleSelectSquare(customId);
 
                         if (this.state == controllerState.IDLE) {
                             this.state = controllerState.SELECTING_MOVE;
-                            this.selectedCoords = [Math.floor(customId / 10), customId % 10];
+                            this.selectedCoords = this.boardView.getCoords(customId);
                         }
                         else if (this.state == controllerState.SELECTING_MOVE) {
                             this.state = controllerState.ANIMATING;
-                            this.makeMove(this.selectedCoords[0], this.selectedCoords[1], Math.floor(customId / 10),  customId % 10);
+                            let newCoords = this.boardView.getCoords(customId);
+                            this.makeMove(this.selectedCoords[0], this.selectedCoords[1], newCoords[0],  newCoords[1]);
     
                             this.redoStack = [];
                             this.boardView.deselectAllSquares();

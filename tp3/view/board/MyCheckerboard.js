@@ -40,10 +40,9 @@ export class MyCheckerboard extends CGFobject {
     }
 
     toggleSelectSquare(squareId) {
-        let row = Math.floor(squareId / 10);
-        let col = squareId % 10;
+        let coords = this.getCoords(squareId);
 
-        this.squares[row][col].toggleSelect();
+        this.getSquare(coords[0], coords[1]).toggleSelect();
     }
 
     deselectAllSquares() {
@@ -54,11 +53,11 @@ export class MyCheckerboard extends CGFobject {
         });
     }
 
-    getSquare(squareId) {
-        let row = Math.floor(squareId / 10);
-        let col = squareId % 10;
+    getCoords(squareId) {
+        let row = Math.floor((squareId - 1)/ 10);
+        let col = (squareId - 1) % 10;
 
-        return this.squares[row][col];
+        return [row, col];
     }
 
     getSquare(row, col) {
@@ -68,11 +67,19 @@ export class MyCheckerboard extends CGFobject {
     display() {
         this.scene.clearPickRegistration();
 
+        // Only register for pick if there is no animation
+        this.registerForPick = this.currentAnimation.animation == null;
+
         for(let row = 0; row < 8; row++) {
             for(let col = 0; col < 8; col++) {
-                // id = row * 10 + col
+                // id = row * 10 + col + 1
                 // object on row 1, col 2 has id 12
-                this.scene.registerForPick(row * 10 + col, this.squares[row][col]);
+                // indices start at 1 because 0 is always returned if any unregistered object is picked
+                let piece = this.board.getPiece(row, col);
+                if(this.registerForPick && piece != null && piece.playerNumber != this.board.currentPlayer.number)
+                    this.scene.registerForPick(-1, this.squares[row][col]);
+                else if(this.registerForPick)
+                    this.scene.registerForPick(row * 10 + col + 1, this.squares[row][col]);
 
                 if(this.currentAnimation.animation != null && this.currentAnimation.pieceCoords[0] == col && this.currentAnimation.pieceCoords[1] == row) {
                     this.squares[row][col].display(this.currentAnimation.animation);
