@@ -64,9 +64,7 @@ export class MyCheckerboard extends CGFobject {
         return this.squares[row][col];
     }
 
-    display() {
-        this.scene.clearPickRegistration();
-        
+    display() {        
         // Only register for pick if there is no animation
         this.registerForPick = this.currentAnimation.animation == null;
 

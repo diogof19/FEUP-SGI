@@ -1,7 +1,14 @@
-import { CGFscene,CGFaxis,CGFcamera,CGFshader } from '../../lib/CGF.js';
+import { CGFscene,CGFaxis,CGFcamera,CGFshader,CGFtexture,CGFappearance } from '../../lib/CGF.js';
+import { MyCheckerboard } from './board/MyCheckerboard.js';
+import { MyController } from '../controller/MyController.js';
+import { MyCheckerboard as MyCheckerboardModel } from '../model/MyCheckerboard.js';
+import { MyPlayer } from '../model/MyPlayer.js';
+import { MyAuxBoard } from './board/MyAuxBoard.js';
+import { MyAuxBoard as MyAuxBoardModel } from '../model/MyAuxBoard.js';
 
 
-var DEGREE_TO_RAD = Math.PI / 180;
+
+let START_BOARD = await (await fetch('boards/startBoard.json')).json();
 
 const UPDATE_PERIOD_MS = 1000;
 
@@ -58,6 +65,39 @@ export class XMLscene extends CGFscene {
         this.displayLights = false;
 
         this.setPickEnabled(true);
+
+        this.initCheckers();
+    }
+
+    initCheckers() {
+        // Board textures
+        let barkTexture = new CGFtexture(this, 'scenes/images/bark.jpg');
+        let moonTexture = new CGFtexture(this, 'scenes/images/moon.jpg');
+
+        // Board appearances
+        this.appearances = {
+            'woodMaterial': new CGFappearance(this),
+            'moonMaterial': new CGFappearance(this),
+            'barrelWoodMaterial': new CGFappearance(this),
+            'eyeMaterial': new CGFappearance(this),
+        }
+
+        this.appearances['eyeMaterial'].setAmbient(0.1, 0.1, 0.1, 1);
+        this.appearances['barrelWoodMaterial'].setAmbient(0.9, 0.9, 0.9, 1);
+
+        this.player0  = new MyPlayer(1, this.appearances['eyeMaterial'])
+        this.player1  = new MyPlayer(2, this.appearances['barrelWoodMaterial'])
+
+        this.auxBoardModel0 = new MyAuxBoardModel(this.player0, this.player1)
+        this.auxBoardModel1 = new MyAuxBoardModel(this.player1, this.player0)
+        this.boardModel = new MyCheckerboardModel(this.player0, this.player1, START_BOARD, this.auxBoardModel0, this.auxBoardModel1)
+        
+
+        this.boardView = new MyCheckerboard(this, barkTexture, moonTexture, this.appearances['woodMaterial'], this.appearances['moonMaterial'], this.boardModel);
+        this.auxBoardView0 = new MyAuxBoard(this, barkTexture, this.appearances['moonMaterial'], this.auxBoardModel0, 1);
+        this.auxBoardView1 = new MyAuxBoard(this, barkTexture, this.appearances['moonMaterial'], this.auxBoardModel1, 2);        
+
+        this.boardController = new MyController(this.boardModel, this.boardView, this.auxBoardView0, this.auxBoardView1);
     }
 
     /**
@@ -66,6 +106,7 @@ export class XMLscene extends CGFscene {
     initCameras() {
         this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(0, 60, 150), vec3.fromValues(0,20, 0));
     }
+
     /**
      * Initializes the scene lights with the values read from the XML file.
      */
@@ -188,7 +229,7 @@ export class XMLscene extends CGFscene {
         }
 
         if(this.graph.boardView != null)
-            this.graph.boardView.update(this.instant);
+            this.boardView.update(this.instant);
     }
 
     /**
@@ -225,6 +266,20 @@ export class XMLscene extends CGFscene {
             // Displays the scene (MySceneGraph function).
             this.graph.displayScene();
         }
+        
+        this.boardController.readSceneInput();
+                
+        this.scale(0.5, 1, 0.5);
+        this.translate(44, 0.2, 54);
+        this.rotate(-Math.PI/2, 1, 0, 0);
+
+        this.auxBoardView0.display();
+        this.auxBoardView1.display();
+
+        this.clearPickRegistration();
+
+        this.boardView.display();
+
 
         this.popMatrix();
         // ---- END Background, camera and axis setup

@@ -32,6 +32,7 @@ export class MyController {
 
         if (scene.pickMode == false && this.state != controllerState.ANIMATING) {
             if (scene.pickResults != null && scene.pickResults.length > 0) {
+                console.log(scene.pickResults[0]);
                 for (let i = 0; i < scene.pickResults.length; i++) {
                     let obj = scene.pickResults[i][0];
                     let customId = scene.pickResults[i][1];

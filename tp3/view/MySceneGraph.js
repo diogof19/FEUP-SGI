@@ -1644,19 +1644,6 @@ export class MySceneGraph {
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
-        this.boardController.readSceneInput();
         //this.components[this.idRoot].display();
-
-        this.scene.pushMatrix();
-
-        this.scene.scale(0.5, 1, 0.5);
-        this.scene.translate(44, 0.2, 54);
-        this.scene.rotate(-Math.PI/2, 1, 0, 0);
-        
-        this.auxBoardView0.display();
-        this.auxBoardView1.display();
-        this.boardView.display();
-
-        this.scene.popMatrix();
     }
 }
