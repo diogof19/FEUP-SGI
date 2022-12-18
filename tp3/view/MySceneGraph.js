@@ -1653,9 +1653,9 @@ export class MySceneGraph {
         this.scene.translate(44, 0.2, 54);
         this.scene.rotate(-Math.PI/2, 1, 0, 0);
         
-        this.boardView.display();
         this.auxBoardView0.display();
         this.auxBoardView1.display();
+        this.boardView.display();
 
         this.scene.popMatrix();
     }
