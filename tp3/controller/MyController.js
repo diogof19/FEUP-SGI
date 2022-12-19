@@ -10,9 +10,10 @@ import { controllerState } from "./enums/MyControllerState.js";
  * @param {MyCheckerboardView} boardView - Checkerboard
  */
 export class MyController {
-    constructor(boardModel, boardView, auxBoardView0, auxBoardView1) {
+    constructor(boardModel, boardView, hud, auxBoardView0, auxBoardView1) {
         this.board = boardModel;
         this.boardView = boardView;
+        this.hud = hud;
         this.auxBoardView0 = auxBoardView0;
         this.auxBoardView1 = auxBoardView1;
 
@@ -32,11 +33,13 @@ export class MyController {
 
         if (scene.pickMode == false && this.state != controllerState.ANIMATING) {
             if (scene.pickResults != null && scene.pickResults.length > 0) {
-                console.log(scene.pickResults[0]);
                 for (let i = 0; i < scene.pickResults.length; i++) {
                     let obj = scene.pickResults[i][0];
                     let customId = scene.pickResults[i][1];
-                    if (obj && customId != 0) {
+                    if (obj && customId == 101) {
+                        console.log("buttonPressed");
+                    }
+                    else if (obj && customId != 0) {
                         this.boardView.toggleSelectSquare(customId);
 
                         if (this.state == controllerState.IDLE) {

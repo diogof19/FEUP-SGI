@@ -5,6 +5,7 @@ import { MyCheckerboard as MyCheckerboardModel } from '../model/MyCheckerboard.j
 import { MyPlayer } from '../model/MyPlayer.js';
 import { MyAuxBoard } from './board/MyAuxBoard.js';
 import { MyAuxBoard as MyAuxBoardModel } from '../model/MyAuxBoard.js';
+import { MyHUD } from './hud/MyHUD.js';
 
 
 
@@ -67,6 +68,21 @@ export class XMLscene extends CGFscene {
         this.setPickEnabled(true);
 
         this.initCheckers();
+
+        this.initHUDShader();
+    }
+
+    initHUDShader() {
+        this.hudShader = new CGFshader(this.gl, './view/shaders/vert/hud.vert', './view/shaders/frag/hud.frag');
+
+        let projectionMatrix = mat4.create();
+        mat4.ortho(projectionMatrix, -1, 1, -1, 1, -1, 1);
+
+        let modelViewMatrix = mat4.create();
+        mat4.identity(modelViewMatrix);
+
+        this.hudShader.setUniformsValues({ uProjectionMatrix: projectionMatrix });
+        this.hudShader.setUniformsValues({ uModelViewMatrix: modelViewMatrix });
     }
 
     initCheckers() {
@@ -97,7 +113,9 @@ export class XMLscene extends CGFscene {
         this.auxBoardView0 = new MyAuxBoard(this, barkTexture, this.appearances['moonMaterial'], this.auxBoardModel0, 1);
         this.auxBoardView1 = new MyAuxBoard(this, barkTexture, this.appearances['moonMaterial'], this.auxBoardModel1, 2);        
 
-        this.boardController = new MyController(this.boardModel, this.boardView, this.auxBoardView0, this.auxBoardView1);
+        this.hud = new MyHUD(this);
+
+        this.boardController = new MyController(this.boardModel, this.boardView, this.hud, this.auxBoardView0, this.auxBoardView1);
     }
 
     /**
@@ -236,6 +254,13 @@ export class XMLscene extends CGFscene {
      * Displays the scene.
      */
     display() {
+        // Displays the board
+        this.boardController.readSceneInput();
+        
+        this.clearPickRegistration();        
+
+        this.setActiveShader(this.defaultShader);
+
         // ---- BEGIN Background, camera and axis setup
 
         // Clear image and depth buffer everytime we update the scene
@@ -264,10 +289,8 @@ export class XMLscene extends CGFscene {
             this.setDefaultAppearance();
 
             // Displays the scene (MySceneGraph function).
-            this.graph.displayScene();
+            //this.graph.displayScene();
         }
-        
-        this.boardController.readSceneInput();
                 
         this.scale(0.5, 1, 0.5);
         this.translate(44, 0.2, 54);
@@ -276,12 +299,15 @@ export class XMLscene extends CGFscene {
         this.auxBoardView0.display();
         this.auxBoardView1.display();
 
-        this.clearPickRegistration();
-
         this.boardView.display();
 
-
         this.popMatrix();
+
+        this.gl.clear(this.gl.DEPTH_BUFFER_BIT);
+
+        this.setActiveShader(this.hudShader);
+
+        this.hud.display();
         // ---- END Background, camera and axis setup
     }
 }

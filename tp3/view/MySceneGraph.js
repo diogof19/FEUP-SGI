@@ -1644,6 +1644,6 @@ export class MySceneGraph {
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
-        //this.components[this.idRoot].display();
+        this.components[this.idRoot].display();
     }
 }
