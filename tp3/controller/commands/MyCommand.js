@@ -2,6 +2,7 @@ import { MyCheckerboard as MyCheckerboardModel } from "../../model/MyCheckerboar
 import { MyCheckerboard as MyCheckerboardView } from "../../view/board/MyCheckerboard.js";
 import { MyKeyframe } from "../../view/animations/MyKeyframe.js";
 import { MyKeyframeAnimation } from "../../view/animations/MyKeyframeAnimation.js";
+import { MyMoveAnimation } from "../../view/animations/MyMoveAnimation.js";
 
 /**
  * MyCommand class, class for moves related to the checkers game.
@@ -45,12 +46,19 @@ export class MyCommand {
         this.moveNumber = this.boardModel.makeMove(this.row, this.col, this.newRow, this.newCol)
         console.log(this.moveNumber);
         if (this.moveNumber != -1) {
-            this.auxBoardView0.resetPieces();
-            this.auxBoardView1.resetPieces();
-            this.boardView.setAnimation(
-                {'animation': this.createAnimation(this.col, this.row, this.newCol, this.newRow),
-                'pieceCoords': [this.col, this.row]
-            });
+            var lastMove = this.boardModel.getLastMoveRecord()
+            if(lastMove.capturedPiece != null){
+                let rowDiff = lastMove.newRow - lastMove.row;
+                let colDiff = lastMove.newCol - lastMove.col;
+
+                if(lastMove.playerNumberBefore == 1)
+                    this.boardView.currentAnimation = new MyMoveAnimation(this.boardView.scene, [this.col, this.row], [this.newCol, this.newRow], [lastMove.col + colDiff / 2, lastMove.row + rowDiff / 2], this.auxBoardView0);
+                else
+                    this.boardView.currentAnimation = new MyMoveAnimation(this.boardView.scene, [this.col, this.row], [this.newCol, this.newRow], [lastMove.col + colDiff / 2, lastMove.row + rowDiff / 2], this.auxBoardView1);
+            }
+               
+            else
+                this.boardView.currentAnimation = new MyMoveAnimation(this.boardView.scene, [this.col, this.row], [this.newCol, this.newRow]);
         }
         else {
             // TODO User feedback

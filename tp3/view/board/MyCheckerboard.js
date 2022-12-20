@@ -3,7 +3,7 @@ import { MySquare } from './MySquare.js';
 import { MyPiece } from './MyPiece.js';
 
 export class MyCheckerboard extends CGFobject {
-    constructor(scene, darkTexture, lightTexture, darkMaterial, lightMaterial, board) {
+    constructor(scene, darkTexture, lightTexture, darkMaterial, lightMaterial, board, auxBoardView0, auxBoardView1) {
         super(scene);
 
         this.darkTexture = darkTexture;
@@ -11,8 +11,10 @@ export class MyCheckerboard extends CGFobject {
         this.darkMaterial = darkMaterial;
         this.lightMaterial = lightMaterial;
         this.board = board;
+        this.auxBoardView0 = auxBoardView0;
+        this.auxBoardView1 = auxBoardView1;
         this.registerForPick = true;
-        this.currentAnimation = {'animation': null, 'pieceCoords': null};
+        this.currentAnimation = null;
 
         this.setBoardSquares();
 
@@ -69,7 +71,7 @@ export class MyCheckerboard extends CGFobject {
 
     display() {        
         // Only register for pick if there is no animation
-        this.registerForPick = this.currentAnimation.animation == null;
+        this.registerForPick = this.currentAnimation == null;
 
         for(let row = 0; row < 8; row++) {
             for(let col = 0; col < 8; col++) {
@@ -80,8 +82,12 @@ export class MyCheckerboard extends CGFobject {
                 if(this.registerForPick && (piece == null || piece.playerNumber == this.board.currentPlayer.number))
                     this.scene.registerForPick(row * 10 + col + 1, this.squares[row][col]);
 
-                if(this.currentAnimation.animation != null && this.currentAnimation.pieceCoords[0] == col && this.currentAnimation.pieceCoords[1] == row) {
-                    this.squares[row][col].display(this.currentAnimation.animation);
+                if(this.currentAnimation != null) {
+                    if(this.currentAnimation.oldCoords[0] == col && this.currentAnimation.oldCoords[1] == row)
+                        this.squares[row][col].display(this.currentAnimation.moveAnimation);
+                    else if(this.currentAnimation.capturedPiece != null && this.currentAnimation.capturedPiece[0] == col && this.currentAnimation.capturedPiece[1] == row)
+                        this.squares[row][col].display(this.currentAnimation.capturedPieceAnimation);
+                    else this.squares[row][col].display();
                 }
                 else this.squares[row][col].display();
             }
@@ -94,13 +100,14 @@ export class MyCheckerboard extends CGFobject {
     }
 
     update(t) {
-        if(this.currentAnimation.animation != null) {
-            this.currentAnimation.animation.update(t);
+        if(this.currentAnimation != null) {
+            this.currentAnimation.update(t);
 
-            if(this.scene.instant >= this.currentAnimation.animation.keyframes[this.currentAnimation.animation.keyframes.length - 1].instant){
-                this.currentAnimation.animation = null;
-                this.currentAnimation.pieceCoords = null;
+            if(this.scene.instant >= this.currentAnimation.moveAnimation.keyframes[this.currentAnimation.moveAnimation.keyframes.length - 1].instant){
+                this.currentAnimation = null;
                 this.setBoardViewPieces();
+                this.auxBoardView0.resetPieces();
+                this.auxBoardView1.resetPieces();
             }
         }
     }

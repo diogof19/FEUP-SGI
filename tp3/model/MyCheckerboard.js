@@ -424,6 +424,10 @@ export class MyCheckerboard {
         }
     }
 
+    getLastMoveRecord() {
+        return this.#moveRecords[this.#moveRecords.length - 1];
+    }
+
     // TODO: Add documentation, King moves
     makeMove(row, col, newRow, newCol) {
         if (!this.#isValidMove(row, col, newRow, newCol)) {

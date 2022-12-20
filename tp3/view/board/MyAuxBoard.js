@@ -49,15 +49,27 @@ export class MyAuxBoard extends CGFobject {
     }
 
     /**
-     * Add piece to aux board
+     * Calculates the position where a new captured piece should be placed
+     * @returns [x, y, z] of new piece
      */
-    addPiece(){
+    calculateNewPiecePosition(){
         let x = this.baseX + this.incrementX/2;
 
         if(this.playerNum == 1)
             var y = this.baseY + 1.0 + this.pieces.length % 4;
         else
             var y = this.baseY - 1.0 - this.pieces.length % 4;
+
+        let z = 0.2 * Math.floor(this.pieces.length / 4);
+
+        return [x, y, z];
+    }
+
+    /**
+     * Add piece to aux board
+     */
+    addPiece(){
+        var [x, y, _] = this.calculateNewPiecePosition();
 
         this.pieces.push(new MyPiece(this.scene, x, y, this.board.opponent.appearance));
     }

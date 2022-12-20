@@ -28,7 +28,7 @@ export class MyController {
     readSceneInput() {
         let scene = this.boardView.scene;
 
-        if(this.boardView.currentAnimation.animation == null && this.state == controllerState.ANIMATING)
+        if(this.boardView.currentAnimation == null && this.state == controllerState.ANIMATING)
             this.state = controllerState.IDLE;
 
         if (scene.pickMode == false && this.state != controllerState.ANIMATING) {
