@@ -359,7 +359,7 @@ export class MyCheckerboard {
         if (!this.#isInBounds(row, col, newRow, newCol))
             return false;
 
-        if (this.#isEmptySquare(row, col) || !this.getPiece(row, col).isPlayerPiece(this.currentPlayer))
+        if (this.#isEmptySquare(row, col) || !this.#isEmptySquare(newRow, newCol) || !this.getPiece(row, col).isPlayerPiece(this.currentPlayer))
             return false;
 
         if (!this.#isKingMove(row, col, newRow, newCol) && !this.#isForwardMove(row, col, newRow, newCol))
