@@ -2,6 +2,19 @@ import { CGFobject,CGFtexture } from '../../../lib/CGF.js';
 import { MySquare } from './MySquare.js';
 import { MyPiece } from './MyPiece.js';
 
+/**
+ * MyCheckerboard class, representing the game board.
+ * @constructor
+ * @param {CGFscene} scene - MyScene object
+ * @param {CGFtexture} darkTexture - Dark square texture
+ * @param {CGFtexture} lightTexture - Light square texture
+ * @param {CGFappearance} darkMaterial - Dark square material
+ * @param {CGFappearance} lightMaterial - Light square material
+ * @param {MyBoard} board - Board model
+ * @param {MyAuxBoard} auxBoardView0 - Player 1's auxiliary board
+ * @param {MyAuxBoard} auxBoardView1 - Player 2's auxiliary board
+ * @param {Array} transformation - Transformation that were applied to the board
+ */
 export class MyCheckerboard extends CGFobject {
     constructor(scene, darkTexture, lightTexture, darkMaterial, lightMaterial, board, auxBoardView0, auxBoardView1, transformation) {
         super(scene);

@@ -8,6 +8,9 @@ import { controllerState } from "./enums/MyControllerState.js";
  * @constructor
  * @param {MyCheckerboardModel} boardModel - Checkerboard
  * @param {MyCheckerboardView} boardView - Checkerboard
+ * @param {MyHUD} hud - HUD
+ * @param {MyCheckerboardView} auxBoardView0 - Player 1's auxBoardView
+ * @param {MyCheckerboardView} auxBoardView1 - Player 2's auxBoardView
  */
 export class MyController {
     constructor(boardModel, boardView, hud, auxBoardView0, auxBoardView1) {

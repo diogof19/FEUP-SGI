@@ -2,6 +2,15 @@ import { CGFobject } from '../../../lib/CGF.js';
 import { MyPatch } from '../primitives/MyPatch.js';
 import { MyPiece } from './MyPiece.js';
 
+/**
+ * MyAuxBoard class, representing a player's auxiliary board.
+ * @constructor
+ * @param {CGFscene} scene - MyScene object
+ * @param {CGFtexture} boardTexture - Board texture
+ * @param {CGFappearance} boardMaterial - Board material
+ * @param {MyBoard} board - Board model
+ * @param {Number} playerNum - Player number
+ */
 export class MyAuxBoard extends CGFobject {
     constructor(scene, boardTexture, boardMaterial, board, playerNum){
         super(scene);
@@ -74,12 +83,18 @@ export class MyAuxBoard extends CGFobject {
         this.pieces.push(new MyPiece(this.scene, x, y, this.board.opponent.appearance));
     }
 
+    /**
+     * Resets the board
+     */
     resetPieces(){
         this.pieces = [];
         for(let i = 0; i < this.board.numPieces; i++)
             this.addPiece();
     }   
 
+    /**
+     * Display the board
+     */
     display(){
         this.boardMaterial.setTexture(this.boardTexture);
         this.boardMaterial.apply();

@@ -9,6 +9,12 @@ import { MyMoveAnimation } from "../../view/animations/MyMoveAnimation.js";
  * @constructor
  * @param {MyCheckerboardModel} boardModel - boardModel Model
  * @param {MyCheckerboardView} boardView - boardModel View
+ * @param {number} row - row of the piece to be moved
+ * @param {number} col - column of the piece to be moved
+ * @param {number} newRow - row of the piece's new position
+ * @param {number} newCol - column of the piece's new position
+ * @param {MyCheckerboardView} auxBoardView0 - Player 1's auxBoardView
+ * @param {MyCheckerboardView} auxBoardView1 - Player 2's auxBoardView
  */
 export class MyCommand {
     constructor(boardModel, boardView, row, col, newRow, newCol, auxBoardView0, auxBoardView1) {
@@ -21,19 +27,6 @@ export class MyCommand {
         this.auxBoardView0 = auxBoardView0;
         this.auxBoardView1 = auxBoardView1;
         this.moveNumber = -1;
-    }
-
-    /**
-     * Create the animation for the move.
-     * @param {Number} oldCol 
-     * @param {Number} oldRow 
-     * @param {Number} newCol 
-     * @param {Number} newRow 
-     */
-    createAnimation(oldCol, oldRow, newCol, newRow) {
-        let keyframeStart = new MyKeyframe(this.boardView.scene.instant, [0, 0, 0], 0, 0, 0, [1, 1, 1]);
-        let keyframeEnd = new MyKeyframe(this.boardView.scene.instant + 0.5, [newCol - oldCol, newRow - oldRow, 0], 0, 0, 0, [1, 1, 1]);
-        return new MyKeyframeAnimation(this.boardView.scene, this.boardView, [keyframeStart, keyframeEnd])
     }
 
     /**

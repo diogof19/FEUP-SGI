@@ -2,6 +2,14 @@ import { CGFobject } from '../../../lib/CGF.js';
 import { MyCylinder } from '../primitives/MyCylinder.js';
 import { MyPatch } from '../primitives/MyPatch.js';
 
+/**
+ * MyPiece class, representing a player's piece.
+ * @constructor
+ * @param {CGFscene} scene - MyScene object
+ * @param {Number} x - X coordinate
+ * @param {Number} y - Y coordinate
+ * @param {CGFappearance} appearance - Piece appearance
+ */
 export class MyPiece extends CGFobject {
     constructor(scene, x, y, appearance) {
         super(scene);
