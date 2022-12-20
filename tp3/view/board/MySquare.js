@@ -49,6 +49,10 @@ export class MySquare extends CGFobject {
     getMiddle() {
         return [this.x + 0.5, this.y + 0.5];
     }
+
+    setTexture(texture) {
+        this.texture = texture;
+    }
     
     display(animation = null) {
         if (this.selected) {

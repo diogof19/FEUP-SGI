@@ -37,7 +37,8 @@ export class MyController {
                     let obj = scene.pickResults[i][0];
                     let customId = scene.pickResults[i][1];
                     if (obj && customId == 101) {
-                        console.log("buttonPressed");
+                        console.log("Replay button pressed");
+                        this.replay();
                     }
                     else if (obj && customId != 0) {
                         this.boardView.toggleSelectSquare(customId);
@@ -64,10 +65,13 @@ export class MyController {
     makeMove(row1, col1, row2, col2) {
         let command = new MyCommand(this.board, this.boardView, row1, col1, row2, col2, this.auxBoardView0, this.auxBoardView1);
         command.execute();
-        this.undoStack.push(command);
+        if (command.moveNumber != -1)
+            this.undoStack.push(command);
+        console.log(this.undoStack);
     }
 
     undo() {
+        console.log(this.undoStack);
         if (this.undoStack.length == 0) {
             return;
         }
@@ -85,5 +89,20 @@ export class MyController {
         let command = this.redoStack.pop();
         command.redo();
         this.undoStack.push(command);
+    }
+
+    replay() {
+        this.state = controllerState.ANIMATING;
+        while(this.undoStack.length > 0) {
+            let command = this.undoStack.pop();
+            command.undo();
+            this.redoStack.push(command);
+        }
+        while(this.redoStack.length > 0) {
+            let command = this.redoStack.pop();
+            command.redo();
+            this.undoStack.push(command);
+        }
+        this.state = controllerState.IDLE;
     }
 }

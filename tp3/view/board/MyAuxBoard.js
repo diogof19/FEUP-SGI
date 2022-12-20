@@ -37,13 +37,13 @@ export class MyAuxBoard extends CGFobject {
         
         this.patch = new MyPatch(this.scene, null, 1, 20, 1, 20, [
             [
-                 [this.baseX, this.baseY, 0.0, 1 ],
-                 [this.baseX, this.baseY + this.incrementY, 0.0, 1 ]
+                [this.baseX, this.baseY, 0.0, 1 ],
+                [this.baseX, this.baseY + this.incrementY, 0.0, 1 ]
                 
             ],
             [
-                 [this.baseX + this.incrementX, this.baseY, 0.0, 1 ],
-                 [this.baseX + this.incrementX, this.baseY + this.incrementY, 0.0, 1 ]							 
+                [this.baseX + this.incrementX, this.baseY, 0.0, 1 ],
+                [this.baseX + this.incrementX, this.baseY + this.incrementY, 0.0, 1 ]							 
             ]
         ]);
     }

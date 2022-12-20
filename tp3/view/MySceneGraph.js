@@ -92,22 +92,6 @@ export class MySceneGraph {
             return;
         }
 
-        this.player0  = new MyPlayer(1, this.appearances['eyeMaterial'])
-        this.player1  = new MyPlayer(2, this.appearances['barrelWoodMaterial'])
-
-        this.auxBoardModel0 = new MyAuxBoardModel(this.player0, this.player1)
-        this.auxBoardModel1 = new MyAuxBoardModel(this.player1, this.player0)
-        this.boardModel = new MyCheckerboardModel(this.player0, this.player1, START_BOARD, this.auxBoardModel0, this.auxBoardModel1)
-        
-
-        this.boardView = new MyCheckerboard(this.scene, this.textures['barkTexture'], this.textures['moonTexture'], this.appearances['woodMaterial'], this.appearances['moonMaterial'], this.boardModel);
-        this.auxBoardView0 = new MyAuxBoard(this.scene, this.textures['moonTexture'], this.appearances['moonMaterial'], this.auxBoardModel0, 1);
-        this.auxBoardView1 = new MyAuxBoard(this.scene, this.textures['moonTexture'], this.appearances['moonMaterial'], this.auxBoardModel1, 2);
-
-        this.boardController = new MyController(this.boardModel, this.boardView, this.auxBoardView0, this.auxBoardView1);
-
-        console.log(this.boardView);
-
         this.loadedOk = true;
 
         // As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place

@@ -43,6 +43,7 @@ export class MyCommand {
      */
     execute() {
         this.moveNumber = this.boardModel.makeMove(this.row, this.col, this.newRow, this.newCol)
+        console.log(this.moveNumber);
         if (this.moveNumber != -1) {
             this.auxBoardView0.resetPieces();
             this.auxBoardView1.resetPieces();

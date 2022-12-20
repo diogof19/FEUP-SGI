@@ -82,10 +82,10 @@ export class MyInterface extends CGFinterface {
                 this.scene.graph.incrementMaterialIndex();
             }
             if(this.isKeyPressed("KeyZ")){
-                this.scene.graph.boardController.undo();
+                this.scene.boardController.undo();
             }
             if(this.isKeyPressed("KeyA")){
-                this.scene.graph.boardController.redo();
+                this.scene.boardController.redo();
             }
         };
 

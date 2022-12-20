@@ -1,5 +1,4 @@
 import { CGFobject } from "../../../lib/CGF.js";
-import { MySphere } from "../primitives/MySphere.js";
 import { MyRectangle } from "../primitives/MyRectangle.js";
 
 export class MyHUD extends CGFobject {
@@ -10,7 +9,6 @@ export class MyHUD extends CGFobject {
     }
 
     display() {
-        this.scene.registerForPick(101, this.rectangle);
         this.rectangle.display();
     }
 }

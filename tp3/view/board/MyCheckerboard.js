@@ -1,4 +1,4 @@
-import { CGFobject } from '../../../lib/CGF.js';
+import { CGFobject,CGFtexture } from '../../../lib/CGF.js';
 import { MySquare } from './MySquare.js';
 import { MyPiece } from './MyPiece.js';
 
@@ -17,6 +17,9 @@ export class MyCheckerboard extends CGFobject {
         this.setBoardSquares();
 
         this.setBoardViewPieces();
+
+        this.replaySquare = new MySquare(this.scene, this, -2, 0, false);
+        this.replaySquare.setTexture(new CGFtexture(this.scene, "scenes/images/replay.jpg"));
     }
 
     setBoardSquares() {
@@ -83,6 +86,11 @@ export class MyCheckerboard extends CGFobject {
                 else this.squares[row][col].display();
             }
         }
+
+        if (this.registerForPick) {
+            this.scene.registerForPick(101, this.replaySquare);
+        }
+        this.replaySquare.display();
     }
 
     update(t) {

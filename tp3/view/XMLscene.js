@@ -246,7 +246,7 @@ export class XMLscene extends CGFscene {
             }
         }
 
-        if(this.graph.boardView != null)
+        if(this.boardView != null)
             this.boardView.update(this.instant);
     }
 
