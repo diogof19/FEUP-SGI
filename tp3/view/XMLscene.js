@@ -110,7 +110,7 @@ export class XMLscene extends CGFscene {
         
         this.auxBoardView0 = new MyAuxBoard(this, barkTexture, this.appearances['moonMaterial'], this.auxBoardModel0, 1);
         this.auxBoardView1 = new MyAuxBoard(this, barkTexture, this.appearances['moonMaterial'], this.auxBoardModel1, 2);
-        this.boardView = new MyCheckerboard(this, barkTexture, moonTexture, this.appearances['woodMaterial'], this.appearances['moonMaterial'], this.boardModel, this.auxBoardView0, this.auxBoardView1);
+        this.boardView = new MyCheckerboard(this, barkTexture, moonTexture, this.appearances['woodMaterial'], this.appearances['moonMaterial'], this.boardModel, this.auxBoardView0, this.auxBoardView1, [22.5, 26.5, 0.4]);
 
         this.hud = new MyHUD(this);
 
@@ -165,7 +165,7 @@ export class XMLscene extends CGFscene {
 
             i++;
         }
-
+        //console.log(this.lights);
     }
 
     setDefaultAppearance() {
@@ -288,11 +288,12 @@ export class XMLscene extends CGFscene {
             this.setDefaultAppearance();
 
             // Displays the scene (MySceneGraph function).
-            //this.graph.displayScene();
+            this.graph.displayScene();
         }
-                
-        this.scale(0.5, 1, 0.5);
-        this.translate(44, 0.2, 54);
+        
+        //IF YOU CHANGE THE TRANSLATION, CHANGE THE ARRAY SENT TO BOARD VIEW
+        this.translate(22.5, 0.2, 26.5);
+        this.scale(0.4, 1, 0.4);
         this.rotate(-Math.PI/2, 1, 0, 0);
 
         this.auxBoardView0.display();

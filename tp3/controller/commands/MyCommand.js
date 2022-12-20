@@ -52,13 +52,13 @@ export class MyCommand {
                 let colDiff = lastMove.newCol - lastMove.col;
 
                 if(lastMove.playerNumberBefore == 1)
-                    this.boardView.currentAnimation = new MyMoveAnimation(this.boardView.scene, [this.col, this.row], [this.newCol, this.newRow], [lastMove.col + colDiff / 2, lastMove.row + rowDiff / 2], this.auxBoardView0);
+                    this.boardView.currentAnimation = new MyMoveAnimation(this.boardView.scene, [this.col, this.row], [this.newCol, this.newRow], this.boardView.transformation, [lastMove.col + colDiff / 2, lastMove.row + rowDiff / 2], this.auxBoardView0);
                 else
-                    this.boardView.currentAnimation = new MyMoveAnimation(this.boardView.scene, [this.col, this.row], [this.newCol, this.newRow], [lastMove.col + colDiff / 2, lastMove.row + rowDiff / 2], this.auxBoardView1);
+                    this.boardView.currentAnimation = new MyMoveAnimation(this.boardView.scene, [this.col, this.row], [this.newCol, this.newRow], this.boardView.transformation, [lastMove.col + colDiff / 2, lastMove.row + rowDiff / 2], this.auxBoardView1);
             }
                
             else
-                this.boardView.currentAnimation = new MyMoveAnimation(this.boardView.scene, [this.col, this.row], [this.newCol, this.newRow]);
+                this.boardView.currentAnimation = new MyMoveAnimation(this.boardView.scene, [this.col, this.row], [this.newCol, this.newRow], this.boardView.transformation);
         }
         else {
             // TODO User feedback

@@ -3,7 +3,7 @@ import { MySquare } from './MySquare.js';
 import { MyPiece } from './MyPiece.js';
 
 export class MyCheckerboard extends CGFobject {
-    constructor(scene, darkTexture, lightTexture, darkMaterial, lightMaterial, board, auxBoardView0, auxBoardView1) {
+    constructor(scene, darkTexture, lightTexture, darkMaterial, lightMaterial, board, auxBoardView0, auxBoardView1, transformation) {
         super(scene);
 
         this.darkTexture = darkTexture;
@@ -15,6 +15,7 @@ export class MyCheckerboard extends CGFobject {
         this.auxBoardView1 = auxBoardView1;
         this.registerForPick = true;
         this.currentAnimation = null;
+        this.transformation = transformation; //[translationX, translationY, scale] - to use for spotlight
 
         this.setBoardSquares();
 
@@ -44,10 +45,22 @@ export class MyCheckerboard extends CGFobject {
         this.squares = squares;
     }
 
+    setSpotlight(col, row) {
+        var spotlight = this.scene.lights[0];
+
+        var positionX = this.transformation[0] + ((col + 0.5) * this.transformation[2]);
+        var positionZ = this.transformation[1] + ((-row - 0.5) * this.transformation[2]);
+
+        spotlight.setPosition(positionX, 2, positionZ, 1);
+        spotlight.enable();
+
+    }
+
     toggleSelectSquare(squareId) {
         let coords = this.getCoords(squareId);
 
         this.getSquare(coords[0], coords[1]).toggleSelect();
+        this.setSpotlight(coords[1], coords[0]);
     }
 
     deselectAllSquares() {
@@ -69,7 +82,7 @@ export class MyCheckerboard extends CGFobject {
         return this.squares[row][col];
     }
 
-    display() {        
+    display() {       
         // Only register for pick if there is no animation
         this.registerForPick = this.currentAnimation == null;
 

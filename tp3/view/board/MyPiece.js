@@ -42,6 +42,7 @@ export class MyPiece extends CGFobject {
         this.cylinderTopHalfOne.display();
         this.scene.rotate(Math.PI, 0, 0, 1);
         this.cylinderTopHalfOne.display();
+
         this.scene.popMatrix();
     }
 }

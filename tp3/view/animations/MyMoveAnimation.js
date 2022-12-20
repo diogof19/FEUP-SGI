@@ -2,10 +2,11 @@ import { MyKeyframe } from "./MyKeyframe.js";
 import { MyKeyframeAnimation } from "./MyKeyframeAnimation.js";
 
 export class MyMoveAnimation {
-    constructor(scene, oldCoods, newCoords, capturedPiece = null, auxBoardView = null) {
+    constructor(scene, oldCoods, newCoords, transformation, capturedPiece = null, auxBoardView = null) {
         this.scene = scene;
         this.oldCoords = oldCoods;
         this.newCoords = newCoords;
+        this.transformation = transformation;
         this.capturedPiece = capturedPiece;
         this.auxBoardView = auxBoardView;
         
@@ -33,9 +34,22 @@ export class MyMoveAnimation {
         }
     }
 
+    updateSpotlight(){
+        var spotlight = this.scene.lights[0];
+
+        var translation = this.moveAnimation.getTranslation();
+
+        var positionX = this.transformation[0] + ((this.oldCoords[0] + translation[0] + 0.5) * this.transformation[2]);
+        var positionZ = this.transformation[1] + ((-this.oldCoords[1] - translation[1] - 0.5) * this.transformation[2]);
+
+        spotlight.setPosition(positionX, 2, positionZ, 1);
+        spotlight.enable();
+    }
+
     update(t) {
         this.moveAnimation.update(t);
         if(this.capturedPieceAnimation != null)
             this.capturedPieceAnimation.update(t);
+        this.updateSpotlight();
     }
 }
