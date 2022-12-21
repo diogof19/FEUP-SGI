@@ -43,6 +43,10 @@ export class MyController {
                         console.log("Replay button pressed");
                         this.replay();
                     }
+                    else if (obj && customId == 201) {
+                        console.log("Undo button pressed");
+                        this.undo();
+                    }
                     else if (obj && customId != 0) {
                         this.boardView.toggleSelectSquare(customId);
 

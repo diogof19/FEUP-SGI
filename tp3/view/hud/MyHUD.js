@@ -1,5 +1,6 @@
-import { CGFobject } from "../../../lib/CGF.js";
-import { MyRectangle } from "../primitives/MyRectangle.js";
+import { CGFobject,CGFshader,CGFappearance,CGFtexture } from "../../../lib/CGF.js";
+import { MyQuad } from "../primitives/MyQuad.js";
+import { MyHUDButton } from "./MyHUDButton.js";
 
 /**
  * MyHUD class, representing the HUD.
@@ -10,10 +11,64 @@ export class MyHUD extends CGFobject {
     constructor(scene) {
         super(scene);
         this.scene = scene;
-        this.rectangle = new MyRectangle(this.scene, null, -0.99, -0.80, -0.9, -0.8);
+        this.quad = new MyQuad(this.scene);
+        this.button = new MyHUDButton(this, -40, -18, 201, "UNDO");
+        
+        this.initShader();
+        this.initAppearance();
+    }
+
+    initShader() {
+        this.shader = new CGFshader(this.scene.gl, 'view/shaders/vert/hud.vert', 'view/shaders/frag/hud.frag');
+        this.shader.setUniformsValues({'dims': [16, 16]});
+    }
+
+    initAppearance() {
+        this.textAppearance = new CGFappearance(this.scene);
+		this.fontTexture = new CGFtexture(this.scene, "scenes/images/oolite-font.trans.png");
+		this.textAppearance.setTexture(this.fontTexture);
     }
 
     display() {
-        this.rectangle.display();
+        // Always draw in front of everything
+        this.scene.gl.disable(this.scene.gl.DEPTH_TEST);
+
+        // Apply shader and appearance
+        this.scene.setActiveShaderSimple(this.shader);
+        this.textAppearance.apply();
+
+        this.scene.pushMatrix();
+
+        this.scene.loadIdentity();
+
+        this.button.display();
+
+        // Reset to default shader and appearance
+        this.scene.setActiveShaderSimple(this.scene.defaultShader);
+        this.scene.setDefaultAppearance();
+
+        // Reset depth test
+        this.scene.gl.enable(this.scene.gl.DEPTH_TEST);
+    }
+
+    displayStringAt(string, x, y) {
+        this.scene.pushMatrix();
+        this.scene.translate(x, y, -50);
+        this.displayString(string);
+        this.scene.popMatrix();
+    }
+
+    displayString(string) {
+        for(let i = 0; i < string.length; i++) {
+            this.scene.pushMatrix();
+            this.scene.translate(i, 0, 0);
+            this.scene.activeShader.setUniformsValues({'charCoords': this.getCharCoords(string[i])});
+            this.quad.display();
+            this.scene.popMatrix();
+        }
+    }
+
+    getCharCoords(char) {
+        return [char.charCodeAt(0) % 16, Math.floor(char.charCodeAt(0) / 16)]
     }
 }

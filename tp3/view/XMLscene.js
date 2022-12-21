@@ -6,6 +6,7 @@ import { MyPlayer } from '../model/MyPlayer.js';
 import { MyAuxBoard } from './board/MyAuxBoard.js';
 import { MyAuxBoard as MyAuxBoardModel } from '../model/MyAuxBoard.js';
 import { MyHUD } from './hud/MyHUD.js';
+import { MyQuad } from './primitives/MyQuad.js';
 
 
 
@@ -70,19 +71,18 @@ export class XMLscene extends CGFscene {
         this.initCheckers();
 
         this.initHUDShader();
+
+        this.quad = new MyQuad(this);
+        this.textAppearance = new CGFappearance(this);
+		// font texture: 16 x 16 characters
+		// http://jens.ayton.se/oolite/files/font-tests/rgba/oolite-font.png
+		this.fontTexture = new CGFtexture(this, "scenes/images/oolite-font.trans.png");
+		this.textAppearance.setTexture(this.fontTexture);
     }
 
     initHUDShader() {
         this.hudShader = new CGFshader(this.gl, './view/shaders/vert/hud.vert', './view/shaders/frag/hud.frag');
-
-        let projectionMatrix = mat4.create();
-        mat4.ortho(projectionMatrix, -1, 1, -1, 1, -1, 1);
-
-        let modelViewMatrix = mat4.create();
-        mat4.identity(modelViewMatrix);
-
-        this.hudShader.setUniformsValues({ uProjectionMatrix: projectionMatrix });
-        this.hudShader.setUniformsValues({ uModelViewMatrix: modelViewMatrix });
+        this.hudShader.setUniformsValues({'dims': [16, 16]});
     }
 
     initCheckers() {
@@ -255,11 +255,7 @@ export class XMLscene extends CGFscene {
     display() {
         // Displays the board
         this.boardController.readSceneInput();
-        
-        this.clearPickRegistration();        
-
-        this.setActiveShader(this.defaultShader);
-
+        this.clearPickRegistration();
         // ---- BEGIN Background, camera and axis setup
 
         // Clear image and depth buffer everytime we update the scene
@@ -303,10 +299,7 @@ export class XMLscene extends CGFscene {
 
         this.popMatrix();
 
-        this.gl.clear(this.gl.DEPTH_BUFFER_BIT);
-
-        this.setActiveShader(this.hudShader);
-
+        
         this.hud.display();
         // ---- END Background, camera and axis setup
     }
