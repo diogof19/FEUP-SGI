@@ -20,6 +20,10 @@ export class MyHUD extends CGFobject {
         this.board = board
 
         this.restartButton = new MyHUDButton(this, -5, -1, 204, "Play Again?");
+
+        this.boardCameraButton = new MyHUDButton(this, 28, 18, 205, "Board");
+        this.playerOneCameraButton = new MyHUDButton(this, 28, 17, 206, "Player 1");
+        this.playerTwoCameraButton = new MyHUDButton(this, 28, 16, 207, "Player 2");
         
         this.initShader();
         this.initAppearance();
@@ -67,6 +71,11 @@ export class MyHUD extends CGFobject {
 
         this.displayStringAt(this.playTimeString, 41 - this.playTimeString.length, -17);
         this.displayStringAt(this.moveTimeString, 41 - this.moveTimeString.length, -18);
+
+        this.displayStringAt("CHANGE CAMERA:", 28, 19);    
+        this.boardCameraButton.display();
+        this.playerOneCameraButton.display();
+        this.playerTwoCameraButton.display();
 
         // Reset to default shader and appearance
         this.scene.setActiveShaderSimple(this.scene.defaultShader);

@@ -3,6 +3,7 @@ import { MyCommand } from "./commands/MyCommand.js";
 import { MyCheckerboard as MyCheckerboardView } from "../model/MyCheckerboard.js";
 import { controllerState } from "./enums/MyControllerState.js";
 import { MySceneGraph } from "../view/MySceneGraph.js";
+import { MyCameraAnimation } from "../view/animations/MyCameraAnimation.js";
 
 /**
  * MyController, implements rules for game and manages the game state.
@@ -63,6 +64,18 @@ export class MyController {
                     else if (obj && customId == 204) {
                         console.log("Play again button pressed");
                         this.playAgain();
+                    }
+                    else if (obj && customId == 205) {
+                        console.log("Overview camera button pressed");
+                        this.boardView.cameraAnimation = new MyCameraAnimation(this.boardView.scene, this.boardView.scene.graph.views[this.boardView.scene.graph.selectedCamera], this.boardView.scene.graph.views['gameOverviewCamera']);
+                    }
+                    else if (obj && customId == 206) {
+                        console.log("Player 1 camera button pressed");
+                        this.boardView.cameraAnimation = new MyCameraAnimation(this.boardView.scene, this.boardView.scene.graph.views[this.boardView.scene.graph.selectedCamera], this.boardView.scene.graph.views['playerOneCamera']);
+                    }
+                    else if (obj && customId == 207) {
+                        console.log("Player 2 camera button pressed");
+                        this.boardView.cameraAnimation = new MyCameraAnimation(this.boardView.scene, this.boardView.scene.graph.views[this.boardView.scene.graph.selectedCamera], this.boardView.scene.graph.views['playerTwoCamera']);
                     }
                     else if (obj && customId != 0) {
                         this.boardView.toggleSelectSquare(customId);

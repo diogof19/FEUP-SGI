@@ -27,10 +27,6 @@ export class MyCameraAnimation extends MyAnimation {
     update(t){
         if(this.stopped)
             return;
-        if(t >= this.endTime){
-            this.stopped = true;
-            return;
-        }
 
         var timeDiff = this.endTime - this.startTime;
         var timeElapsed = t - this.startTime;
@@ -40,5 +36,15 @@ export class MyCameraAnimation extends MyAnimation {
         vec3.lerp(this.target, this.startCamera.target, this.endCamera.target, timeElapsed / timeDiff);
 
         this.fov = this.startCamera.fov + (this.endCamera.fov - this.startCamera.fov) * (timeElapsed / timeDiff);
+
+        if(this.endTime < t){
+            this.apply();
+            this.stopped = true;
+            this.fov = this.endCamera.fov;
+            this.position = this.endCamera.position;
+            this.target = this.endCamera.target;
+            this.apply();
+            return;
+        }
     }
 }
