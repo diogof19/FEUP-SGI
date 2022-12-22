@@ -8,14 +8,17 @@ import { MyHUDButton } from "./MyHUDButton.js";
  * @param {CGFscene} scene - MyScene object
  */
 export class MyHUD extends CGFobject {
-    constructor(scene) {
+    constructor(scene, player0, player1) {
         super(scene);
         this.scene = scene;
         this.quad = new MyQuad(this.scene);
 
-        this.button = new MyHUDButton(this, -40, -18, 201, "UNDO");
+        this.undoButton = new MyHUDButton(this, -40, -18, 201, "UNDO");
         this.changeSceneButton = new MyHUDButton(this, -40, -17, 202, "CHANGE SCENE");
         this.changeCamerasButton = new MyHUDButton(this, -40, -16, 203, "ENABLE CHANGE CAMERAS");
+
+        this.player0 = player0;
+        this.player1 = player1;
         
         this.initShader();
         this.initAppearance();
@@ -44,9 +47,12 @@ export class MyHUD extends CGFobject {
 
         this.scene.loadIdentity();
 
-        this.button.display();
+        this.undoButton.display();
         this.changeSceneButton.display();
         this.changeCamerasButton.display();
+
+        this.displayStringAt(`PLAYER ${this.player0.number}: ${this.player0.captured}`, -40, 19);
+        this.displayStringAt(`PLAYER ${this.player1.number}: ${this.player1.captured}`, -40, 18);
 
         // Reset to default shader and appearance
         this.scene.setActiveShaderSimple(this.scene.defaultShader);

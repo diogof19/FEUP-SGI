@@ -112,7 +112,7 @@ export class XMLscene extends CGFscene {
         this.auxBoardView1 = new MyAuxBoard(this, barkTexture, this.appearances['moonMaterial'], this.auxBoardModel1, 2);
         this.boardView = new MyCheckerboard(this, barkTexture, moonTexture, this.appearances['woodMaterial'], this.appearances['moonMaterial'], this.boardModel, this.auxBoardView0, this.auxBoardView1, [22.5, 26.5, 0.4]);
 
-        this.hud = new MyHUD(this);
+        this.hud = new MyHUD(this, this.player0, this.player1);
 
         this.boardController = new MyController(this.boardModel, this.boardView, this.hud, this.auxBoardView0, this.auxBoardView1);
     }
