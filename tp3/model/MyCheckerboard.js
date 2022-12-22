@@ -438,6 +438,7 @@ export class MyCheckerboard {
 
         if (this.isGameOver()) {
             console.log('Game is over');
+            this.gameOver = true;
             return -1;
         }
 

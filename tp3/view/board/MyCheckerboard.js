@@ -164,6 +164,10 @@ export class MyCheckerboard extends CGFobject {
                 this.cameraAnimation = null;
             }
         }
+
+        if(this.board.isGameOver()) {
+            this.board.gameOver = true;
+        }
     }
 
 

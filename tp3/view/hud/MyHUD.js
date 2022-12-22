@@ -18,6 +18,8 @@ export class MyHUD extends CGFobject {
         this.changeCamerasButton = new MyHUDButton(this, -40, -16, 203, "ENABLE CHANGE CAMERAS");
 
         this.board = board
+
+        this.restartButton = new MyHUDButton(this, -5, -1, 204, "Play Again?");
         
         this.initShader();
         this.initAppearance();
@@ -53,11 +55,18 @@ export class MyHUD extends CGFobject {
         this.displayStringAt(`PLAYER ${this.board.player0.number}: ${this.board.player0.captured}`, -40, 19);
         this.displayStringAt(`PLAYER ${this.board.player1.number}: ${this.board.player1.captured}`, -40, 18);
 
-        let playTimeString = `PLAY TIME: ${this.scene.instant.toFixed(1)}s`;
-        let moveTimeString = `MOVE TIME: ${this.board.moveInstant.toFixed(1)}s`;
+        if(!this.board.gameOver){
+            this.playTimeString = `PLAY TIME: ${this.scene.instant.toFixed(1)}s`;
+            this.moveTimeString = `MOVE TIME: ${this.board.moveInstant.toFixed(1)}s`;
+        }
+        else {
+            this.displayStringAt("GAME OVER", -4.5, 1);
+            this.displayStringAt(`PLAYER ${this.board.currentPlayer.number} WINS!`, -7, 0);
+            this.restartButton.display();
+        }
 
-        this.displayStringAt(playTimeString, 41 - playTimeString.length, -17);
-        this.displayStringAt(moveTimeString, 41 - moveTimeString.length, -18);
+        this.displayStringAt(this.playTimeString, 41 - this.playTimeString.length, -17);
+        this.displayStringAt(this.moveTimeString, 41 - this.moveTimeString.length, -18);
 
         // Reset to default shader and appearance
         this.scene.setActiveShaderSimple(this.scene.defaultShader);

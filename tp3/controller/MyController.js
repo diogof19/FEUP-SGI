@@ -60,6 +60,10 @@ export class MyController {
                         this.boardView.changeCamerasToggle();
                         this.hud.switchChangeCamerasButton();
                     }
+                    else if (obj && customId == 204) {
+                        console.log("Play again button pressed");
+                        this.playAgain();
+                    }
                     else if (obj && customId != 0) {
                         this.boardView.toggleSelectSquare(customId);
 
@@ -130,5 +134,15 @@ export class MyController {
         this.sceneIndex = (this.sceneIndex + 1) % this.scenes.length;
         this.boardView.scene.sceneInited = false;
         var graph = new MySceneGraph(this.scenes[this.sceneIndex], this.boardView.scene);
+    }
+
+    playAgain() {
+        this.boardView.scene.sceneInited = false;
+        this.boardView.scene.initCheckers();
+        this.boardView.scene.startTime = null;
+        this.board.startTime = null;
+        this.boardView.scene.graph.selectedCamera = 'gameOverviewCamera';
+        this.boardView.scene.updateCamera();
+        this.boardView.scene.sceneInited = true;
     }
 }
