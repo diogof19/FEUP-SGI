@@ -2,6 +2,8 @@ import { MyPiece } from "./MyPiece.js";
 import { MyPlayer } from "./MyPlayer.js";
 import { MyMoveRecord } from "./records/MyMoveRecord.js";
 
+const MOVE_DURATION = 60; // 60 seconds
+
 /**
  * MyCheckerboard class, which represents a checkerboard.
  * @constructor
@@ -381,8 +383,8 @@ export class MyCheckerboard {
      * @returns {Boolean} - True if game is over, false otherwise
      * @private
      */
-    #isGameOver() {
-        return this.player0.captured == 12 || this.player1.captured == 12 || this.#getValidMoves().length == 0;
+    isGameOver() {
+        return this.moveInstant > MOVE_DURATION || this.player0.captured == 12 || this.player1.captured == 12 || this.#getValidMoves().length == 0;
     }
 
     /**
@@ -434,7 +436,7 @@ export class MyCheckerboard {
             return -1;
         }
 
-        if (this.#isGameOver()) {
+        if (this.isGameOver()) {
             console.log('Game is over');
             return -1;
         }
@@ -478,6 +480,8 @@ export class MyCheckerboard {
         if (!isCaptureMove || !this.#hasCaptureMoves())
             this.#switchPlayer();
 
+        this.moveStartTime = null;
+
         return this.#moveNumber;
     }
 
@@ -514,5 +518,12 @@ export class MyCheckerboard {
         this.#moveRecords.splice(moveNumber);
 
         this.#moveNumber = moveNumber - 1;
+    }
+
+    update(t) {
+        if(this.moveStartTime == null)
+            this.moveStartTime = t;
+
+        this.moveInstant = (t - this.moveStartTime) / 1000;
     }
 }
