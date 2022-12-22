@@ -1,27 +1,22 @@
 <sxs>
     <scene root="rootComponent" axis_length="0"/>
 
-    <views default="encampmentCamera">
-        <perspective id="lookingUpCamera" near="0.1" far="500" angle="45">
-            <from x="0" y="5" z="50" />
-            <to x="0" y="20" z="0" />
+    <views default="gameOverviewCamera">
+        <perspective id="gameOverviewCamera" near="0.1" far="500" angle="45">
+            <from x="30" y="7" z="24.8" />
+            <to x="24" y="0" z="24.8" />
         </perspective>
-        <perspective id="eyeCamera" near="0.5" far="1000" angle="55">
-            <from x="0" y="39" z="10" />
-            <to x="0" y="39" z="0" />
+        <perspective id="playerOneCamera" near="0.1" far="500" angle="45">
+            <from x="24" y="7" z="29" />
+            <to x="24" y="0" z="25.5" />
         </perspective>
-        <ortho id="frontOrtho" near="5" far="80" left="-44.5" right="44.5" top="45" bottom="-5">
-            <from x="0" y="5" z="50"/>
-            <to x="0" y="4" z="0"/>
-            <up x="0" y="1" z="0"/>
-        </ortho>
+        <perspective id="playerTwoCamera" near="0.1" far="500" angle="45">
+            <from x="24" y="7" z="22" />
+            <to x="24" y="0" z="25.5" />
+        </perspective>
         <perspective id="encampmentCamera" near="0.1" far="500" angle="45">
             <from x="30" y="7" z="30" />
             <to x="20" y="0" z="20" />
-        </perspective>
-        <perspective id="originCamera" near="0.1" far="500" angle="45">
-            <from x="0" y="7" z="5" />
-            <to x="0" y="0" z="0" />
         </perspective>
     </views>
 

@@ -1,6 +1,7 @@
 import { CGFobject,CGFtexture } from '../../../lib/CGF.js';
 import { MySquare } from './MySquare.js';
 import { MyPiece } from './MyPiece.js';
+import { MyCameraAnimation } from '../animations/MyCameraAnimation.js';
 
 /**
  * MyCheckerboard class, representing the game board.
@@ -36,6 +37,9 @@ export class MyCheckerboard extends CGFobject {
 
         this.replaySquare = new MySquare(this.scene, this, -2, 0, false);
         this.replaySquare.setTexture(new CGFtexture(this.scene, "scenes/images/replay.jpg"));
+
+        this.changeCameras = false;
+        this.cameraAnimation = null;
     }
 
     setBoardSquares() {
@@ -139,6 +143,19 @@ export class MyCheckerboard extends CGFobject {
                 this.setBoardViewPieces();
                 this.auxBoardView0.resetPieces();
                 this.auxBoardView1.resetPieces();
+                if(this.changeCameras) {
+                    if(this.board.currentPlayer.number == 1)
+                        this.cameraAnimation = new MyCameraAnimation(this.scene, this.scene.graph.views['playerOneCamera'], this.scene.graph.views['playerTwoCamera']);
+                    else
+                        this.cameraAnimation = new MyCameraAnimation(this.scene, this.scene.graph.views['playerTwoCamera'], this.scene.graph.views['playerOneCamera']);
+                }
+            }
+        }
+
+        if(this.cameraAnimation != null) {
+            this.cameraAnimation.update(t);
+            if(this.cameraAnimation.stopped){
+                this.cameraAnimation = null;
             }
         }
     }

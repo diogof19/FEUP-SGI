@@ -12,8 +12,10 @@ export class MyHUD extends CGFobject {
         super(scene);
         this.scene = scene;
         this.quad = new MyQuad(this.scene);
+
         this.button = new MyHUDButton(this, -40, -18, 201, "UNDO");
         this.changeSceneButton = new MyHUDButton(this, -40, -17, 202, "CHANGE SCENE");
+        this.changeCamerasButton = new MyHUDButton(this, -40, -16, 203, "ENABLE CHANGE CAMERAS");
         
         this.initShader();
         this.initAppearance();
@@ -44,6 +46,7 @@ export class MyHUD extends CGFobject {
 
         this.button.display();
         this.changeSceneButton.display();
+        this.changeCamerasButton.display();
 
         // Reset to default shader and appearance
         this.scene.setActiveShaderSimple(this.scene.defaultShader);
@@ -72,5 +75,13 @@ export class MyHUD extends CGFobject {
 
     getCharCoords(char) {
         return [char.charCodeAt(0) % 16, Math.floor(char.charCodeAt(0) / 16)]
+    }
+
+    switchChangeCamerasButton() {
+        if (this.changeCamerasButton.string == "ENABLE CHANGE CAMERAS") {
+            this.changeCamerasButton.string = "DISABLE CHANGE CAMERAS";
+        } else {
+            this.changeCamerasButton.string = "ENABLE CHANGE CAMERAS";
+        }
     }
 }

@@ -55,6 +55,11 @@ export class MyController {
                         console.log("Change scene button pressed");
                         this.changeScene();
                     }
+                    else if (obj && customId == 203) {
+                        console.log("Change cameras button pressed");
+                        this.boardView.changeCameras = !this.boardView.changeCameras;
+                        this.hud.switchChangeCamerasButton();
+                    }
                     else if (obj && customId != 0) {
                         this.boardView.toggleSelectSquare(customId);
 
