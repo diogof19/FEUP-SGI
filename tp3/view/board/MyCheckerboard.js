@@ -63,6 +63,8 @@ export class MyCheckerboard extends CGFobject {
     }
 
     setSpotlight(col, row, enable) {
+
+
         var spotlight = this.scene.lights[0];
 
         var positionX = this.transformation[0] + ((col + 0.5) * this.transformation[2]);
@@ -81,8 +83,9 @@ export class MyCheckerboard extends CGFobject {
         var square = this.getSquare(coords[0], coords[1]);
         square.toggleSelect();
 
-        if(square.selected) this.setSpotlight(coords[1], coords[0], true);
-        else this.setSpotlight(coords[1], coords[0], false);
+        if(this.board.getPiece(coords[0], coords[1]) != null)
+            if(square.selected) this.setSpotlight(coords[1], coords[0], true);
+            else this.setSpotlight(coords[1], coords[0], false);
     }
 
     deselectAllSquares() {
@@ -106,7 +109,10 @@ export class MyCheckerboard extends CGFobject {
 
     display() {       
         // Only register for pick if there is no animation
-        this.registerForPick = this.currentAnimation == null;
+        this.registerForPick = this.currentAnimation == null && this.cameraAnimation == null;
+
+        if(this.cameraAnimation != null)
+            this.cameraAnimation.apply();
 
         for(let row = 0; row < 8; row++) {
             for(let col = 0; col < 8; col++) {
@@ -178,5 +184,17 @@ export class MyCheckerboard extends CGFobject {
 
     setAnimation(animation) {
         this.currentAnimation = animation;
+    }
+
+    changeCamerasToggle() {
+        this.changeCameras = !this.changeCameras;
+
+        if(this.changeCameras)
+            if(this.board.currentPlayer.number == 1)
+                this.cameraAnimation = new MyCameraAnimation(this.scene, this.scene.graph.views[this.scene.graph.selectedCamera], this.scene.graph.views['playerOneCamera']);
+            else
+                this.cameraAnimation = new MyCameraAnimation(this.scene, this.scene.graph.views[this.scene.graph.selectedCamera], this.scene.graph.views['playerTwoCamera']);
+        else
+            this.cameraAnimation = new MyCameraAnimation(this.scene, this.scene.graph.views[this.scene.graph.selectedCamera], this.scene.graph.views['gameOverviewCamera']);
     }
 }

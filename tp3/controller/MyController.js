@@ -57,7 +57,7 @@ export class MyController {
                     }
                     else if (obj && customId == 203) {
                         console.log("Change cameras button pressed");
-                        this.boardView.changeCameras = !this.boardView.changeCameras;
+                        this.boardView.changeCamerasToggle();
                         this.hud.switchChangeCamerasButton();
                     }
                     else if (obj && customId != 0) {
