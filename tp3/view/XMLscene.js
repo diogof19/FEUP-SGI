@@ -99,7 +99,11 @@ export class XMLscene extends CGFscene {
         }
 
         this.appearances['eyeMaterial'].setAmbient(0.1, 0.1, 0.1, 1);
-        this.appearances['barrelWoodMaterial'].setAmbient(0.9, 0.9, 0.9, 1);
+        this.appearances['eyeMaterial'].setDiffuse(0.1, 0.1, 0.1, 1);
+        this.appearances['eyeMaterial'].setSpecular(0.1, 0.1, 0.1, 1);
+        this.appearances['barrelWoodMaterial'].setAmbient(0.4, 0.4, 0.4, 1);
+        this.appearances['barrelWoodMaterial'].setDiffuse(0.4, 0.4, 0.4, 1);
+        this.appearances['barrelWoodMaterial'].setSpecular(0.4, 0.4, 0.4, 1);
 
         this.player0  = new MyPlayer(1, this.appearances['eyeMaterial'])
         this.player1  = new MyPlayer(2, this.appearances['barrelWoodMaterial'])
