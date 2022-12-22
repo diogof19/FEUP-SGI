@@ -13,6 +13,7 @@ export class MyHUD extends CGFobject {
         this.scene = scene;
         this.quad = new MyQuad(this.scene);
         this.button = new MyHUDButton(this, -40, -18, 201, "UNDO");
+        this.changeSceneButton = new MyHUDButton(this, -40, -17, 202, "CHANGE SCENE");
         
         this.initShader();
         this.initAppearance();
@@ -42,6 +43,7 @@ export class MyHUD extends CGFobject {
         this.scene.loadIdentity();
 
         this.button.display();
+        this.changeSceneButton.display();
 
         // Reset to default shader and appearance
         this.scene.setActiveShaderSimple(this.scene.defaultShader);

@@ -2,6 +2,7 @@ import { MyCheckerboard as MyCheckerboardModel } from "../model/MyCheckerboard.j
 import { MyCommand } from "./commands/MyCommand.js";
 import { MyCheckerboard as MyCheckerboardView } from "../model/MyCheckerboard.js";
 import { controllerState } from "./enums/MyControllerState.js";
+import { MySceneGraph } from "../view/MySceneGraph.js";
 
 /**
  * MyController, implements rules for game and manages the game state.
@@ -26,6 +27,9 @@ export class MyController {
 
         this.undoStack = [];
         this.redoStack = [];
+
+        this.scenes = ['barad-dur.xml', 'space.xml'];
+        this.sceneIndex = 0;
     }
 
     readSceneInput() {
@@ -46,6 +50,10 @@ export class MyController {
                     else if (obj && customId == 201) {
                         console.log("Undo button pressed");
                         this.undo();
+                    }
+                    else if (obj && customId == 202) {
+                        console.log("Change scene button pressed");
+                        this.changeScene();
                     }
                     else if (obj && customId != 0) {
                         this.boardView.toggleSelectSquare(customId);
@@ -111,5 +119,11 @@ export class MyController {
             this.undoStack.push(command);
         }
         this.state = controllerState.IDLE;
+    }
+
+    changeScene() {
+        this.sceneIndex = (this.sceneIndex + 1) % this.scenes.length;
+        this.boardView.scene.sceneInited = false;
+        var graph = new MySceneGraph(this.scenes[this.sceneIndex], this.boardView.scene);
     }
 }

@@ -8,8 +8,6 @@ import { MyAuxBoard as MyAuxBoardModel } from '../model/MyAuxBoard.js';
 import { MyHUD } from './hud/MyHUD.js';
 import { MyQuad } from './primitives/MyQuad.js';
 
-
-
 let START_BOARD = await (await fetch('boards/startBoard.json')).json();
 
 const UPDATE_PERIOD_MS = 1000;
@@ -36,6 +34,8 @@ export class XMLscene extends CGFscene {
      */
     init(application) {
         super.init(application);
+
+        this.application = application;
 
         this.sceneInited = false;
 
@@ -189,9 +189,11 @@ export class XMLscene extends CGFscene {
 
         this.initLights();
 
+        this.sceneInited = true;
+
         this.interface.onGraphLoaded();
 
-        this.sceneInited = true;
+        
     }
 
     updateCamera() {

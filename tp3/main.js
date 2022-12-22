@@ -34,11 +34,7 @@ function main() {
 	// create and load graph, and associate it to scene. 
 	// Check console for loading errors
 	var baradDurGraph = new MySceneGraph("barad-dur.xml", myScene);
-    var spaceGraph = new MySceneGraph("space.xml", myScene);
-
-    myScene.graph = baradDurGraph;
-    myScene.graphs = [baradDurGraph, spaceGraph];
-    myScene.graphIndex = 0;
+    //var spaceGraph = new MySceneGraph("space.xml", myScene);
 	
 	// start
     app.run();
