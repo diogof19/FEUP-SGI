@@ -1,4 +1,5 @@
 import { MyAnimation } from "./MyAnimation.js";
+import { CGFcamera } from "../../../lib/CGF.js";
 
 export class MyCameraAnimation extends MyAnimation {
     constructor(scene, startCamera, endCamera){
@@ -6,16 +7,24 @@ export class MyCameraAnimation extends MyAnimation {
 
         this.startCamera = startCamera;
         this.endCamera = endCamera;
-        console.log(this.startCamera);
 
         this.startTime = this.scene.instant;
         this.endTime = this.startTime + 2;
         this.stopped = false;
+
+        this.position = vec3.create();
+        this.target = vec3.create();
+        this.fov = 0;
+    }
+
+    apply(){
+        var camera = new CGFcamera(this.fov, this.startCamera.near, this.startCamera.far, this.position, this.target);
+        this.scene.graph.views['cameraAnimation'] = camera;
+        this.scene.graph.selectedCamera = 'cameraAnimation';
+        this.scene.camera = camera;
     }
 
     update(t){
-        console.log("Updating camera animation");
-
         if(this.stopped)
             return;
         if(t >= this.endTime){
@@ -26,11 +35,10 @@ export class MyCameraAnimation extends MyAnimation {
         var timeDiff = this.endTime - this.startTime;
         var timeElapsed = t - this.startTime;
 
-        var position = vec3.create();
-        vec3.lerp(position, this.endCamera.position, this.startCamera.position, timeElapsed / timeDiff);
+        vec3.lerp(this.position, this.startCamera.position, this.endCamera.position, timeElapsed / timeDiff);
 
-        var target = vec3.create();
-        vec3.lerp(target, this.endCamera.target, this.startCamera.target, timeElapsed / timeDiff);
-        
+        vec3.lerp(this.target, this.startCamera.target, this.endCamera.target, timeElapsed / timeDiff);
+
+        this.fov = this.startCamera.fov + (this.endCamera.fov - this.startCamera.fov) * (timeElapsed / timeDiff);
     }
 }
