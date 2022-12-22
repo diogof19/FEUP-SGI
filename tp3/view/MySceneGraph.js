@@ -10,12 +10,6 @@ import { MyKeyframe } from './animations/MyKeyframe.js';
 import { MyTextureInfo } from './records/MyTextureInfo.js';
 import { MyHighlightInfo } from './records/MyHighlightInfo.js';
 import { MyComponent } from './MyComponent.js';
-import { MyCheckerboard } from './board/MyCheckerboard.js';
-import { MyController } from '../controller/MyController.js';
-import { MyCheckerboard as MyCheckerboardModel } from '../model/MyCheckerboard.js';
-import { MyPlayer } from '../model/MyPlayer.js';
-import { MyAuxBoard } from './board/MyAuxBoard.js';
-import { MyAuxBoard as MyAuxBoardModel } from '../model/MyAuxBoard.js';
 
 let START_BOARD = await (await fetch('boards/startBoard.json')).json();
 

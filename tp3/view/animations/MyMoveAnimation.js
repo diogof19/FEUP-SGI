@@ -60,7 +60,7 @@ export class MyMoveAnimation {
         var positionX = this.transformation[0] + ((this.oldCoords[0] + translation[0] + 0.5) * this.transformation[2]);
         var positionZ = this.transformation[1] + ((-this.oldCoords[1] - translation[1] - 0.5) * this.transformation[2]);
 
-        spotlight.setPosition(positionX, 2, positionZ, 1);
+        spotlight.setPosition(positionX, 1, positionZ, 1);
         spotlight.enable();
     }
 

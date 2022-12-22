@@ -58,22 +58,27 @@ export class MyCheckerboard extends CGFobject {
         this.squares = squares;
     }
 
-    setSpotlight(col, row) {
+    setSpotlight(col, row, enable) {
         var spotlight = this.scene.lights[0];
 
         var positionX = this.transformation[0] + ((col + 0.5) * this.transformation[2]);
         var positionZ = this.transformation[1] + ((-row - 0.5) * this.transformation[2]);
 
-        spotlight.setPosition(positionX, 2, positionZ, 1);
-        spotlight.enable();
+        spotlight.setPosition(positionX, 1, positionZ, 1);
+        
+        if(enable) spotlight.enable();
+        else spotlight.disable();
 
     }
 
     toggleSelectSquare(squareId) {
         let coords = this.getCoords(squareId);
 
-        this.getSquare(coords[0], coords[1]).toggleSelect();
-        this.setSpotlight(coords[1], coords[0]);
+        var square = this.getSquare(coords[0], coords[1]);
+        square.toggleSelect();
+
+        if(square.selected) this.setSpotlight(coords[1], coords[0], true);
+        else this.setSpotlight(coords[1], coords[0], false);
     }
 
     deselectAllSquares() {
