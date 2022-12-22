@@ -21,7 +21,7 @@ export class MyCameraAnimation extends MyAnimation {
         var camera = new CGFcamera(this.fov, this.startCamera.near, this.startCamera.far, this.position, this.target);
         this.scene.graph.views['cameraAnimation'] = camera;
         this.scene.graph.selectedCamera = 'cameraAnimation';
-        this.scene.camera = camera;
+        this.scene.updateCamera();
     }
 
     update(t){
