@@ -100,7 +100,7 @@ export class MyController {
     }
 
     makeMove(row1, col1, row2, col2) {
-        let command = new MyCommand(this.board, this.boardView, row1, col1, row2, col2, this.auxBoardView0, this.auxBoardView1);
+        let command = new MyCommand(this.board, this.boardView, row1, col1, row2, col2, this.auxBoardView0, this.auxBoardView1, this.hud);
         command.execute();
         if (command.moveNumber != -1)
             this.undoStack.push(command);

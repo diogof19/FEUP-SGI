@@ -24,6 +24,9 @@ export class MyHUD extends CGFobject {
         this.boardCameraButton = new MyHUDButton(this, 28, 18, 205, "Board");
         this.playerOneCameraButton = new MyHUDButton(this, 28, 17, 206, "Player 1");
         this.playerTwoCameraButton = new MyHUDButton(this, 28, 16, 207, "Player 2");
+
+        this.invalid = 0;
+        this.invalidMsg = "Invalid Move!";
         
         this.initShader();
         this.initAppearance();
@@ -76,6 +79,13 @@ export class MyHUD extends CGFobject {
         this.boardCameraButton.display();
         this.playerOneCameraButton.display();
         this.playerTwoCameraButton.display();
+
+        if(this.invalid != 0){
+            this.displayStringAt(this.invalidMsg, -(this.invalidMsg.length / 2), 18);
+            this.invalid++;
+        }
+
+        if(this.invalid > 25) this.invalid = 0;
 
         // Reset to default shader and appearance
         this.scene.setActiveShaderSimple(this.scene.defaultShader);

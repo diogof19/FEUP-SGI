@@ -17,7 +17,7 @@ import { MyMoveAnimation } from "../../view/animations/MyMoveAnimation.js";
  * @param {MyCheckerboardView} auxBoardView1 - Player 2's auxBoardView
  */
 export class MyCommand {
-    constructor(boardModel, boardView, row, col, newRow, newCol, auxBoardView0, auxBoardView1) {
+    constructor(boardModel, boardView, row, col, newRow, newCol, auxBoardView0, auxBoardView1, hud) {
         this.boardModel = boardModel;
         this.boardView = boardView;
         this.row = row;
@@ -26,6 +26,7 @@ export class MyCommand {
         this.newCol = newCol;
         this.auxBoardView0 = auxBoardView0;
         this.auxBoardView1 = auxBoardView1;
+        this.hud = hud;
         this.moveNumber = -1;
     }
 
@@ -39,6 +40,7 @@ export class MyCommand {
         this.moveNumber = this.boardModel.makeMove(this.row, this.col, this.newRow, this.newCol)
         console.log(this.moveNumber);
         if (this.moveNumber != -1) {
+            this.hud.invalid = 0;
             var lastMove = this.boardModel.getLastMoveRecord()
             if(lastMove.capturedPiece != null){
                 let rowDiff = lastMove.newRow - lastMove.row;
@@ -55,6 +57,15 @@ export class MyCommand {
         }
         else {
             // TODO User feedback
+            if(this.boardModel.getPiece(this.row, this.col) == null){
+                this.hud.invalidMsg = "No piece in that position!";
+                this.hud.invalid = 1;
+            }
+            else{
+                this.hud.invalidMsg = "Invalid move!";
+                this.hud.invalid = 1;
+            }
+            
         }
     }
 
