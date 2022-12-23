@@ -38,9 +38,14 @@ export class MyHUD extends CGFobject {
     }
 
     initAppearance() {
-        this.textAppearance = new CGFappearance(this.scene);
-		this.fontTexture = new CGFtexture(this.scene, "scenes/images/oolite-font.trans.png");
-		this.textAppearance.setTexture(this.fontTexture);
+        this.transTextAppearance = new CGFappearance(this.scene);
+		this.transFontTexture = new CGFtexture(this.scene, "scenes/images/oolite-font.trans.png");
+		this.transTextAppearance.setTexture(this.transFontTexture);
+
+        this.opaqueTextAppearance = new CGFappearance(this.scene);
+        this.opaqueFontTexture = new CGFtexture(this.scene, "scenes/images/oolite-font.png");
+        this.opaqueTextAppearance.setTexture(this.opaqueFontTexture);
+        
     }
 
     display() {
@@ -49,15 +54,13 @@ export class MyHUD extends CGFobject {
 
         // Apply shader and appearance
         this.scene.setActiveShaderSimple(this.shader);
-        this.textAppearance.apply();
+
+        // Transparent text
+        this.transTextAppearance.apply();
 
         this.scene.pushMatrix();
 
         this.scene.loadIdentity();
-
-        this.undoButton.display();
-        this.changeSceneButton.display();
-        this.changeCamerasButton.display();
 
         this.displayStringAt(`PLAYER ${this.board.player0.number}: ${this.board.player0.captured}`, -40, 19);
         this.displayStringAt(`PLAYER ${this.board.player1.number}: ${this.board.player1.captured}`, -40, 18);
@@ -75,7 +78,14 @@ export class MyHUD extends CGFobject {
         this.displayStringAt(this.playTimeString, 41 - this.playTimeString.length, -17);
         this.displayStringAt(this.moveTimeString, 41 - this.moveTimeString.length, -18);
 
-        this.displayStringAt("CHANGE CAMERA:", 28, 19);    
+        this.displayStringAt("CHANGE CAMERA:", 28, 19);
+
+        // Opaque text (Buttons)
+        this.opaqueTextAppearance.apply();
+        
+        this.undoButton.display();
+        this.changeSceneButton.display();
+        this.changeCamerasButton.display();
         this.boardCameraButton.display();
         this.playerOneCameraButton.display();
         this.playerTwoCameraButton.display();
