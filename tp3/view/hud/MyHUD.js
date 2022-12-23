@@ -13,17 +13,16 @@ export class MyHUD extends CGFobject {
         this.scene = scene;
         this.quad = new MyQuad(this.scene);
 
-        this.undoButton = new MyHUDButton(this, -40, -18, 201, "UNDO");
-        this.changeSceneButton = new MyHUDButton(this, -40, -17, 202, "CHANGE SCENE");
-        this.changeCamerasButton = new MyHUDButton(this, -40, -16, 203, "ENABLE CHANGE CAMERAS");
-
         this.board = board
 
+        // Buttons
+        this.undoButton = new MyHUDButton(this, -40, -18.1, 201, "UNDO");
+        this.changeSceneButton = new MyHUDButton(this, -40, -17, 202, "CHANGE SCENE");
+        this.changeCamerasButton = new MyHUDButton(this, -40, -15.9, 203, "ENABLE CHANGE CAMERAS");
         this.restartButton = new MyHUDButton(this, -5, -1, 204, "Play Again?");
-
         this.boardCameraButton = new MyHUDButton(this, 28, 18, 205, "Board");
-        this.playerOneCameraButton = new MyHUDButton(this, 28, 17, 206, "Player 1");
-        this.playerTwoCameraButton = new MyHUDButton(this, 28, 16, 207, "Player 2");
+        this.playerOneCameraButton = new MyHUDButton(this, 28, 16.9, 206, "Player 1");
+        this.playerTwoCameraButton = new MyHUDButton(this, 28, 15.8, 207, "Player 2");
 
         this.invalid = 0;
         this.invalidMsg = "Invalid Move!";
