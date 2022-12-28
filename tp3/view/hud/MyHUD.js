@@ -19,7 +19,7 @@ export class MyHUD extends CGFobject {
         this.undoButton = new MyHUDButton(this, -40, -17, 201, "UNDO");
         this.changeSceneButton = new MyHUDButton(this, -40, -15.9, 202, "CHANGE SCENE");
         this.changeCamerasButton = new MyHUDButton(this, -40, -14.8, 203, "ENABLE CHANGE CAMERAS");
-        this.restartButton = new MyHUDButton(this, -5, -1, 204, "Play Again?");
+        this.restartButton = new MyHUDButton(this, -9, -1, 204, "    Play Again?   ");
         this.boardCameraButton = new MyHUDButton(this, 28, 18, 205, "Board");
         this.playerOneCameraButton = new MyHUDButton(this, 28, 16.9, 206, "Player 1");
         this.playerTwoCameraButton = new MyHUDButton(this, 28, 15.8, 207, "Player 2");
@@ -71,9 +71,11 @@ export class MyHUD extends CGFobject {
         }
         else {
             this.opaqueTextAppearance.apply();
-            this.displayStringAt("GAME OVER", -4.5, 1);
-            this.displayStringAt(`PLAYER ${this.board.currentPlayer.number} WINS!`, -7, 0);
+            this.displayStringAt("                  ", -9, 2);
+            this.displayStringAt("     GAME OVER    ", -9, 1);
+            this.displayStringAt("  " + `PLAYER ${this.board.currentPlayer.number} WINS!` + "  ", -9, 0);
             this.restartButton.display();
+            this.displayStringAt("                  ", -9, -2);
             this.transTextAppearance.apply();
         }
 
@@ -94,7 +96,9 @@ export class MyHUD extends CGFobject {
         this.redoButton.display();
 
         if(this.invalid != 0){
-            this.displayStringAt(this.invalidMsg, -(this.invalidMsg.length / 2), 18);
+            this.displayStringAt(" ".repeat(this.invalidMsg.length + 2), -(this.invalidMsg.length / 2) -1, 19);
+            this.displayStringAt(" " + this.invalidMsg + " ", -(this.invalidMsg.length / 2)-1, 18);
+            this.displayStringAt(" ".repeat(this.invalidMsg.length + 2), -(this.invalidMsg.length / 2) -1, 17);
             this.invalid++;
         }
 
