@@ -310,6 +310,7 @@
     <components>
         <component id="rootComponent">
             <transformation>
+                <translate x="0" y="-0.9" z="0" />
             </transformation>
             <materials>
                 <material id="towerMaterial"/>
@@ -1180,6 +1181,7 @@
                 <componentref id="trunks" />
                 <componentref id="tents" />
                 <componentref id="encampmentGround" />
+                <componentref id="boardTable" />
             </children>
         </component>
 
@@ -1793,6 +1795,22 @@
             <texture id="inherit"/>
             <children>
                 <componentref id="halfFireBase" />
+            </children>
+        </component>
+
+        <component id="boardTable">
+            <transformation>
+                <scale x="5.3" y="0.2" z="5.3" />
+                <translate x="-7.5" y="3" z="1.4" />
+                <rotate axis="x" angle="90" />
+                <rotate axis="y" angle="45" />
+            </transformation>
+            <materials>
+                <material id="woodMaterial" />
+            </materials>
+            <texture id="barkTexture" length_s="1" length_t="1" />
+            <children>
+                <componentref id="treeTrunk" />
             </children>
         </component>
     </components>

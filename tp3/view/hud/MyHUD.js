@@ -70,9 +70,11 @@ export class MyHUD extends CGFobject {
             this.moveTimeString = `MOVE TIME: ${this.board.moveInstant.toFixed(1)}s`;
         }
         else {
+            this.opaqueTextAppearance.apply();
             this.displayStringAt("GAME OVER", -4.5, 1);
             this.displayStringAt(`PLAYER ${this.board.currentPlayer.number} WINS!`, -7, 0);
             this.restartButton.display();
+            this.transTextAppearance.apply();
         }
 
         this.displayStringAt(this.playTimeString, 41 - this.playTimeString.length, -17);

@@ -151,9 +151,9 @@ export class MyCheckerboard extends CGFobject {
                 this.auxBoardView1.resetPieces();
                 if(this.changeCameras) {
                     if(this.board.currentPlayer.number == 1)
-                        this.cameraAnimation = new MyCameraAnimation(this.scene, this.scene.graph.views['playerOneCamera'], this.scene.graph.views['playerTwoCamera']);
+                        this.cameraAnimation = new MyCameraAnimation(this.scene, this.scene.graph.views[this.scene.graph.selectedCamera], this.scene.graph.views['playerOneCamera']);
                     else
-                        this.cameraAnimation = new MyCameraAnimation(this.scene, this.scene.graph.views['playerTwoCamera'], this.scene.graph.views['playerOneCamera']);
+                        this.cameraAnimation = new MyCameraAnimation(this.scene, this.scene.graph.views[this.scene.graph.selectedCamera], this.scene.graph.views['playerTwoCamera']);
                 }
             }
         }
