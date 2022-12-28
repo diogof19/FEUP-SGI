@@ -77,6 +77,10 @@ export class MyController {
                         console.log("Player 2 camera button pressed");
                         this.boardView.cameraAnimation = new MyCameraAnimation(this.boardView.scene, this.boardView.scene.graph.views[this.boardView.scene.graph.selectedCamera], this.boardView.scene.graph.views['playerTwoCamera']);
                     }
+                    else if (obj && customId == 208) {
+                        console.log("Redo button pressed");
+                        this.redo();
+                    }
                     else if (obj && customId != 0) {
                         this.boardView.toggleSelectSquare(customId);
 
@@ -128,8 +132,16 @@ export class MyController {
         this.undoStack.push(command);
     }
 
-    replay() {
+    delay(milliseconds){
+        return new Promise(resolve => {
+            setTimeout(resolve, milliseconds);
+        });
+    }
+
+    async replay() {
         this.state = controllerState.ANIMATING;
+        let moveInstant = this.board.moveInstant * 1000;
+        var time = 0;
         while(this.undoStack.length > 0) {
             let command = this.undoStack.pop();
             command.undo();
@@ -139,7 +151,11 @@ export class MyController {
             let command = this.redoStack.pop();
             command.redo();
             this.undoStack.push(command);
+            if(command.isCapture()) time = 1500;
+            else time = 500;
+            await this.delay(time);
         }
+        this.board.moveStartTime -= (moveInstant - time);
         this.state = controllerState.IDLE;
     }
 

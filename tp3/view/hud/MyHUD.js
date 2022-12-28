@@ -13,9 +13,10 @@ export class MyHUD extends CGFobject {
         this.scene = scene;
         this.quad = new MyQuad(this.scene);
 
-        this.undoButton = new MyHUDButton(this, -40, -18, 201, "UNDO");
-        this.changeSceneButton = new MyHUDButton(this, -40, -17, 202, "CHANGE SCENE");
-        this.changeCamerasButton = new MyHUDButton(this, -40, -16, 203, "ENABLE CHANGE CAMERAS");
+        this.undoButton = new MyHUDButton(this, -40, -17, 201, "UNDO");
+        this.changeSceneButton = new MyHUDButton(this, -40, -16, 202, "CHANGE SCENE");
+        this.changeCamerasButton = new MyHUDButton(this, -40, -15, 203, "ENABLE CHANGE CAMERAS");
+        this.redoButton = new MyHUDButton(this, -40, -18, 204, "REDO");
 
         this.board = board
 
@@ -58,6 +59,7 @@ export class MyHUD extends CGFobject {
         this.undoButton.display();
         this.changeSceneButton.display();
         this.changeCamerasButton.display();
+        this.redoButton.display();
 
         this.displayStringAt(`PLAYER ${this.board.player0.number}: ${this.board.player0.captured}`, -40, 19);
         this.displayStringAt(`PLAYER ${this.board.player1.number}: ${this.board.player1.captured}`, -40, 18);

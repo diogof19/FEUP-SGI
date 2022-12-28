@@ -56,7 +56,6 @@ export class MyCommand {
                 this.boardView.currentAnimation = new MyMoveAnimation(this.boardView.scene, [this.col, this.row], [this.newCol, this.newRow], this.boardView.transformation);
         }
         else {
-            // TODO User feedback
             if(this.boardModel.getPiece(this.row, this.col) == null){
                 this.hud.invalidMsg = "No piece in that position!";
                 this.hud.invalid = 1;
@@ -84,5 +83,9 @@ export class MyCommand {
 
     redo() {
         this.execute();
+    }
+
+    isCapture() {
+        return (this.boardModel.getLastMoveRecord().capturedPiece != null);
     }
 }
