@@ -383,8 +383,17 @@ export class MyCheckerboard {
      * @returns {Boolean} - True if game is over, false otherwise
      * @private
      */
-    isGameOver() {
-        return this.moveInstant > MOVE_DURATION || this.player0.captured == 12 || this.player1.captured == 12 || this.#getValidMoves().length == 0;
+    getWinner() {
+        if (this.moveInstant > MOVE_DURATION)
+            return this.currentPlayer.number == this.player0.number ? this.player1: this.player0;
+        else if (this.player0.captured == 12)
+            return this.player0;
+        else if (this.player1.captured == 12)
+            return this.player1;
+        else if (this.#getValidMoves().length == 0)
+            return this.currentPlayer.number == this.player0.number ? this.player1: this.player0;
+        else
+            return null;
     }
 
     /**
@@ -436,7 +445,7 @@ export class MyCheckerboard {
             return -1;
         }
 
-        if (this.isGameOver()) {
+        if (this.getWinner() !== null) {
             console.log('Game is over');
             this.gameOver = true;
             return -1;

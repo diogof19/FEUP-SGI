@@ -165,7 +165,7 @@ export class MyCheckerboard extends CGFobject {
             }
         }
 
-        if(this.board.isGameOver()) {
+        if(this.board.getWinner() !== null) {
             this.board.gameOver = true;
         }
     }

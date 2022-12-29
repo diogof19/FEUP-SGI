@@ -73,7 +73,7 @@ export class MyHUD extends CGFobject {
             this.opaqueTextAppearance.apply();
             this.displayStringAt("                  ", -9, 2);
             this.displayStringAt("     GAME OVER    ", -9, 1);
-            this.displayStringAt("  " + `PLAYER ${this.board.currentPlayer.number} WINS!` + "  ", -9, 0);
+            this.displayStringAt("  " + `PLAYER ${this.board.getWinner().number} WINS!` + "  ", -9, 0);
             this.restartButton.display();
             this.displayStringAt("                  ", -9, -2);
             this.transTextAppearance.apply();
