@@ -21,7 +21,6 @@ export class MyInterface extends CGFinterface {
         // init GUI. For more information on the methods, check:
         //  http://workshop.chromeexperiments.com/examples/gui
 
-        this.gui = new dat.GUI();
         this.scene = application.scene;
 
         // add a group of controls (and open/expand by defult)
@@ -35,7 +34,6 @@ export class MyInterface extends CGFinterface {
      * initKeys
      */
     initKeys() {
-        this.scene.gui=this;
         this.activeKeys={};
     }
 
@@ -70,13 +68,6 @@ export class MyInterface extends CGFinterface {
       }
 
     onGraphLoaded() {
-        var itemNames = Object.keys(this.scene.graph.views)
-        this.gui.add(this.scene.graph, 'selectedCamera', itemNames)
-            .name('Selected Camera')
-            .onChange((value) => {
-            this.scene.graph.selectedCamera = value;
-            this.scene.updateCamera();
-        });
         this.processKeyboard = function(){
             if(this.isKeyPressed("KeyM")){
                 this.scene.graph.incrementMaterialIndex();
@@ -88,34 +79,5 @@ export class MyInterface extends CGFinterface {
                 this.scene.boardController.redo();
             }
         };
-
-        this.gui.add(this.scene, 'displayLights').name('Lights Visible').onChange(this.scene.updateLightsVisibility.bind(this.scene));
-
-        var folder = this.gui.addFolder("Lights");
-        var lightNames = Object.keys(this.scene.graph.lights);
-        for(let i = 0; i < lightNames.length; i++){
-            folder.add(this.scene.lights[i], 'enabled').name(lightNames[i]).onChange(this.scene.updateLights.bind(this.scene));
-        }
-
-        var folder = this.gui.addFolder('Highlights');
-        var components = this.scene.graph.components;
-        for(let element in components){
-            if(components[element].isHighlightable()){
-                var componentFolder = folder.addFolder(element)
-                // Enable highlight
-                componentFolder.add(components[element].highlightInfo, 'highlight').name(element);
-
-                // Scaler
-                componentFolder.add(components[element].highlightInfo, 'scale', 1, 10).name('Scale');
-
-                // Color picker
-                var colors = {'color': this.rgbToHex(...components[element].highlightInfo.color)};
-                var colorController = componentFolder.addColor(colors, 'color').name('Color');
-                colorController.onChange((value) => {
-                    colors['color'] = value;
-                    components[element].highlightInfo.color = this.hexToRgb(value);
-                });
-            }
-        }
     }
 }
