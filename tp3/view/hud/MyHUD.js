@@ -23,7 +23,7 @@ export class MyHUD extends CGFobject {
         this.boardCameraButton = new MyHUDButton(this, 28, 18, 205, "Board");
         this.playerOneCameraButton = new MyHUDButton(this, 28, 16.9, 206, "Player 1");
         this.playerTwoCameraButton = new MyHUDButton(this, 28, 15.8, 207, "Player 2");
-        this.redoButton = new MyHUDButton(this, -40, -18.1, 204, "REDO");
+        this.redoButton = new MyHUDButton(this, -40, -18.1, 208, "REDO");
 
         this.invalid = 0;
         this.invalidMsg = "Invalid Move!";
