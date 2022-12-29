@@ -22,7 +22,7 @@
 
     <ambient>
         <ambient r="0.3" g="0.3" b="0.3" a="1" />
-        <background r="0.25" g="0" b="0.0" a="1" />
+        <background r="0" g="0" b="0.0" a="1" />
     </ambient>
 
     <lights>
@@ -74,7 +74,12 @@
         <texture id="spaceFloorTexture" file="scenes/images/space_floor.png" />
         <texture id="spacePannelsTexture" file="scenes/images/space_pannels.png" />
         <texture id="spaceWallTexture" file="scenes/images/space_wall.png" />
-        <texture id="stainlessSteelTexture" file="scenes/images/stainless_steel.png" />
+        <texture id="stainlessSteelTexture" file="scenes/images/brushed_steel.jpg" />
+        <texture id="offWhiteTexture" file="scenes/images/off_white.png" />
+        <texture id="wallBoxPlasticTexture" file="scenes/images/wall_plastic.jpg" />
+        <texture id="riverPosterTexture" file="scenes/images/river_poster.jpg" />
+        <texture id="subnauticaPosterTexture" file="scenes/images/subnautica_poster.jpg" />
+        <texture id="doorTexture" file="scenes/images/door.jpg" />
     </textures>
 
     <materials>
@@ -137,6 +142,12 @@
             <ambient r="1.0" g="0.5" b="0.0" a="1.0" />
             <diffuse r="1.0" g="0.5" b="0.0" a="1.0" />
             <specular r="1.0" g="0.5" b="0.0" a="1.0" />
+        </material>
+        <material id="steelMaterial" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.4" g="0.4" b="0.4" a="1.0" />
+            <diffuse r="0.6" g="0.6" b="0.6" a="1.0" />
+            <specular r="0.6" g="0.6" b="0.6" a="1.0" />
         </material>
     </materials>
 
@@ -287,12 +298,15 @@
             <children>
                 <componentref id="insideOutCube"/>
                 <componentref id="table"/>
+                <componentref id="wallAddons"/>
+                <componentref id="wallTable"/>
+                <componentref id="door"/>
             </children>
         </component>
 
         <component id="insideOutCube">
             <transformation>
-                <scale x="20" y="20" z="20"/>
+                <scale x="25" y="20" z="25"/>
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -314,7 +328,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="spaceWallTexture" length_s="0.25" length_t="0.25"/>
+            <texture id="spaceWallTexture" length_s="1" length_t="1"/>
             <children>
                 <componentref id="leftCubeFace"/>
             </children>
@@ -326,7 +340,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="spaceWallTexture" length_s="0.25" length_t="0.25"/>
+            <texture id="spaceWallTexture" length_s="1" length_t="1"/>
             <children>
                 <componentref id="rightCubeFace"/>
             </children>
@@ -338,7 +352,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="spacePannelsTexture" length_s="0.5" length_t="0.5"/>
+            <texture id="spacePannelsTexture" length_s="1" length_t="1"/>
             <children>
                 <componentref id="bottomCubeFace"/>
             </children>
@@ -350,7 +364,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="spaceFloorTexture" length_s="0.4" length_t="0.4"/>
+            <texture id="spaceFloorTexture" length_s="1" length_t="1"/>
             <children>
                 <componentref id="topCubeFace"/>
             </children>
@@ -362,7 +376,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="spaceWallTexture" length_s="0.25" length_t="0.25"/>
+            <texture id="spaceWallTexture" length_s="1" length_t="1"/>
             <children>
                 <componentref id="backCubeFace"/>
             </children>
@@ -374,7 +388,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="spaceWallTexture" length_s="0.25" length_t="0.25"/>
+            <texture id="spaceWallTexture" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="cubeFace"/>
             </children>
@@ -484,9 +498,9 @@
                 <scale x="1" y="0.1" z="1" />
             </transformation>
             <materials>
-                <material id="inherit" />
+                <material id="steelMaterial" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="offWhiteTexture" length_s="1" length_t="1"/>
             <children>
                 <componentref id="cube" />
             </children>
@@ -497,7 +511,7 @@
                 <scale x="0.01" y="0.01" z="0.1" />
             </transformation>
             <materials>
-                <material id="inherit" />
+                <material id="steelMaterial" />
             </materials>
             <texture id="stainlessSteelTexture" length_s="1" length_t="1"/>
             <children>
@@ -511,9 +525,9 @@
                 <scale x="1.2" y="1.3" z="1.2" />
             </transformation>
             <materials>
-                <material id="inherit" />
+                <material id="steelMaterial" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="stainlessSteelTexture" length_s="1" length_t="1"/>
             <children>
                 <componentref id="chairSeat" />
                 <componentref id="chairLeg1" />
@@ -614,17 +628,225 @@
             </children>
         </component>
 
-        <component id="ceilingLight">
+        <component id="wallAddons">
             <transformation>
-                <translate x="0" y="0" z="0" />
             </transformation>
             <materials>
                 <material id="inherit" />
             </materials>
             <texture id="inherit"/>
             <children>
+                <componentref id="ceilingLight" />
+                <componentref id="wallRing" />
+                <componentref id="wallRingMiddle" />
+                <componentref id="wallRingTop" />
+                <componentref id="poster" />
+                <componentref id="poster2" />
+            </children>
+        </component>
+
+        <component id="ceilingLight">
+            <transformation>
+                <translate x="12.5" y="20" z="-12.5" />
+                <scale x="0.2" y="0.2" z="0.2" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="offWhiteTexture" length_s="1" length_t="1"/>
+            <children>
                 <primitiveref id="eye" />
             </children>
         </component>
+
+        <component id="wallRing">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="wallBoxPlasticTexture" length_s="1" length_t="1"/>
+            <children>
+                <componentref id="wallBox" />
+                <componentref id="wallBox2" />
+                <componentref id="wallBox3" />
+                <componentref id="wallBox4" />
+            </children>
+        </component>
+        <component id="wallBox">
+            <transformation>
+                <translate x="12.75" y="0" z="-0.25" />
+                <scale x="24.5" y="1" z="0.5" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="cube" />
+            </children>
+        </component>
+        <component id="wallBox2">
+            <transformation>
+                <translate x="0.5" y="0" z="0.5" />
+                <rotate axis="y" angle="90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="wallBox" />
+            </children>
+        </component>
+        <component id="wallBox3">
+            <transformation>
+                <translate x="-0.5" y="0" z="-24.5" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="wallBox" />
+            </children>
+        </component>
+        <component id="wallBox4">
+            <transformation>
+                <translate x="24.5" y="0" z="-0.5" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="wallBox2" />
+            </children>
+        </component>
+
+        <component id="wallRingMiddle">
+            <transformation>
+                <translate x="0" y="9" z="0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="wallBoxPlasticTexture" length_s="1" length_t="1"/>
+            <children>
+                <componentref id="wallRing" />
+            </children>
+        </component>
+
+        <component id="wallRingTop">
+            <transformation>
+                <translate x="0" y="19" z="0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="wallBoxPlasticTexture" length_s="1" length_t="1"/>
+            <children>
+                <componentref id="wallRing" />
+            </children>
+        </component>
+
+        <component id="poster">
+            <transformation>
+                <translate x="0.1" y="14.5" z="-12.5" />
+                <rotate axis="y" angle="90" />
+                <scale x="3" y="2" z="1" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="riverPosterTexture" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="patchRectangle" />
+            </children>
+        </component>
+        <component id="poster2">
+            <transformation>
+                <translate x="24.9" y="14.5" z="-12.5" />
+                <rotate axis="y" angle="-90" />
+                <scale x="3" y="2" z="1" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="subnauticaPosterTexture" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="patchRectangle" />
+            </children>
+        </component>
+
+        <component id="wallTable">
+            <transformation>
+                <translate x="22.5" y="4" z="-12.5" />
+                <rotate axis="y" angle="90" />
+                <scale x="24.5" y="6" z="5" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="subnauticaPosterTexture" length_s="1" length_t="1"/>
+            <children>
+                <componentref id="tableTop" />
+                <componentref id="tableLeg" />
+            </children>
+        </component>
+
+        <component id="door">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="doorFace" />
+                <componentref id="doorFrame" />
+                <componentref id="doorFrameRight" />
+            </children>
+        </component>
+        
+        <component id="doorFace">
+            <transformation>
+                <translate x="12.5" y="10" z="-24" />
+                <scale x="4" y="5" z="1" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="doorTexture" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="patchRectangle" />
+            </children>
+        </component>
+        <component id="doorFrame">
+            <transformation>
+                <translate x="8.5" y="0" z="-24.5" />
+                <scale x="0.5" y="20" z="1" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="offWhiteTexture" length_s="1" length_t="1"/>
+            <children>
+                <componentref id="cube" />
+            </children>
+        </component>
+        <component id="doorFrameRight">
+            <transformation>
+                <translate x="8" y="0" z="0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="offWhiteTexture" length_s="1" length_t="1"/>
+            <children>
+                <componentref id="doorFrame" />
+            </children>
+        </component>
+
     </components>
 </sxs>
