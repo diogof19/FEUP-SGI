@@ -811,7 +811,7 @@
         
         <component id="doorFace">
             <transformation>
-                <translate x="12.5" y="10" z="-24" />
+                <translate x="12.5" y="10" z="-24.2" />
                 <scale x="4" y="5" z="1" />
             </transformation>
             <materials>
