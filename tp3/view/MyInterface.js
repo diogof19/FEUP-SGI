@@ -3,7 +3,6 @@ import { CGFinterface, CGFapplication, dat } from '../../lib/CGF.js';
 /**
 * MyInterface class, creating a GUI interface.
 */
-
 export class MyInterface extends CGFinterface {
     /**
      * @constructor
@@ -36,7 +35,7 @@ export class MyInterface extends CGFinterface {
     initKeys() {
         this.activeKeys={};
     }
-
+    
     processKeyDown(event) {
         this.activeKeys[event.code]=true;
     };

@@ -32,11 +32,17 @@ export class MyHUD extends CGFobject {
         this.initAppearance();
     }
 
+    /**
+     * Initialize shader.
+     */
     initShader() {
         this.shader = new CGFshader(this.scene.gl, 'view/shaders/vert/hud.vert', 'view/shaders/frag/hud.frag');
         this.shader.setUniformsValues({'dims': [16, 16]});
     }
 
+    /**
+     * Initialize appearances.
+     */
     initAppearance() {
         this.transTextAppearance = new CGFappearance(this.scene);
 		this.transFontTexture = new CGFtexture(this.scene, "scenes/images/oolite-font.trans.png");
@@ -45,9 +51,11 @@ export class MyHUD extends CGFobject {
         this.opaqueTextAppearance = new CGFappearance(this.scene);
         this.opaqueFontTexture = new CGFtexture(this.scene, "scenes/images/oolite-font.png");
         this.opaqueTextAppearance.setTexture(this.opaqueFontTexture);
-        
     }
 
+    /**
+     * Displats the hud.
+     */
     display() {
         // Always draw in front of everything
         this.scene.gl.disable(this.scene.gl.DEPTH_TEST);
@@ -112,6 +120,12 @@ export class MyHUD extends CGFobject {
         this.scene.gl.enable(this.scene.gl.DEPTH_TEST);
     }
 
+    /**
+     * Displays a string at the given coordinates.
+     * @param {String} string - String to display
+     * @param {Number} x - X coordinate
+     * @param {Number} y - Y coordinate
+     */
     displayStringAt(string, x, y) {
         this.scene.pushMatrix();
         this.scene.translate(x, y, -50);
@@ -119,6 +133,10 @@ export class MyHUD extends CGFobject {
         this.scene.popMatrix();
     }
 
+    /**
+     * Displays a string.
+     * @param {String} string 
+     */
     displayString(string) {
         for(let i = 0; i < string.length; i++) {
             this.scene.pushMatrix();
@@ -129,10 +147,18 @@ export class MyHUD extends CGFobject {
         }
     }
 
+    /**
+     * Gets the coordinates of a character in the font texture.
+     * @param {char} char 
+     * @returns 
+     */
     getCharCoords(char) {
         return [char.charCodeAt(0) % 16, Math.floor(char.charCodeAt(0) / 16)]
     }
 
+    /**
+     * Switches the change cameras toggle button text.
+     */
     switchChangeCamerasButton() {
         if (this.changeCamerasButton.string == "ENABLE CHANGE CAMERAS") {
             this.changeCamerasButton.string = "DISABLE CHANGE CAMERAS";

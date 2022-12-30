@@ -33,6 +33,9 @@ export class MyController {
         this.sceneIndex = 0;
     }
 
+    /**
+     * Reads input from the scene.
+     */
     readSceneInput() {
         let scene = this.boardView.scene;
 
@@ -44,44 +47,35 @@ export class MyController {
                 for (let i = 0; i < scene.pickResults.length; i++) {
                     let obj = scene.pickResults[i][0];
                     let customId = scene.pickResults[i][1];
-                    if (obj && customId == 101) {
-                        console.log("Replay button pressed");
+                    if (obj && customId == 101) {  //Replay button
                         this.replay();
                     }
-                    else if (obj && customId == 201) {
-                        console.log("Undo button pressed");
+                    else if (obj && customId == 201) {  //Undo button
                         this.undo();
                     }
-                    else if (obj && customId == 202) {
-                        console.log("Change scene button pressed");
+                    else if (obj && customId == 202) {  //Redo button
                         this.changeScene();
                     }
-                    else if (obj && customId == 203) {
-                        console.log("Change cameras button pressed");
+                    else if (obj && customId == 203) {  //Change cameras button
                         this.boardView.changeCamerasToggle();
                         this.hud.switchChangeCamerasButton();
                     }
-                    else if (obj && customId == 204) {
-                        console.log("Play again button pressed");
+                    else if (obj && customId == 204) {  //Play again button
                         this.playAgain();
                     }
-                    else if (obj && customId == 205) {
-                        console.log("Overview camera button pressed");
+                    else if (obj && customId == 205) {  //Board camera button
                         this.boardView.cameraAnimation = new MyCameraAnimation(this.boardView.scene, this.boardView.scene.graph.views[this.boardView.scene.graph.selectedCamera], this.boardView.scene.graph.views['gameOverviewCamera']);
                     }
-                    else if (obj && customId == 206) {
-                        console.log("Player 1 camera button pressed");
+                    else if (obj && customId == 206) {  //Player 1 camera button
                         this.boardView.cameraAnimation = new MyCameraAnimation(this.boardView.scene, this.boardView.scene.graph.views[this.boardView.scene.graph.selectedCamera], this.boardView.scene.graph.views['playerOneCamera']);
                     }
-                    else if (obj && customId == 207) {
-                        console.log("Player 2 camera button pressed");
+                    else if (obj && customId == 207) {  //Player 2 camera button
                         this.boardView.cameraAnimation = new MyCameraAnimation(this.boardView.scene, this.boardView.scene.graph.views[this.boardView.scene.graph.selectedCamera], this.boardView.scene.graph.views['playerTwoCamera']);
                     }
-                    else if (obj && customId == 208) {
-                        console.log("Redo button pressed");
+                    else if (obj && customId == 208) {  //Redo button
                         this.redo();
                     }
-                    else if (obj && customId != 0) {
+                    else if (obj && customId != 0) {  //Regular move
                         this.boardView.toggleSelectSquare(customId);
 
                         if (this.state == controllerState.IDLE) {
@@ -103,6 +97,13 @@ export class MyController {
         }
     }
 
+    /**
+     * Makes a move.
+     * @param {Number} row1 - Initial row 
+     * @param {Number} col1 - Initial column
+     * @param {Number} row2 - Final row
+     * @param {Number} col2 - Final column
+     */
     makeMove(row1, col1, row2, col2) {
         let command = new MyCommand(this.board, this.boardView, row1, col1, row2, col2, this.auxBoardView0, this.auxBoardView1, this.hud);
         command.execute();
@@ -111,6 +112,9 @@ export class MyController {
         console.log(this.undoStack);
     }
 
+    /**
+     * Undoes a move.
+     */
     undo() {
         console.log(this.undoStack);
         if (this.undoStack.length == 0) {
@@ -122,6 +126,9 @@ export class MyController {
         this.redoStack.push(command);
     }
 
+    /**
+     * Redoes a move.
+     */
     redo() {
         if (this.redoStack.length == 0) {
             return;
@@ -132,12 +139,19 @@ export class MyController {
         this.undoStack.push(command);
     }
 
+    /**
+     * Delays the execution of the next command.
+     * @param {Number} milliseconds - Time to wait
+     */
     delay(milliseconds){
         return new Promise(resolve => {
             setTimeout(resolve, milliseconds);
         });
     }
 
+    /**
+     * Replays the game.
+     */
     async replay() {
         this.state = controllerState.ANIMATING;
         let moveInstant = this.board.moveInstant * 1000;
@@ -159,12 +173,18 @@ export class MyController {
         this.state = controllerState.IDLE;
     }
 
+    /**
+     * Changes the scene.
+     */
     changeScene() {
         this.sceneIndex = (this.sceneIndex + 1) % this.scenes.length;
         this.boardView.scene.sceneInited = false;
         var graph = new MySceneGraph(this.scenes[this.sceneIndex], this.boardView.scene);
     }
 
+    /**
+     * Restarts the game.
+     */
     playAgain() {
         this.boardView.scene.sceneInited = false;
         this.boardView.scene.initCheckers();

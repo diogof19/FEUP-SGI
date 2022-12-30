@@ -1,6 +1,7 @@
-import { CGFobject } from '../../../lib/CGF.js';
+import { CGFobject, CGFtexture } from '../../../lib/CGF.js';
 import { MyCheckerboard } from './MyCheckerboard.js';
 import { MyPatch } from '../primitives/MyPatch.js';
+import { MyAnimation } from '../animations/MyAnimation.js';
 
 /**
  * MySquare class, which represents a square on the checkerboard
@@ -34,26 +35,48 @@ export class MySquare extends CGFobject {
         this.piece = null;
     }
 
+    /**
+     * Toggles the selection of the square.
+     */
     toggleSelect() {
         this.selected = !this.selected;
     }
 
+    /**
+     * Deselects the square.
+     */
     deselect() {
         this.selected = false;
     }
 
+    /**
+     * Sets the piece on the square.
+     * @param {MyPiece} piece 
+     */
     setPiece(piece) {
         this.piece = piece;
     }
 
+    /**
+     * Gets the middle coordinates of the square.
+     * @returns {Array} - Array containing the middle coordinates of the square
+     */
     getMiddle() {
         return [this.x + 0.5, this.y + 0.5];
     }
 
+    /**
+     * Sets the texture of the square.
+     * @param {CGFtexture} texture - Texture to set 
+     */
     setTexture(texture) {
         this.texture = texture;
     }
     
+    /**
+     * Displays the square.
+     * @param {MyAnimation} animation 
+     */
     display(animation = null) {
         if (this.selected) {
             this.scene.setActiveShader(this.scene.highlightingShader);

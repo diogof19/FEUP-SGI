@@ -400,7 +400,6 @@ export class MyCheckerboard {
      * Gets all valid moves.
      * @returns {Array} - Array of valid moves
      * @private
-     * @todo - Optimize this function
      */
     #getValidMoves() {
         let moves = [];
@@ -435,18 +434,28 @@ export class MyCheckerboard {
         }
     }
 
+    /**
+     * Gets the last move record.
+     * @returns {MyMoveRecord} - Last move record
+     */
     getLastMoveRecord() {
         return this.#moveRecords[this.#moveRecords.length - 1];
     }
 
-    // TODO: Add documentation, King moves
+    /**
+     * Makes a move.
+     * @param {*} row - Starting row 
+     * @param {*} col - Starting column
+     * @param {*} newRow - New row
+     * @param {*} newCol - New column
+     * @returns {Number} - -1 if move is invalid or game is over, moveNumber otherwise
+     */
     makeMove(row, col, newRow, newCol) {
         if (!this.#isValidMove(row, col, newRow, newCol)) {
             return -1;
         }
 
         if (this.getWinner() !== null) {
-            console.log('Game is over');
             this.gameOver = true;
             return -1;
         }
@@ -495,10 +504,13 @@ export class MyCheckerboard {
         return this.#moveNumber;
     }
 
-    // TODO: Add documentation
+    /**
+     * Undoes a move.
+     * @param {Number} moveNumber 
+     */
     undoMove(moveNumber) {
+        //Invalid move number
         if (moveNumber < 0 || moveNumber >= this.#moveRecords.length) {
-            console.log('Invalid move number');
             return;
         }
 

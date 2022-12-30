@@ -80,11 +80,17 @@ export class XMLscene extends CGFscene {
 		this.textAppearance.setTexture(this.fontTexture);
     }
 
+    /**
+     * Initializes the HUD shader.
+     */
     initHUDShader() {
         this.hudShader = new CGFshader(this.gl, './view/shaders/vert/hud.vert', './view/shaders/frag/hud.frag');
         this.hudShader.setUniformsValues({'dims': [16, 16]});
     }
 
+    /**
+     * Initializes the checkers game.
+     */
     initCheckers() {
         // Board textures
         let barkTexture = new CGFtexture(this, 'scenes/images/bark.jpg');
@@ -172,6 +178,9 @@ export class XMLscene extends CGFscene {
         //console.log(this.lights);
     }
 
+    /**
+     * Sets the default appearance.
+     */
     setDefaultAppearance() {
         this.setAmbient(0.2, 0.4, 0.8, 1.0);
         this.setDiffuse(0.2, 0.4, 0.8, 1.0);
@@ -200,11 +209,17 @@ export class XMLscene extends CGFscene {
         
     }
 
+    /**
+     * Updates the camera according to the selected camera in the interface.
+     */
     updateCamera() {
         this.camera = this.graph.views[this.graph.selectedCamera];
         this.interface.setActiveCamera(this.camera);
     }
 
+    /**
+     * Updates the lights.
+     */
     updateLights() {
         var i = 0;
         for (var key in this.graph.lights) {
@@ -223,6 +238,9 @@ export class XMLscene extends CGFscene {
         }
     }
 
+    /**
+     * Updates the lights visibility.
+     */
     updateLightsVisibility() {
         var i = 0;
         for (var key in this.graph.lights) {
@@ -296,7 +314,6 @@ export class XMLscene extends CGFscene {
             this.graph.displayScene();
         }
         
-        //IF YOU CHANGE THE TRANSLATION, CHANGE THE ARRAY SENT TO BOARD VIEW
         this.translate(22.5, 0.2, 26.5);
         this.scale(0.4, 1, 0.4);
         this.rotate(-Math.PI/2, 1, 0, 0);

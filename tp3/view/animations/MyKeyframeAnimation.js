@@ -18,6 +18,10 @@ export class MyKeyframeAnimation extends MyAnimation {
         this.stopped = false;
     }
 
+    /**
+     * Gets the translation vector of the animation.
+     * @returns {vec3} - Translation vector
+     */
     getTranslation(){
         return this.translation;
     }

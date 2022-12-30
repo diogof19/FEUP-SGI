@@ -1,6 +1,13 @@
 import { MyAnimation } from "./MyAnimation.js";
 import { CGFcamera } from "../../../lib/CGF.js";
 
+/**
+ * Class that represents a camera animation.
+ * @constructor
+ * @param {CGFscene} scene - Reference to MyScene object
+ * @param {CGFcamera} startCamera - Starting camera
+ * @param {CGFcamera} endCamera - Ending camera
+ */
 export class MyCameraAnimation extends MyAnimation {
     constructor(scene, startCamera, endCamera){
         super(scene);
@@ -17,6 +24,9 @@ export class MyCameraAnimation extends MyAnimation {
         this.fov = 0;
     }
 
+    /**
+     * Applies the animation.
+     */
     apply(){
         var camera = new CGFcamera(this.fov, this.startCamera.near, this.startCamera.far, this.position, this.target);
         this.scene.graph.views['cameraAnimation'] = camera;
@@ -24,6 +34,10 @@ export class MyCameraAnimation extends MyAnimation {
         this.scene.updateCamera();
     }
 
+    /**
+     * Updates the animation.
+     * @param {Number} t
+     */
     update(t){
         if(this.stopped)
             return;
@@ -40,6 +54,8 @@ export class MyCameraAnimation extends MyAnimation {
         if(this.endTime < t){
             this.apply();
             this.stopped = true;
+
+            //Once it ends, make sure it's at the end position
             this.fov = this.endCamera.fov;
             this.position = this.endCamera.position;
             this.target = this.endCamera.target;

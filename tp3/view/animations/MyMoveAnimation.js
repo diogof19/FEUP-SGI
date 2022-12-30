@@ -29,11 +29,12 @@ export class MyMoveAnimation {
      * Creates the animations needed for the movement
      */
     setUp() {
-        if(this.capturedPiece != null && this.auxBoardView != null) {
+        if(this.capturedPiece != null && this.auxBoardView != null) {   //If it's a capture move
             let keyframeStart = new MyKeyframe(this.scene.instant, [0, 0, 0], 0, 0, 0, [1, 1, 1]);
             let keyframeEnd = new MyKeyframe(this.scene.instant + 1.5, [this.newCoords[0] - this.oldCoords[0], this.newCoords[1] - this.oldCoords[1], 0], 0, 0, 0, [1, 1, 1]);
             this.moveAnimation = new MyKeyframeAnimation(this.scene, this.boardView, [keyframeStart, keyframeEnd]);
 
+            //Calculate the final position of the captured piece in the aux board.
             var [x, y, z] = this.auxBoardView.calculateNewPiecePosition();
 
             let capturedKeyframeStart = new MyKeyframe(this.scene.instant + 0.23, [0, 0, 0], 0, 0, 0, [1, 1, 1]);

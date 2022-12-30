@@ -42,6 +42,9 @@ export class MyCheckerboard extends CGFobject {
         this.cameraAnimation = null;
     }
 
+    /**
+     * Set board squares.
+     */
     setBoardSquares() {
         let squares = [];
 
@@ -62,9 +65,13 @@ export class MyCheckerboard extends CGFobject {
         this.squares = squares;
     }
 
+    /**
+     * Set a spotlight on a square.
+     * @param {*} col - Column of the square.
+     * @param {*} row - Row of the square.
+     * @param {*} enable - Enable or disable the spotlight.
+     */
     setSpotlight(col, row, enable) {
-
-
         var spotlight = this.scene.lights[0];
 
         var positionX = this.transformation[0] + ((col + 0.5) * this.transformation[2]);
@@ -77,6 +84,10 @@ export class MyCheckerboard extends CGFobject {
 
     }
 
+    /**
+     * Toggle the selection of a square.
+     * @param {Number} squareId 
+     */
     toggleSelectSquare(squareId) {
         let coords = this.getCoords(squareId);
 
@@ -88,6 +99,9 @@ export class MyCheckerboard extends CGFobject {
             else this.setSpotlight(coords[1], coords[0], false);
     }
 
+    /**
+     * Deselect all squares.
+     */
     deselectAllSquares() {
         this.squares.forEach(row => {
             row.forEach(square => {
@@ -96,6 +110,11 @@ export class MyCheckerboard extends CGFobject {
         });
     }
 
+    /**
+     * Get the coordinates of a square.
+     * @param {Number} squareId 
+     * @returns {Array} - [row, col]
+     */
     getCoords(squareId) {
         let row = Math.floor((squareId - 1)/ 10);
         let col = (squareId - 1) % 10;
@@ -103,10 +122,19 @@ export class MyCheckerboard extends CGFobject {
         return [row, col];
     }
 
+    /**
+     * Get the square at the given coordinates.
+     * @param {*} row - Row of the square.
+     * @param {*} col - Column of the square.
+     * @returns {MySquare} - Square at the given coordinates.
+     */
     getSquare(row, col) {
         return this.squares[row][col];
     }
 
+    /**
+     * Display the board.
+     */
     display() {       
         // Only register for pick if there is no animation
         this.registerForPick = this.currentAnimation == null && this.cameraAnimation == null;
@@ -144,11 +172,13 @@ export class MyCheckerboard extends CGFobject {
         if(this.currentAnimation != null) {
             this.currentAnimation.update(t);
 
+            // If the animation is over, reset the board view
             if(this.scene.instant >= this.currentAnimation.moveAnimation.keyframes[this.currentAnimation.moveAnimation.keyframes.length - 1].instant){
                 this.currentAnimation = null;
                 this.setBoardViewPieces();
                 this.auxBoardView0.resetPieces();
                 this.auxBoardView1.resetPieces();
+                
                 if(this.changeCameras) {
                     if(this.board.currentPlayer.number == 1)
                         this.cameraAnimation = new MyCameraAnimation(this.scene, this.scene.graph.views[this.scene.graph.selectedCamera], this.scene.graph.views['playerOneCamera']);
@@ -170,7 +200,9 @@ export class MyCheckerboard extends CGFobject {
         }
     }
 
-
+    /**
+     * Set the pieces on the board view.
+     */
     setBoardViewPieces() {
         for (let i = 0; i < 8; i++) {
             for (let j = 0; j < 8; j++) {
@@ -186,10 +218,16 @@ export class MyCheckerboard extends CGFobject {
         }
     }
 
+    /**
+     * Set the current animation.
+     */
     setAnimation(animation) {
         this.currentAnimation = animation;
     }
 
+    /**
+     * Enable or disable the automatic change between cameras.
+     */
     changeCamerasToggle() {
         this.changeCameras = !this.changeCameras;
 

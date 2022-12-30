@@ -13,10 +13,16 @@ export class MyAuxBoard {
         this.numPieces = 0;
     }
 
+    /**
+     * Adds a piece to the auxiliary board
+     */
     addPiece(){
         this.numPieces++;
     }
 
+    /**
+     * Removes a piece from the auxiliary board
+     */
     removePiece(){
         this.numPieces--;
     }

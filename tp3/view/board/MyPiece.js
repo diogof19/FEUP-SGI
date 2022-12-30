@@ -1,4 +1,5 @@
 import { CGFobject } from '../../../lib/CGF.js';
+import { MyAnimation } from '../animations/MyAnimation.js';
 import { MyCylinder } from '../primitives/MyCylinder.js';
 import { MyPatch } from '../primitives/MyPatch.js';
 
@@ -37,6 +38,10 @@ export class MyPiece extends CGFobject {
         ]);
     }
 
+    /**
+     * Displays the piece.
+     * @param {MyAnimation} animation - Animation to apply 
+     */
     display(animation = null) {
         this.appearance.apply();
         this.scene.pushMatrix();

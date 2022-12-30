@@ -59,7 +59,7 @@ export class MyAuxBoard extends CGFobject {
 
     /**
      * Calculates the position where a new captured piece should be placed
-     * @returns [x, y, z] of new piece
+     * @returns {Array} - [x, y, z] of new piece
      */
     calculateNewPiecePosition(){
         let x = this.baseX + this.incrementX/2;

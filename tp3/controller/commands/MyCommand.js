@@ -41,8 +41,8 @@ export class MyCommand {
         console.log(this.moveNumber);
         if (this.moveNumber != -1) {
             this.hud.invalid = 0;
-            var lastMove = this.boardModel.getLastMoveRecord()
-            if(lastMove.capturedPiece != null){
+            if(this.isCapture()){
+                var lastMove = this.boardModel.getLastMoveRecord()
                 let rowDiff = lastMove.newRow - lastMove.row;
                 let colDiff = lastMove.newCol - lastMove.col;
 
@@ -81,10 +81,17 @@ export class MyCommand {
         this.boardView.setBoardViewPieces();
     }
 
+    /**
+     * Redo the command.
+     */
     redo() {
         this.execute();
     }
 
+    /**
+     * Cheks if the move is a capture one.
+     * @returns {boolean} - True if the command is a capture, false otherwise
+     */
     isCapture() {
         return (this.boardModel.getLastMoveRecord().capturedPiece != null);
     }
