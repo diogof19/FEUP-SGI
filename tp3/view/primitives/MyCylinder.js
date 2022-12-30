@@ -32,7 +32,12 @@ export class MyCylinder extends CGFobject {
 
         var radiusIncrement = (this.top - this.base) / this.stacks;
         var radius = this.base;
-        var nZ = (this.base - this.top) / this.height;
+
+        let tan = (this.base - this.top) / this.height;
+
+        let angle = Math.atan(tan);
+        let nZ = Math.sin(angle);
+        let nXY = Math.cos(angle);
 
         // Bottom to top
 		for(var stack = 0; stack <= this.stacks; stack++){
@@ -53,13 +58,10 @@ export class MyCylinder extends CGFobject {
                 // Vertices
                 this.vertices.push(vX, vY, vZ);
 
-                var normal = vec3.create();
-                normal = vec3.fromValues(cos, sin, nZ);
-                var normalized = vec3.create();
-                normalized = vec3.normalize(normalized, normal);
+                let normal = [nXY * cos, nXY * sin, nZ];
 
                 // Normals
-                this.normals.push(normalized.x, normalized.y, normalized.z);
+                this.normals.push(...normal);
 
                 // Indices
                 if(stack != this.stacks && slice != this.slices){
