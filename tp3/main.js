@@ -29,11 +29,11 @@ function main() {
 	// get file name provided in URL, e.g. http://localhost/myproj/?file=myfile.xml 
 	// or use "demo.xml" as default (assumes files in subfolder "scenes", check MySceneGraph constructor) 
 	
-    var filename=getUrlVars()['file'] || "space.xml";
+    var filename=getUrlVars()['file'] || "barad-dur.xml";
 
 	// create and load graph, and associate it to scene. 
 	// Check console for loading errors
-	var baradDurGraph = new MySceneGraph("barad-dur.xml", myScene);
+	var baradDurGraph = new MySceneGraph(filename, myScene);
 	
 	// start
     app.run();

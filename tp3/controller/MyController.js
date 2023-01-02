@@ -29,7 +29,7 @@ export class MyController {
         this.undoStack = [];
         this.redoStack = [];
 
-        this.scenes = ['barad-dur.xml', 'space.xml'];
+        this.scenes = ['barad-dur.xml', 'space.xml', 'prison.xml'];
         this.sceneIndex = 0;
     }
 

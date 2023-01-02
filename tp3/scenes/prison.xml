@@ -49,12 +49,12 @@
             <specular r="1.0" g="1.0" b="1.0" a="1.0"/>
             <attenuation constant="0" linear="0" quadratic="1"/>
         </spot>
-        <omni id="roomLight" enabled="1" angle="180" exponent="3">
+        <omni id="roomLight" enabled="1" angle="180" exponent="2">
             <location x="24" y="15" z="25" w="2.0"/>
             <target x="24" y="5" z="25"/>
-            <ambient r="0.7" g="0.7" b="0.7" a="0"/>
-            <diffuse r="1.0" g="1.0" b="1.0" a="1.0"/>
-            <specular r="1.0" g="1.0" b="1.0" a="1.0"/>
+            <ambient r="0.4" g="0.4" b="0.4" a="1.0"/>
+            <diffuse r="0.4" g="0.4" b="0.4" a="1.0"/>
+            <specular r="0.4" g="0.4" b="0.4" a="1.0"/>
             <attenuation constant="0" linear="0" quadratic="1"/>
         </omni>
     </lights>
@@ -80,6 +80,13 @@
         <texture id="riverPosterTexture" file="scenes/images/river_poster.jpg" />
         <texture id="subnauticaPosterTexture" file="scenes/images/subnautica_poster.jpg" />
         <texture id="doorTexture" file="scenes/images/door.jpg" />
+        <texture id="cobblestoneWallTexture" file="scenes/images/cobblestone_wall.jpg" />
+        <texture id="cobblestoneFloorTexture" file="scenes/images/cobblestone_floor.jpg" />
+        <texture id="oldWoodTexture" file="scenes/images/old_wood.jpg" />
+        <texture id="prisonDoorTexture" file="scenes/images/prison_door.png" />
+        <texture id="rustedSteelTexture" file="scenes/images/rusted_steel.jpg" />
+        <texture id="pillowTexture" file="scenes/images/pillow.jpg" />
+        <texture id="sheetsTexture" file="scenes/images/sheets.jpg" />
     </textures>
 
     <materials>
@@ -109,9 +116,9 @@
         </material>
         <material id="tentMaterial" shininess="1">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="0.1" g="0.1" b="0.1" a="1.0" />
-            <diffuse r="0.1" g="0.1" b="0.1" a="1.0" />
-            <specular r="0.1" g="0.1" b="0.1" a="1.0" />
+            <ambient r="0.3" g="0.3" b="0.3" a="1.0" />
+            <diffuse r="0.2" g="0.2" b="0.2" a="1.0" />
+            <specular r="0.2" g="0.2" b="0.2" a="1.0" />
         </material>
         <material id="woodMaterial" shininess="1">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
@@ -268,6 +275,25 @@
         <primitive id="flame">
             <triangle x1="0" y1="0" z1="0" x2="0.5" y2="0" z2="0" x3="0.25" y3="1" z3="0"/>
         </primitive>
+        <primitive id="halfPillow">
+            <patch degree_u="3" parts_u="12" degree_v="2" parts_v="15">
+                <controlpoint x="1" y="0" z="0" />
+                <controlpoint x="1.5" y="0.5" z="0" />
+                <controlpoint x="1" y="1" z="0" />
+
+                <controlpoint x="1" y="0" z="0" />
+                <controlpoint x="1.5" y="0.5" z="-1" />
+                <controlpoint x="1" y="1" z="0" />
+
+                <controlpoint x="-1" y="0" z="0" />
+                <controlpoint x="-1.5" y="0.5" z="-1" />
+                <controlpoint x="-1" y="1" z="0" />
+
+                <controlpoint x="-1" y="0" z="0" />
+                <controlpoint x="-1.5" y="0.5" z="0" />
+                <controlpoint x="-1" y="1" z="0" />
+            </patch>
+        </primitive>
     </primitives>
 
     <animations>
@@ -286,10 +312,9 @@
                 <componentref id="room"/>
             </children>
         </component>
-
         <component id="room">
             <transformation>
-                <translate x="14.1" y="-4.5" z="34.8"/>
+                <translate x="16.6" y="-4.5" z="34.8"/>
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -298,9 +323,8 @@
             <children>
                 <componentref id="insideOutCube"/>
                 <componentref id="table"/>
-                <componentref id="wallAddons"/>
-                <componentref id="wallTable"/>
                 <componentref id="door"/>
+                <componentref id="cell"/>
             </children>
         </component>
 
@@ -328,9 +352,9 @@
                 <translate x="1" y="0" z="0"/>
             </transformation>
             <materials>
-                <material id="inherit" />
+                <material id="tentMaterial" />
             </materials>
-            <texture id="spaceWallTexture" length_s="1" length_t="1"/>
+            <texture id="cobblestoneWallTexture" length_s="1" length_t="1"/>
             <children>
                 <componentref id="leftCubeFace"/>
             </children>
@@ -340,9 +364,9 @@
                 <translate x="-1" y="0" z="0"/>
             </transformation>
             <materials>
-                <material id="inherit" />
+                <material id="tentMaterial" />
             </materials>
-            <texture id="spaceWallTexture" length_s="1" length_t="1"/>
+            <texture id="cobblestoneWallTexture" length_s="1" length_t="1"/>
             <children>
                 <componentref id="rightCubeFace"/>
             </children>
@@ -352,9 +376,9 @@
                 <translate x="0" y="1" z="0"/>
             </transformation>
             <materials>
-                <material id="inherit" />
+                <material id="tentMaterial" />
             </materials>
-            <texture id="spacePannelsTexture" length_s="1" length_t="1"/>
+            <texture id="cobblestoneWallTexture" length_s="1" length_t="1"/>
             <children>
                 <componentref id="bottomCubeFace"/>
             </children>
@@ -366,7 +390,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="spaceFloorTexture" length_s="1" length_t="1"/>
+            <texture id="cobblestoneFloorTexture" length_s="1" length_t="1"/>
             <children>
                 <componentref id="topCubeFace"/>
             </children>
@@ -376,9 +400,9 @@
                 <translate x="0" y="0" z="1"/>
             </transformation>
             <materials>
-                <material id="inherit" />
+                <material id="tentMaterial" />
             </materials>
-            <texture id="spaceWallTexture" length_s="1" length_t="1"/>
+            <texture id="cobblestoneWallTexture" length_s="1" length_t="1"/>
             <children>
                 <componentref id="backCubeFace"/>
             </children>
@@ -388,16 +412,16 @@
                 <translate x="0" y="0" z="-1"/>
             </transformation>
             <materials>
-                <material id="inherit" />
+                <material id="tentMaterial" />
             </materials>
-            <texture id="spaceWallTexture" length_s="1" length_t="1"/>
+            <texture id="cobblestoneWallTexture" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="cubeFace"/>
             </children>
         </component>
-        
-        <!-- CUBE COMPONENTS -->
 
+        <!-- CUBE COMPONENTS -->
+        
         <component id="cube">
             <transformation>
                 <translate x="-0.5" y="0" z="0.5"/>
@@ -481,11 +505,11 @@
             </children>
         </component>
 
-        <!-- GAME TABLE COMPONENTS -->
+        <!-- GAME TABLE COMPONENTS-->
 
         <component id="table">
             <transformation>
-                <translate x="10" y="4" z="-10" />
+                <translate x="7.5" y="4" z="-10" />
                 <scale x="6" y="6" z="6" />
             </transformation>
             <materials>
@@ -506,7 +530,7 @@
             <materials>
                 <material id="steelMaterial" />
             </materials>
-            <texture id="offWhiteTexture" length_s="1" length_t="1"/>
+            <texture id="oldWoodTexture" length_s="1" length_t="1"/>
             <children>
                 <componentref id="cube" />
             </children>
@@ -519,23 +543,23 @@
             <materials>
                 <material id="steelMaterial" />
             </materials>
-            <texture id="stainlessSteelTexture" length_s="1" length_t="1"/>
+            <texture id="oldWoodTexture" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="tower" />
             </children>
         </component>
-        
-        <!-- CHAIR COMPONENTS -->
 
+        <!-- CHAIR COMPONENTS -->
+        
         <component id="chair">
             <transformation>
                 <translate x="0" y="0.35" z="0.5" />
                 <scale x="1.2" y="1.3" z="1.2" />
             </transformation>
             <materials>
-                <material id="steelMaterial" />
+                <material id="woodMaterial" />
             </materials>
-            <texture id="stainlessSteelTexture" length_s="1" length_t="1"/>
+            <texture id="oldWoodTexture" length_s="1" length_t="1"/>
             <children>
                 <componentref id="chairSeat" />
                 <componentref id="chairLeg1" />
@@ -636,179 +660,11 @@
             </children>
         </component>
 
-        <!-- WALL COMPONENTS -->
-
-        <component id="wallAddons">
-            <transformation>
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="inherit"/>
-            <children>
-                <componentref id="ceilingLight" />
-                <componentref id="wallRing" />
-                <componentref id="wallRingMiddle" />
-                <componentref id="wallRingTop" />
-                <componentref id="poster" />
-                <componentref id="poster2" />
-            </children>
-        </component>
-
-        <component id="ceilingLight">
-            <transformation>
-                <translate x="12.5" y="20" z="-12.5" />
-                <scale x="0.2" y="0.2" z="0.2" />
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="offWhiteTexture" length_s="1" length_t="1"/>
-            <children>
-                <primitiveref id="eye" />
-            </children>
-        </component>
-
-        <component id="wallRing">
-            <transformation>
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="wallBoxPlasticTexture" length_s="1" length_t="1"/>
-            <children>
-                <componentref id="wallBox" />
-                <componentref id="wallBox2" />
-                <componentref id="wallBox3" />
-                <componentref id="wallBox4" />
-            </children>
-        </component>
-        <component id="wallBox">
-            <transformation>
-                <translate x="12.75" y="0" z="-0.25" />
-                <scale x="24.5" y="1" z="0.5" />
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="inherit"/>
-            <children>
-                <componentref id="cube" />
-            </children>
-        </component>
-        <component id="wallBox2">
-            <transformation>
-                <translate x="0.5" y="0" z="0.5" />
-                <rotate axis="y" angle="90" />
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="inherit"/>
-            <children>
-                <componentref id="wallBox" />
-            </children>
-        </component>
-        <component id="wallBox3">
-            <transformation>
-                <translate x="-0.5" y="0" z="-24.5" />
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="inherit"/>
-            <children>
-                <componentref id="wallBox" />
-            </children>
-        </component>
-        <component id="wallBox4">
-            <transformation>
-                <translate x="24.5" y="0" z="-0.5" />
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="inherit"/>
-            <children>
-                <componentref id="wallBox2" />
-            </children>
-        </component>
-
-        <component id="wallRingMiddle">
-            <transformation>
-                <translate x="0" y="9" z="0" />
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="wallBoxPlasticTexture" length_s="1" length_t="1"/>
-            <children>
-                <componentref id="wallRing" />
-            </children>
-        </component>
-
-        <component id="wallRingTop">
-            <transformation>
-                <translate x="0" y="19" z="0" />
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="wallBoxPlasticTexture" length_s="1" length_t="1"/>
-            <children>
-                <componentref id="wallRing" />
-            </children>
-        </component>
-
-        <component id="poster">
-            <transformation>
-                <translate x="0.1" y="14.5" z="-12.5" />
-                <rotate axis="y" angle="90" />
-                <scale x="3" y="2" z="1" />
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="riverPosterTexture" length_s="1" length_t="1"/>
-            <children>
-                <primitiveref id="patchRectangle" />
-            </children>
-        </component>
-        <component id="poster2">
-            <transformation>
-                <translate x="24.9" y="14.5" z="-12.5" />
-                <rotate axis="y" angle="-90" />
-                <scale x="3" y="2" z="1" />
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="subnauticaPosterTexture" length_s="1" length_t="1"/>
-            <children>
-                <primitiveref id="patchRectangle" />
-            </children>
-        </component>
-
-        <component id="wallTable">
-            <transformation>
-                <translate x="22.5" y="4" z="-12.5" />
-                <rotate axis="y" angle="90" />
-                <scale x="24.5" y="6" z="5" />
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="subnauticaPosterTexture" length_s="1" length_t="1"/>
-            <children>
-                <componentref id="tableTop" />
-                <componentref id="tableLeg" />
-            </children>
-        </component>
-
         <!-- DOOR COMPONENTS -->
 
         <component id="door">
             <transformation>
+                <translate x="-5" y="0" z="0" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -820,7 +676,7 @@
                 <componentref id="doorFrameRight" />
             </children>
         </component>
-        
+
         <component id="doorFace">
             <transformation>
                 <translate x="12.5" y="10" z="-24.2" />
@@ -829,7 +685,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="doorTexture" length_s="1" length_t="1"/>
+            <texture id="prisonDoorTexture" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="patchRectangle" />
             </children>
@@ -842,7 +698,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="offWhiteTexture" length_s="1" length_t="1"/>
+            <texture id="oldWoodTexture" length_s="1" length_t="1"/>
             <children>
                 <componentref id="cube" />
             </children>
@@ -854,11 +710,280 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="offWhiteTexture" length_s="1" length_t="1"/>
+            <texture id="oldWoodTexture" length_s="1" length_t="1"/>
             <children>
                 <componentref id="doorFrame" />
             </children>
         </component>
+
+        <!-- PRISON CELL COMPONENTS -->
+
+        <component id="cell">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="oldWoodTexture" length_s="1" length_t="1"/>
+            <children>
+                <componentref id="prisonBars" />
+                <componentref id="bed" />
+            </children>
+        </component>
+
+        <component id="prisonBars">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="steelMaterial" />
+            </materials>
+            <texture id="rustedSteelTexture" length_s="1" length_t="1"/>
+            <children>
+                <componentref id="prisonBar" />
+                <componentref id="prisonBar2" />
+                <componentref id="prisonBar3" />
+                <componentref id="prisonBar4" />
+                <componentref id="prisonBar5" />
+                <componentref id="prisonBar6" />
+                <componentref id="prisonBar7" />
+                <componentref id="prisonBar8" />
+            </children>
+        </component>
+        <component id="prisonBar">
+            <transformation>
+                <translate x="15" y="20" z="-2" />
+                <scale x="0.1" y="2.9" z="0.1" />
+                <rotate axis="x" angle="90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="tower" />
+            </children>
+        </component>
+        <component id="prisonBar2">
+            <transformation>
+                <translate x="0" y="0" z="-3" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="prisonBar" />
+            </children>
+        </component>
+        <component id="prisonBar3">
+            <transformation>
+                <translate x="0" y="0" z="-3" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="prisonBar2" />
+            </children>
+        </component>
+        <component id="prisonBar4">
+            <transformation>
+                <translate x="0" y="0" z="-3" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="prisonBar3" />
+            </children>
+        </component>
+        <component id="prisonBar5">
+            <transformation>
+                <translate x="0" y="0" z="-3" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="prisonBar4" />
+            </children>
+        </component>
+        <component id="prisonBar6">
+            <transformation>
+                <translate x="0" y="0" z="-3" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="prisonBar5" />
+            </children>
+        </component>
+        <component id="prisonBar7">
+            <transformation>
+                <translate x="0" y="0" z="-3" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="prisonBar6" />
+            </children>
+        </component>
+        <component id="prisonBar8">
+            <transformation>
+                <translate x="0" y="0" z="-3" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="prisonBar7" />
+            </children>
+        </component>
+
+        <component id="bed">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="bedLeg" />
+                <componentref id="bedLeg2" />
+                <componentref id="bedLeg3" />
+                <componentref id="bedLeg4" />
+                <componentref id="bedFrame" />
+                <componentref id="bedSheet" />
+                <componentref id="pillow" />
+            </children>
+        </component>
+        <component id="bedLeg">
+            <transformation>
+                <translate x="20" y="0" z="-2" />
+                <scale x="1" y="2.5" z="1" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="cube" />
+            </children>
+        </component>
+        <component id="bedLeg2">
+            <transformation>
+                <translate x="4.5" y="0" z="0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="bedLeg" />
+            </children>
+        </component>
+        <component id="bedLeg3">
+            <transformation>
+                <translate x="0" y="0" z="-12" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="bedLeg" />
+            </children>
+        </component>
+        <component id="bedLeg4">
+            <transformation>
+                <translate x="4.5" y="0" z="0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="bedLeg3" />
+            </children>
+        </component>
+
+        <component id="bedFrame">
+            <transformation>
+                <translate x="22.25" y="2.5" z="-8" />
+                <scale x="5.5" y="1" z="13" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="cube" />
+            </children>
+        </component>
+
+        <component id="bedSheet">
+            <transformation>
+                <translate x="22.25" y="3.6" z="-8" />
+                <rotate axis="y" angle="90" />
+                <rotate axis="x" angle="-90" />
+                <scale x="6.5" y="1.5" z="1" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="sheetsTexture"/>
+            <children>
+                <primitiveref id="patchRectangle" />
+            </children>
+        </component>
+
+        <component id="pillow">
+            <transformation>
+                <translate x="22.25" y="4" z="-3.5" />
+                <rotate axis="x" angle="90" />
+                <scale x="2" y="2" z="2" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="pillowTexture"/>
+            <children>
+                <componentref id="pillowHalf" />
+                <componentref id="pillowHalf2" />
+            </children>
+        </component>
+        <component id="pillowHalf">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="halfPillow" />
+            </children>
+        </component>
+        <component id="pillowHalf2">
+            <transformation>
+                <rotate axis="y" angle="180" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="halfPillow" />
+            </children>
+        </component>
+        
 
     </components>
 </sxs>
