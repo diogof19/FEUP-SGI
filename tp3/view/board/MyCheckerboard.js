@@ -209,7 +209,7 @@ export class MyCheckerboard extends CGFobject {
                 let square = this.getSquare(i, j);
                 if (this.board.board[i][j] !== null) {
                     let coords = square.getMiddle();
-                    square.setPiece(new MyPiece(this.scene, coords[0], coords[1], (this.board.board[i][j].playerNumber == this.board.player0.number ? this.board.player0.appearance : this.board.player1.appearance)));
+                    square.setPiece(new MyPiece(this.scene, coords[0], coords[1], (this.board.board[i][j].playerNumber == this.board.player0.number ? this.board.player0.appearance : this.board.player1.appearance), this.board.board[i][j].king));
                 }
                 else {
                     square.setPiece(null);

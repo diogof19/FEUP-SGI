@@ -12,12 +12,13 @@ import { MyPatch } from '../primitives/MyPatch.js';
  * @param {CGFappearance} appearance - Piece appearance
  */
 export class MyPiece extends CGFobject {
-    constructor(scene, x, y, appearance) {
+    constructor(scene, x, y, appearance, king = false) {
         super(scene);
         this.x = x;
         this.y = y;
         this.appearance = appearance;
         this.cylinder = new MyCylinder(scene, null, 0.5, 0.5, 0.2, 20, 20);
+        this.king = king;
         this.cylinderTopHalfOne = new MyPatch(scene, null, 3, 20, 1, 20, [
             [
                 [0, 0, 0.2, 1],
@@ -45,7 +46,11 @@ export class MyPiece extends CGFobject {
     display(animation = null) {
         this.appearance.apply();
         this.scene.pushMatrix();
-        this.scene.translate(this.x, this.y, 0.1);
+        this.scene.translate(this.x, this.y, 0);
+
+        if (this.king) {
+            this.scene.scale(1, 1, 2);
+        }
 
         if (animation != null){
             animation.apply();
